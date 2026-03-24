@@ -1,4 +1,4 @@
-# 07 - Arquitectura MVVM en WPF
+# 08 - Arquitectura MVVM en WPF
 
 ## 1. ¿Qué es MVVM?
 

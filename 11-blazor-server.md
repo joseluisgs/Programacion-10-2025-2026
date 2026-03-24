@@ -1,4 +1,4 @@
-# 10 - Blazor Server: C# en la Web
+# 11 - Blazor Server: C# en la Web
 
 ## 1. ¿Qué es Blazor Server?
 
