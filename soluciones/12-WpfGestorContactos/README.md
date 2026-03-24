@@ -1,4 +1,4 @@
-# WPF Gestor de Contactos — MVVM
+# 12-WpfGestorContactos
 
 ## Descripción
 Aplicación de gestión de contactos que implementa el patrón MVVM completo con la biblioteca **CommunityToolkit.Mvvm**. El estudiante construye un sistema de CRUD (crear, leer, actualizar y eliminar) sobre una colección de contactos, mostrándolos en un `DataGrid` y gestionando las operaciones mediante comandos (`ICommand`/`RelayCommand`).
@@ -41,7 +41,7 @@ View  ──binding──►  ViewModel  ──usa──►  Model
 
 ## Estructura Sugerida
 ```
-06-WpfGestorContactos/
+12-WpfGestorContactos/
 └── WpfGestorContactos/
     ├── WpfGestorContactos.csproj
     ├── App.xaml

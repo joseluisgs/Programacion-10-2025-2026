@@ -1,4 +1,4 @@
-# WPF Galería de Imágenes
+# 07-WpfDialogos
 
 ## Descripción
 Aplicación de galería fotográfica que permite al usuario abrir imágenes desde el disco y visualizarlas en una cuadrícula. El proyecto introduce los diálogos del sistema operativo (`OpenFileDialog`), el control `Image` de WPF y los paneles de disposición dinámica como `WrapPanel` dentro de un `ScrollViewer`.
@@ -31,9 +31,9 @@ La lógica de apertura de ficheros y actualización de la galería reside en `Ma
 
 ## Estructura Sugerida
 ```
-05-WpfGaleriaImagenes/
-└── WpfGaleriaImagenes/
-    ├── WpfGaleriaImagenes.csproj
+07-WpfDialogos/
+└── WpfDialogos/
+    ├── WpfDialogos.csproj
     ├── App.xaml
     ├── App.xaml.cs
     ├── MainWindow.xaml
