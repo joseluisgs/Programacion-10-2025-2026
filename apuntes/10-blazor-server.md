@@ -68,7 +68,7 @@ sequenceDiagram
 ### 3.1 Crear Proyecto con CLI
 
 ```bash
-dotnet new blazorserver -n MiBl azorApp
+dotnet new blazorserver -n MiBlazorApp
 cd MiBlazorApp
 dotnet run
 ```

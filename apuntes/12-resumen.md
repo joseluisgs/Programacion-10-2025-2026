@@ -51,7 +51,7 @@ graph LR
 | **Hot Reload** | ❌ No | ✅ Sí | ✅ Sí | ✅ Sí |
 | **Data Binding** | ⚠️ Básico | ✅ Avanzado | ✅ Bidireccional | ✅ Avanzado |
 | **Estilos/Temas** | ⚠️ Limitado | ✅ Rico | ✅ CSS | ✅ Rico |
-| **Curva aprendizaje** | 📚 Baja | 📚📚 Media | 📚 Baja-Media | 📚��📚 Alta |
+| **Curva aprendizaje** | 📚 Baja | 📚📚 Media | 📚 Baja-Media | 📚📚📚 Alta |
 | **Comunidad** | Grande (legacy) | Muy grande | Creciente | Creciente |
 | **Jobs** | Mantenimiento | Muchos | Pocos | Pocos |
 
@@ -74,7 +74,7 @@ graph LR
 ### 3.1 Fundamentos
 
 - [ ] **Programación orientada a eventos**
-  - ✓ Ent ender el bucle de mensajes
+  - ✓ Entender el bucle de mensajes
   - ✓ Eventos y delegates
   - ✓ Patrón Observer
   - ✓ Manejadores de eventos
