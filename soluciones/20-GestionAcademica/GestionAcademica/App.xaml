@@ -9,6 +9,9 @@
             <converters:NullToBoolConverter x:Key="NullToBoolConverter"/>
             <converters:ImagePathConverter x:Key="ImagePathConverter"/>
             <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
+            <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+            <converters:InverseStringToVisibilityConverter x:Key="InverseStringToVisibilityConverter"/>
+            <converters:StringToBooleanConverter x:Key="StringToBooleanConverter"/>
 
             <!-- Estilos base de botones con colores nativos -->
             <Style x:Key="BaseButtonStyle" TargetType="Button">

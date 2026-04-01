@@ -1,4 +1,5 @@
 using System.IO;
+using System.Text;
 using CSharpFunctionalExtensions;
 using GestionAcademica.Config;
 using GestionAcademica.Enums;
@@ -412,7 +413,7 @@ public class ReportService : IReportService
             }
 
             var filePath = Path.Combine(directory, fileName);
-            File.WriteAllText(filePath, html);
+            File.WriteAllText(filePath, html, Encoding.UTF8);
             
             _logger.Information("Informe guardado correctamente en {FilePath}", filePath);
             return Result.Success<bool, DomainError>(true);

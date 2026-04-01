@@ -86,6 +86,14 @@ public partial class EstudianteEditViewModel(
         CloseAction?.Invoke(false);
     }
 
+    /// <summary>Limpia la imagen del formulario.</summary>
+    [RelayCommand]
+    private void LimpiarImagen()
+    {
+        FormData.Imagen = null;
+        _logger.Debug("Imagen limpiada");
+    }
+
     /// <summary>Abre el selector de archivo, valida la imagen y actualiza el FormData.</summary>
     [RelayCommand]
     private void ChangeImage()
