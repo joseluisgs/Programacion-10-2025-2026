@@ -1,0 +1,111 @@
+<Window x:Class="LayoutsComponentes.Views.Ejercicio4_FormComponents.FormComponentsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Componentes de Formulario" Height="520" Width="500"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Título -->
+        <TextBlock Text="🔧 Componentes de Formulario" FontSize="18" 
+                   FontWeight="Bold" Margin="0,0,0,15"/>
+
+        <!-- 
+            Componentes de entrada
+            StackPanel para organizar verticalmente
+        -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                
+                <!-- TextBox: entrada de texto -->
+                <TextBlock Text="📝 TextBox" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtNombre" Padding="5" Margin="0,0,0,15"
+                         ToolTip="Introduce tu nombre"/>
+
+                <!-- PasswordBox: entrada de contraseña -->
+                <TextBlock Text="🔑 PasswordBox" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                <PasswordBox x:Name="pwdPassword" Padding="5" Margin="0,0,0,15"
+                            MaxLength="20" PasswordChanged="PwdPassword_PasswordChanged"/>
+                <TextBlock x:Name="lblPasswordInfo" Text="Contraseña: (vacía)" 
+                           Foreground="Gray" FontSize="11" Margin="0,0,0,15"/>
+
+                <!-- Slider: control deslizante -->
+                <TextBlock Text="🎚️ Slider" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                <Grid Margin="0,0,0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="60"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- 
+                        Slider: propiedad ValueChanged para detectar cambios
+                        Minimum/Maximum: rango de valores
+                        IsSnapToTickEnabled: Salta entre ticks
+                        TickFrequency: distancia entre marcas
+                    -->
+                    <Slider x:Name="sldVolumen" Minimum="0" Maximum="100" 
+                            Value="50" TickFrequency="10" 
+                            IsSnapToTickEnabled="True" TickPlacement="BottomRight"
+                            ValueChanged="SldVolumen_ValueChanged"/>
+                    <TextBlock Grid.Column="1" 
+                               Text="{Binding ElementName=sldVolumen, Path=Value, StringFormat={}{0:F0}%}"
+                               VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Grid>
+                <TextBlock x:Name="lblVolumen" Text="Volumen: 50%" 
+                           Foreground="Gray" FontSize="11" Margin="0,0,0,15"/>
+
+                <!-- DatePicker: selector de fecha -->
+                <TextBlock Text="📅 DatePicker" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                <DatePicker x:Name="dpFecha" Margin="0,0,0,5"
+                            SelectedDateChanged="DpFecha_SelectedDateChanged"/>
+                <TextBlock x:Name="lblFecha" Text="Fecha seleccionada: (ninguna)" 
+                           Foreground="Gray" FontSize="11" Margin="0,0,0,15"/>
+
+                <!-- RepeatButton: botón de repetición -->
+                <TextBlock Text="🔄 RepeatButton (incremento)" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                <StackPanel Orientation="Horizontal">
+                    <RepeatButton Content="➖" Width="40" 
+                                  Delay="500" Interval="100"
+                                  Click="BtnDecrementar_Click"/>
+                    <TextBlock x:Name="lblContador" Text="10" Width="50" 
+                               TextAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
+                    <RepeatButton Content="➕" Width="40" 
+                                  Delay="500" Interval="100"
+                                  Click="BtnIncrementar_Click"/>
+                </StackPanel>
+                <TextBlock x:Name="lblContadorInfo" 
+                           Text="Delay=500ms (inicio), Interval=100ms (repetición)"
+                           Foreground="Gray" FontSize="11" Margin="0,5,0,15"/>
+
+                <!-- ToggleButton: botón de dos estados -->
+                <TextBlock Text="🔽 ToggleButton" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                <StackPanel Orientation="Horizontal">
+                    <ToggleButton x:Name="tglNegrita" Content="N" Width="35" Height="35"
+                                  FontWeight="Bold" ToolTip="Negrita"
+                                  Checked="TglNegrita_Changed" Unchecked="TglNegrita_Changed"/>
+                    <ToggleButton x:Name="tglCursiva" Content="I" Width="35" Height="35"
+                                  FontStyle="Italic" ToolTip="Cursiva"
+                                  Margin="5,0,0,0"
+                                  Checked="TglNegrita_Changed" Unchecked="TglNegrita_Changed"/>
+                    <ToggleButton x:Name="tglSubrayado" Content="U" Width="35" Height="35"
+                                  ToolTip="Subrayado"
+                                  Margin="5,0,0,0"
+                                  Checked="TglNegrita_Changed" Unchecked="TglNegrita_Changed"/>
+                    <TextBlock x:Name="txtPreview" Text=" Vista previa" 
+                               VerticalAlignment="Center" Margin="15,0,0,0" FontSize="14"/>
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Botón de cerrar -->
+        <Button Grid.Row="2" Content="Cerrar" Height="35" 
+                Margin="0,15,0,0" Click="BtnCerrar_Click"/>
+
+    </Grid>
+</Window>

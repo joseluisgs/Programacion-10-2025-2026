@@ -1,0 +1,174 @@
+<!-- ============================================================
+     WINDOW - VISTA PRINCIPAL DEL JUEGO STAR WARS
+     ============================================================
+     
+     Esta es la vista principal del juego (patron MVVM).
+     
+     Puntos clave del XAML:
+     1. Los bindings conectan los controles con el ViewModel
+     2. Los converters transforman valores para la UI
+     3. Los comandos permiten acciones sin codigo en el code-behind
+     
+     ACLARACION IMPORTANTE - InverseBooleanConverter:
+     ====================================================
+     En el ViewModel, IsRunning = true significa "el juego esta corriendo".
+     Los sliders y el boton deben estar DESHABILITADOS cuando el juego corre.
+     
+     Pero IsEnabled espera true = "habilitado", false = "deshabilitado".
+     No podemos usar IsRunning directamente porque:
+       - IsRunning = true implica IsEnabled = true (esto habilita los controles)
+       - Pero queremos lo contrario: cuando el juego corre, deshabilitar
+     
+     Por eso usamos InverseBooleanConverter que invierte el valor:
+       - IsRunning = false implica IsEnabled = true (controles activos)
+       - IsRunning = true implica IsEnabled = false (controles deshabilitados)
+     
+     Esto es un ejemplo clasico de por que necesitamos converters en WPF:
+     el ViewModel trabaja con un boolean de "estado del juego",
+     pero la UI necesita el boolean inverso para "control habilitado".
+-->
+
+<Window x:Class="StarWars.Views.Main.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:config="clr-namespace:StarWars.Config"
+        Title="Star Wars: Clone Wars" Height="475" Width="876"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize"
+        Background="#e7e7e7"
+        Icon="/Resources/icons/app.png">
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" Background="#c4c4c4">
+            <MenuItem Header="Archivo">
+                <MenuItem Header="Salir" Click="MenuSalir_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/icons/exit.png" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Ayuda">
+                <MenuItem Header="Acerca de Star Wars DAW" Click="MenuAcercaDe_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/icons/about.png" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="361"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Background="White" CornerRadius="10" Padding="20" Margin="0,0,5,0">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+                        <Image Source="/Resources/icons/app.png" Width="69" Height="75" Stretch="Uniform"/>
+                        <Label Content="Star Wars: Clone Wars" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                    </StackPanel>
+
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="133"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Dimension:" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Center"/>
+                        <Slider Grid.Row="0" Grid.Column="1" Minimum="{x:Static config:Configuration.MinDimension}" Maximum="{x:Static config:Configuration.MaxDimension}" 
+                                Value="{Binding Dimension}" TickFrequency="1" IsSnapToTickEnabled="True" Margin="0,0,0,10"
+                                IsEnabled="{Binding IsRunning, Converter={StaticResource InverseBooleanConverter}}"/>
+                        
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Droides:" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Center"/>
+                        <Slider Grid.Row="1" Grid.Column="1" Minimum="{x:Static config:Configuration.MinDroides}" Maximum="{x:Static config:Configuration.MaxDroides}" 
+                                Value="{Binding NumDroides}" TickFrequency="1" IsSnapToTickEnabled="True" Margin="0,0,0,10"
+                                IsEnabled="{Binding IsRunning, Converter={StaticResource InverseBooleanConverter}}"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Tiempo (s):" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                        <Slider Grid.Row="2" Grid.Column="1" Minimum="{x:Static config:Configuration.MinTiempo}" Maximum="{x:Static config:Configuration.MaxTiempo}" 
+                                Value="{Binding TiempoMax}" TickFrequency="1" IsSnapToTickEnabled="True"
+                                IsEnabled="{Binding IsRunning, Converter={StaticResource InverseBooleanConverter}}"/>
+                    </Grid>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+                        <TextBlock>
+                            <Run Text="Dimension: "/><Run Text="{Binding Dimension}" FontWeight="Bold"/>
+                            <Run Text=" | Droides: "/><Run Text="{Binding NumDroides}" FontWeight="Bold"/>
+                            <Run Text=" | Tiempo: "/><Run Text="{Binding TiempoMax}" FontWeight="Bold"/><Run Text=" s"/>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <Button Content="Comenzar" Padding="30,10" HorizontalAlignment="Center" Margin="0,0,0,25"
+                            Background="#333" Foreground="#e1d100" FontWeight="Bold" FontSize="14"
+                            Command="{Binding IniciarCommand}"
+                            IsEnabled="{Binding IsRunning, Converter={StaticResource InverseBooleanConverter}}"/>
+
+                    <Image Source="/Resources/images/rd2d2-guru.png" Width="122" Height="156" 
+                           HorizontalAlignment="Right" Stretch="Uniform"/>
+                </StackPanel>
+            </Border>
+
+            <Grid Grid.Column="1" Margin="5,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0">
+                    <TextBlock Text="Operación:" FontWeight="Bold" Margin="0,0,0,5"/>
+                    <TextBox Height="107" IsReadOnly="True" 
+                             Text="{Binding Operacion, Mode=OneWay}"
+                             FontFamily="Consolas" FontSize="11"
+                             Background="#333" Foreground="#d7cc00"
+                             VerticalScrollBarVisibility="Auto"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,10,0,5">
+                    <TextBlock Text="Disparos:" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                    <TextBox Width="85" IsReadOnly="True" 
+                             Text="{Binding Disparos, Mode=OneWay}"
+                             Background="#333" Foreground="#d7cc00"/>
+                    
+                    <TextBlock Text="Aciertos:" Margin="10,0,5,0" VerticalAlignment="Center"/>
+                    <TextBox Width="96" IsReadOnly="True" 
+                             Text="{Binding Aciertos, Mode=OneWay}"
+                             Background="#333" Foreground="#d7cc00"/>
+                    
+                    <TextBlock Text="Muertos:" Margin="10,0,5,0" VerticalAlignment="Center"/>
+                    <TextBox Width="89" IsReadOnly="True" 
+                             Text="{Binding Muertos, Mode=OneWay}"
+                             Background="#333" Foreground="#d7cc00"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Margin="0,5,0,5">
+                    <TextBlock Text="Cuadrante:" FontWeight="Bold" Margin="0,0,0,5"/>
+                    <TextBox Height="184" IsReadOnly="True" 
+                             Text="{Binding Cuadrante, Mode=OneWay}"
+                             FontFamily="Consolas" FontSize="12"
+                             Background="#333" Foreground="#d7cc00"
+                             VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                             TextWrapping="NoWrap"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,5,0,0">
+                    <TextBlock Text="Tiempo:" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                    <ProgressBar Width="350" Height="20" Minimum="0" Maximum="100" 
+                                 Value="{Binding Progreso}"
+                                 Background="#333" Foreground="#d7cc00"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </DockPanel>
+
+    <Window.Resources>
+        <local:InverseBooleanConverter x:Key="InverseBooleanConverter" xmlns:local="clr-namespace:StarWars.Converters"/>
+    </Window.Resources>
+</Window>

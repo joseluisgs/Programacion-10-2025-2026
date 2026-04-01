@@ -1,0 +1,97 @@
+<Window x:Class="LayoutsComponentes.Views.Ejercicio6_DataGrid.DataGridWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="DataGrid y ListView" Height="500" Width="700"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="CanResize">
+
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Título -->
+        <TextBlock Text="📊 DataGrid y ListView" FontSize="18" 
+                   FontWeight="Bold" Margin="0,0,0,15"/>
+
+        <!-- DataGrid y ListView en un TabControl -->
+        <TabControl Grid.Row="1">
+            
+            <!-- Pestaña 1: DataGrid -->
+            <TabItem Header="DataGrid">
+                <!-- 
+                    DataGrid: tabla para mostrar y editar datos
+                    AutoGenerateColumns: genera columnas automáticamente
+                    IsReadOnly: impide/edita las celdas
+                    CanUserSortColumns: permite ordenar por cabecera
+                    AlternatingRowBackground: color alternativo de filas
+                    SelectionMode: Single/Extended
+                -->
+                <DataGrid x:Name="dgAlumnos"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          CanUserSortColumns="True"
+                          AlternatingRowBackground="#F5F5F5"
+                          SelectionMode="Single"
+                          SelectionUnit="FullRow"
+                          Margin="10"
+                          GridLinesVisibility="Horizontal">
+                    
+                    <!-- Columnas manuales -->
+                    <DataGrid.Columns>
+                        <!-- Columna de texto -->
+                        <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="*"/>
+                        
+                        <!-- Columna numérica con formato -->
+                        <DataGridTextColumn Header="Nota" Binding="{Binding Nota, StringFormat=F1}" Width="60"/>
+                        
+                        <!-- Columna de CheckBox -->
+                        <DataGridCheckBoxColumn Header="Aprobado" Binding="{Binding Aprobado}" Width="80"/>
+                        
+                        <!-- Columna con plantilla (botón) -->
+                        <DataGridTemplateColumn Header="Acción" Width="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Ver" Tag="{Binding Id}" Click="BtnVer_Click"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                    
+                </DataGrid>
+            </TabItem>
+            
+            <!-- Pestaña 2: ListView -->
+            <TabItem Header="ListView">
+                <!-- 
+                    ListView: lista flexible con múltiples vistas
+                    GridView es la vista más común (como una tabla)
+                -->
+                <ListView x:Name="lvProductos" Margin="10">
+                    <ListView.View>
+                        <GridView>
+                            <!-- Columnas del ListView -->
+                            <GridViewColumn Header="Código" Width="80"
+                                          DisplayMemberBinding="{Binding Codigo}"/>
+                            <GridViewColumn Header="Producto" Width="200"
+                                          DisplayMemberBinding="{Binding Nombre}"/>
+                            <GridViewColumn Header="Precio" Width="100"
+                                          DisplayMemberBinding="{Binding Precio, StringFormat=C}"/>
+                            <GridViewColumn Header="Stock" Width="80"
+                                          DisplayMemberBinding="{Binding Stock}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+            
+        </TabControl>
+
+        <!-- Panel de información -->
+        <Border Grid.Row="2" Background="#f0f0f0" Padding="10" Margin="0,10,0,0" CornerRadius="5">
+            <TextBlock x:Name="txtInfo" Text="👆 Selecciona una fila" TextWrapping="Wrap"/>
+        </Border>
+
+    </Grid>
+</Window>

@@ -1,0 +1,115 @@
+<Window x:Class="LayoutsComponentes.Views.Ejercicio3_WrapCanvas.WrapCanvasWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="WrapPanel y Canvas" Height="500" Width="600"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="CanResize">
+
+    <!-- DockPanel como contenedor principal -->
+    <DockPanel LastChildFill="True">
+        
+        <!-- Título en la parte superior -->
+        <Border DockPanel.Dock="Top" Background="#333" Padding="15">
+            <TextBlock Text="📐 WrapPanel y Canvas" Foreground="White" 
+                       FontSize="18" FontWeight="Bold"/>
+        </Border>
+
+        <!-- 
+            WrapPanel: distribuye hijos en línea y salta a la siguiente 
+            fila/columna cuando no hay espacio suficiente
+        -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="15">
+                
+                <!-- 
+                    WrapPanel con Orientation="Horizontal"
+                    ItemWidth y ItemHeight establecen el tamaño de cada elemento
+                -->
+                <TextBlock Text="🎨 WrapPanel (Galería de colores)" 
+                           FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+                
+                <WrapPanel Orientation="Horizontal" ItemWidth="100" ItemHeight="80">
+                    <!-- Cada Border es un "color" en la galería -->
+                    <Border Background="LightBlue" Margin="4" CornerRadius="5">
+                        <TextBlock Text="Azul" HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center"/>
+                    </Border>
+                    <Border Background="LightGreen" Margin="4" CornerRadius="5">
+                        <TextBlock Text="Verde" HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center"/>
+                    </Border>
+                    <Border Background="LightCoral" Margin="4" CornerRadius="5">
+                        <TextBlock Text="Coral" HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center"/>
+                    </Border>
+                    <Border Background="Khaki" Margin="4" CornerRadius="5">
+                        <TextBlock Text="Khaki" HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center"/>
+                    </Border>
+                    <Border Background="Plum" Margin="4" CornerRadius="5">
+                        <TextBlock Text="Plum" HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center"/>
+                    </Border>
+                    <Border Background="LightPink" Margin="4" CornerRadius="5">
+                        <TextBlock Text="Rosa" HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center"/>
+                    </Border>
+                    <Border Background="LightSalmon" Margin="4" CornerRadius="5">
+                        <TextBlock Text="Salmón" HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center"/>
+                    </Border>
+                    <Border Background="LightSeaGreen" Margin="4" CornerRadius="5">
+                        <TextBlock Text="Mar" HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center"/>
+                    </Border>
+                    <Border Background="Lavender" Margin="4" CornerRadius="5">
+                        <TextBlock Text="Lavanda" HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center"/>
+                    </Border>
+                    <Border Background="Wheat" Margin="4" CornerRadius="5">
+                        <TextBlock Text="Trigo" HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center"/>
+                    </Border>
+                </WrapPanel>
+
+                <!-- Canvas: posicionamiento absoluto -->
+                <TextBlock Text="🎯 Canvas (Posicionamiento absoluto)" 
+                           FontSize="16" FontWeight="Bold" Margin="0,25,0,10"/>
+
+                <!-- 
+                    Canvas: posicionamiento con coordenadas absolutas
+                    Canvas.Left y Canvas.Top establecen la posición
+                -->
+                <Border BorderBrush="Black" BorderThickness="1" Height="250">
+                    <Canvas Background="WhiteSmoke">
+                        <!-- Círculo en (30, 30) -->
+                        <Ellipse Canvas.Left="30" Canvas.Top="30"
+                                 Width="60" Height="60" Fill="CornflowerBlue"/>
+                        
+                        <!-- Rectángulo en (120, 50) -->
+                        <Rectangle Canvas.Left="120" Canvas.Top="50"
+                                   Width="100" Height="40" Fill="Coral"/>
+                        
+                        <!-- Texto en (50, 110) -->
+                        <TextBlock Canvas.Left="50" Canvas.Top="110" 
+                                   Text="¡Hola, Canvas!" FontSize="14"/>
+                        
+                        <!-- Botón en (200, 150) -->
+                        <Button Canvas.Left="200" Canvas.Top="150" 
+                                Content="Botón en Canvas" Width="120" Height="30"/>
+                        
+                        <!-- Imagen simulada con Border en (50, 170) -->
+                        <Border Canvas.Left="50" Canvas.Top="170" 
+                                Background="LightGreen" Width="80" Height="50" 
+                                CornerRadius="5">
+                            <TextBlock Text="Imagen" HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                    </Canvas>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+        
+    </DockPanel>
+</Window>

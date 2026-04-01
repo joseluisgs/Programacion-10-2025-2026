@@ -1,0 +1,49 @@
+<Window x:Class="IntroWPF.Views.Views.Main.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Intro WPF - Elige ejercicio" Height="320" Width="420"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    
+    <!-- Grid principal para centrar contenido -->
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            
+            <!-- Título -->
+            <TextBlock Text="🎯 Ejercicios WPF" 
+                       FontSize="24" 
+                       FontWeight="Bold" 
+                       HorizontalAlignment="Center" 
+                       Margin="0,0,0,25"/>
+            
+            <!-- Botón 1: Hola Mundo -->
+            <Button Content="1. Hola Mundo" 
+                    Width="220" 
+                    Height="35" 
+                    Margin="0,5" 
+                    Click="BtnHolaMundo_Click"/>
+            
+            <!-- Botón 2: Calculadora -->
+            <Button Content="2. Calculadora" 
+                    Width="220" 
+                    Height="35" 
+                    Margin="0,5" 
+                    Click="BtnCalculadora_Click"/>
+            
+            <!-- Botón 3: Formulario Registro -->
+            <Button Content="3. Formulario Registro" 
+                    Width="220" 
+                    Height="35" 
+                    Margin="0,5" 
+                    Click="BtnFormulario_Click"/>
+            
+            <!-- Botón 4: Layouts -->
+            <Button Content="4. Layouts (Grid/Dock)" 
+                    Width="220" 
+                    Height="35" 
+                    Margin="0,5" 
+                    Click="BtnLayouts_Click"/>
+            
+        </StackPanel>
+    </Grid>
+</Window>

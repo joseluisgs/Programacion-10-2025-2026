@@ -1,0 +1,439 @@
+<!-- ============================================================
+     MAINWINDOW - VENTANA PRINCIPAL CON TEMAS Y ESTILOS
+     ============================================================
+     
+     Esta ventana demuestra:
+     1. Binding de estilos dinámicos (temas personalizados)
+     2. Cambio de tema en tiempo real
+     3. Integración con Material Design
+     4. Recursos y diccionarios de estilos
+     5. Triggers para cambio de comportamiento
+     
+     CONCEPTOS CLAVE DE ESTILOS EN WPF:
+     1. StaticResource: Referencia un estilo definido en recursos
+     2. DynamicResource: Referencia un estilo que puede cambiar
+     3. Style TargetType: Define qué tipo de control aplica el estilo
+     4. BasedOn: Hereda estilos de otro
+     5. Triggers: Cambia propiedades según condiciones
+-->
+
+<Window x:Class="TemasEstilos.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:TemasEstilos.Converters"
+        Title="Demo: Temas, Estilos y Material Design en WPF" 
+        Height="650" Width="900"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource MaterialDesign.Brush.Background}">
+
+    <Window.Resources>
+        <!-- Converter para mostrar Si/No en lugar de True/False -->
+        <local:BoolToTextoConverter x:Key="BoolToTextoConverter" />
+
+        <!-- Estilos locales para temas personalizados (cuando NO se usa Material) -->
+        
+        <!-- Estilo para el título de sección -->
+        <Style x:Key="TituloSeccion" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+            <Setter Property="Foreground" Value="{Binding TemaSeleccionado.ColorTexto, FallbackValue=Black}"/>
+        </Style>
+
+        <!-- Estilo para labels -->
+        <Style x:Key="LabelEstilo" TargetType="TextBlock">
+            <Setter Property="Margin" Value="0,5"/>
+            <Setter Property="Foreground" Value="{Binding TemaSeleccionado.ColorTextoSecundario, FallbackValue=Gray}"/>
+        </Style>
+
+        <!-- Estilo para el botón primario -->
+        <Style x:Key="BotonPrimario" TargetType="Button">
+            <Setter Property="Background" Value="{Binding TemaSeleccionado.ColorBoton, FallbackValue=Blue}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="0.9"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Estilo para el ComboBox -->
+        <Style x:Key="ComboBoxEstilo" TargetType="ComboBox">
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Background" Value="{Binding TemaSeleccionado.ColorFondo, FallbackValue=White}"/>
+            <Setter Property="Foreground" Value="{Binding TemaSeleccionado.ColorTexto, FallbackValue=Black}"/>
+            <Setter Property="BorderBrush" Value="{Binding TemaSeleccionado.ColorBorde, FallbackValue=Gray}"/>
+        </Style>
+
+        <!-- Converters adicionales -->
+        <local:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisConverter" />
+        <local:BoolToThemeConverter x:Key="BoolToThemeConverter" />
+    </Window.Resources>
+
+    <!-- ============================================================
+         CAMBIO DE TEMA DE MATERIAL DESIGN EN TIEMPO REAL
+         ============================================================
+         
+         Estas líneas cambian el tema de Material Design dinámicamente
+         basándose en las propiedades del ViewModel.
+    -->
+    <materialDesign:DialogHost Identifier="RootDialog">
+        <Grid>
+            <!-- ScrollViewer permite hacer scroll si el contenido es muy largo -->
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <Grid Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- ============================================================
+                         CABECERA CON TÍTULO
+                         ============================================================ -->
+                    <StackPanel Grid.Row="0" Margin="0,0,0,20">
+                        <TextBlock Text="🎨 Demo: Temas, Estilos y Material Design" 
+                                   FontSize="24" 
+                                   FontWeight="Bold"
+                                   Foreground="{DynamicResource MaterialDesign.Brush.Foreground}"/>
+                        <TextBlock Text="Cambia entre temas personalizados y Material Design en tiempo real"
+                                   FontSize="14"
+                                   Foreground="{DynamicResource MaterialDesign.Brush.ForegroundLight}"
+                                   Margin="0,5,0,0"/>
+                    </StackPanel>
+
+                    <!-- ============================================================
+                         PANEL DE SELECCIÓN MODO: PERSONALIZADO vs MATERIAL
+                         ============================================================ -->
+                    <materialDesign:Card Grid.Row="1" Margin="0,0,0,20" Padding="20">
+                        <StackPanel>
+                            <TextBlock Text="🎛️ Modo de Estilos:" 
+                                       Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                       Margin="0,0,0,15"/>
+                            
+                            <StackPanel Orientation="Horizontal">
+                                <!-- Toggle para cambiar entre modos -->
+                                <ToggleButton IsChecked="{Binding UsarMaterialDesign}"
+                                              Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                              Margin="0,0,15,0"/>
+                                
+                                <TextBlock Text="{Binding UsarMaterialDesign, Converter={StaticResource BoolToTextoConverter}}"
+                                           VerticalAlignment="Center"
+                                           FontWeight="Bold"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </materialDesign:Card>
+
+                    <!-- ============================================================
+                         SECCIÓN: TEMAS PERSONALIZADOS (Solo cuando no es Material)
+                         ============================================================ -->
+                    <materialDesign:Card Grid.Row="2" 
+                                         Margin="0,0,0,20" 
+                                         Padding="20"
+                                         Visibility="{Binding UsarMaterialDesign, Converter={StaticResource InverseBoolToVisConverter}}">
+                        <StackPanel>
+                            <TextBlock Text="🌈 Temas Personalizados" 
+                                       Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                       Margin="0,0,0,15"/>
+                            
+                            <!-- ComboBox con los temas -->
+                            <StackPanel Orientation="Horizontal">
+                                <ComboBox ItemsSource="{Binding Temas}"
+                                          SelectedItem="{Binding TemaSeleccionado}"
+                                          DisplayMemberPath="Nombre"
+                                          Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                          Width="200"
+                                          materialDesign:HintAssist.Hint="Seleccionar tema"
+                                          SelectionChanged="ComboBox_SelectionChanged"/>
+                                
+                                <Button Content="Aplicar" 
+                                        Style="{StaticResource MaterialDesignRaisedButton}"
+                                        Command="{Binding AplicarTemaSeleccionadoCommand}"
+                                        Margin="10,0,0,0"/>
+                            </StackPanel>
+
+                            <!-- Botones de cambio rápido -->
+                            <TextBlock Text="Cambio rápido:" 
+                                       Margin="0,15,0,10"
+                                       Foreground="{DynamicResource MaterialDesign.Brush.ForegroundLight}"/>
+                            
+                            <WrapPanel>
+                                <Button Content="Claro" 
+                                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                                        Command="{Binding CambiarTemaCommand}"
+                                        CommandParameter="{Binding Temas[0]}"
+                                        Margin="0,0,5,5"/>
+                                
+                                <Button Content="Oscuro" 
+                                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                                        Command="{Binding CambiarTemaCommand}"
+                                        CommandParameter="{Binding Temas[1]}"
+                                        Margin="0,0,5,5"/>
+                                
+                                <Button Content="Azul" 
+                                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                                        Command="{Binding CambiarTemaCommand}"
+                                        CommandParameter="{Binding Temas[2]}"
+                                        Margin="0,0,5,5"/>
+                                
+                                <Button Content="Verde" 
+                                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                                        Command="{Binding CambiarTemaCommand}"
+                                        CommandParameter="{Binding Temas[3]}"
+                                        Margin="0,0,5,5"/>
+                                
+                                <Button Content="Alto Contraste" 
+                                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                                        Command="{Binding CambiarTemaCommand}"
+                                        CommandParameter="{Binding Temas[4]}"
+                                        Margin="0,0,5,5"/>
+                            </WrapPanel>
+
+                            <!-- Indicador tema actual -->
+                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                <TextBlock Text="Tema actual: " 
+                                           Foreground="{DynamicResource MaterialDesign.Brush.ForegroundLight}"/>
+                                <TextBlock Text="{Binding NombreTemaActual}" 
+                                           FontWeight="Bold"
+                                           Foreground="{Binding TemaSeleccionado.ColorAcento, FallbackValue=Orange}"/>
+                                <TextBlock Text=" (" 
+                                           Foreground="{DynamicResource MaterialDesign.Brush.ForegroundLight}"/>
+                                <TextBlock Text="{Binding EsTemaOscuro, Converter={StaticResource BoolToTextoConverter}}"
+                                           Foreground="{DynamicResource MaterialDesign.Brush.ForegroundLight}"/>
+                                <TextBlock Text=")"
+                                           Foreground="{DynamicResource MaterialDesign.Brush.ForegroundLight}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </materialDesign:Card>
+
+                    <!-- ============================================================
+                         SECCIÓN: MATERIAL DESIGN (Cuando UsarMaterialDesign = true)
+                         ============================================================ -->
+                    <materialDesign:Card Grid.Row="3" 
+                                         Margin="0,0,0,20" 
+                                         Padding="20"
+                                         Visibility="{Binding UsarMaterialDesign, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel>
+                            <TextBlock Text="✨ Temas Material Design" 
+                                       Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                       Margin="0,0,0,15"/>
+                            
+                            <!-- Paletas de Material Design -->
+                            <TextBlock Text="Selecciona una paleta de colores:"
+                                       Margin="0,0,0,10"
+                                       Foreground="{DynamicResource MaterialDesign.Brush.ForegroundLight}"/>
+                            
+                            <WrapPanel>
+                                <!-- Botones de paletas Material Design con iconos -->
+                                <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                        Command="{Binding CambiarTemaMaterialCommand}"
+                                        CommandParameter="{Binding TemasMaterial[0]}"
+                                        Background="Blue" Margin="5"
+                                        ToolTip="Blue/Orange">
+                                    <materialDesign:PackIcon Kind="Palette"/>
+                                </Button>
+                                
+                                <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                        Command="{Binding CambiarTemaMaterialCommand}"
+                                        CommandParameter="{Binding TemasMaterial[1]}"
+                                        Background="Indigo" Margin="5"
+                                        ToolTip="Indigo/Pink">
+                                    <materialDesign:PackIcon Kind="Palette"/>
+                                </Button>
+                                
+                                <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                        Command="{Binding CambiarTemaMaterialCommand}"
+                                        CommandParameter="{Binding TemasMaterial[2]}"
+                                        Background="Teal" Margin="5"
+                                        ToolTip="Teal/Lime">
+                                    <materialDesign:PackIcon Kind="Palette"/>
+                                </Button>
+                                
+                                <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                        Command="{Binding CambiarTemaMaterialCommand}"
+                                        CommandParameter="{Binding TemasMaterial[3]}"
+                                        Background="Green" Margin="5"
+                                        ToolTip="Green/Teal">
+                                    <materialDesign:PackIcon Kind="Palette"/>
+                                </Button>
+                                
+                                <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                        Command="{Binding CambiarTemaMaterialCommand}"
+                                        CommandParameter="{Binding TemasMaterial[4]}"
+                                        Background="Purple" Margin="5"
+                                        ToolTip="Purple/DeepOrange">
+                                    <materialDesign:PackIcon Kind="Palette"/>
+                                </Button>
+                                
+                                <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                        Command="{Binding CambiarTemaMaterialCommand}"
+                                        CommandParameter="{Binding TemasMaterial[5]}"
+                                        Background="Red" Margin="5"
+                                        ToolTip="Red/Yellow">
+                                    <materialDesign:PackIcon Kind="Palette"/>
+                                </Button>
+                                
+                                <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                        Command="{Binding CambiarTemaMaterialCommand}"
+                                        CommandParameter="{Binding TemasMaterial[6]}"
+                                        Background="Pink" Margin="5"
+                                        ToolTip="Pink/Teal">
+                                    <materialDesign:PackIcon Kind="Palette"/>
+                                </Button>
+                                
+                                <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                        Command="{Binding CambiarTemaMaterialCommand}"
+                                        CommandParameter="{Binding TemasMaterial[7]}"
+                                        Background="Cyan" Margin="5"
+                                        ToolTip="Cyan/Pink">
+                                    <materialDesign:PackIcon Kind="Palette"/>
+                                </Button>
+                            </WrapPanel>
+
+                            <!-- Selector de modo claro/oscuro -->
+                            <StackPanel Orientation="Horizontal" Margin="0,15,0,0">
+                                <TextBlock Text="Modo: " 
+                                           VerticalAlignment="Center"
+                                           Foreground="{DynamicResource MaterialDesign.Brush.ForegroundLight}"/>
+                                
+                                <ToggleButton IsChecked="{Binding EsTemaOscuro}"
+                                              Command="{Binding AlternarModoMaterialCommand}"
+                                              Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                              Content="Modo Oscuro"
+                                              Margin="10,0,0,0"/>
+                            </StackPanel>
+
+                            <!-- Tema actual de Material -->
+                            <TextBlock Margin="0,10,0,0"
+                                       Foreground="{DynamicResource MaterialDesign.Brush.ForegroundLight}">
+                                <Run Text="Tema: "/>
+                                <Run Text="{Binding NombreTemaActual, Mode=OneWay}" FontWeight="Bold"/>
+                            </TextBlock>
+                        </StackPanel>
+                    </materialDesign:Card>
+
+                    <!-- ============================================================
+                         EJEMPLOS VISUALES
+                         ============================================================ -->
+                    <materialDesign:Card Grid.Row="4" Margin="0,0,0,20" Padding="20">
+                        <StackPanel>
+                            <TextBlock Text="📱 Ejemplos de Componentes" 
+                                       Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                       Margin="0,0,0,15"/>
+                            
+                            <!-- Botones de ejemplo -->
+                            <TextBlock Text="Botones:" 
+                                       Margin="0,0,0,10"
+                                       Foreground="{DynamicResource MaterialDesign.Brush.ForegroundLight}"/>
+                            
+                            <WrapPanel>
+                                <Button Content="Primary" 
+                                        Style="{StaticResource MaterialDesignRaisedButton}"
+                                        Margin="5"/>
+                                
+                                <Button Content="Outlined" 
+                                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                                        Margin="5"/>
+                                
+                                <Button Content="Flat" 
+                                        Style="{StaticResource MaterialDesignFlatButton}"
+                                        Margin="5"/>
+                                
+                                <Button Style="{StaticResource MaterialDesignIconButton}"
+                                        Margin="5"
+                                        ToolTip="Icon Button">
+                                    <materialDesign:PackIcon Kind="Star"/>
+                                </Button>
+                            </WrapPanel>
+
+                            <!-- TextBox de ejemplo -->
+                            <TextBlock Text="Campos de texto:" 
+                                       Margin="0,15,0,10"
+                                       Foreground="{DynamicResource MaterialDesign.Brush.ForegroundLight}"/>
+                            
+                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                     materialDesign:HintAssist.Hint="Escribe algo..."
+                                     Text="{Binding TextoEjemplo}"
+                                     TextWrapping="Wrap"
+                                     MaxWidth="400"
+                                     HorizontalAlignment="Left"/>
+
+                            <!-- Checkbox y Switch -->
+                            <TextBlock Text="Controles:" 
+                                       Margin="0,15,0,10"
+                                       Foreground="{DynamicResource MaterialDesign.Brush.ForegroundLight}"/>
+                            
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox Content="Checkbox"
+                                          Style="{StaticResource MaterialDesignCheckBox}"
+                                          IsChecked="True"
+                                          Margin="0,0,20,0"/>
+                                
+                                <ToggleButton Content="Switch"
+                                              Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                              IsChecked="True"/>
+                            </StackPanel>
+
+                            <!-- Slider -->
+                            <TextBlock Text="Slider:" 
+                                       Margin="0,15,0,10"
+                                       Foreground="{DynamicResource MaterialDesign.Brush.ForegroundLight}"/>
+                            
+                            <Slider Style="{StaticResource MaterialDesignSlider}"
+                                    Value="50"
+                                    Minimum="0"
+                                    Maximum="100"
+                                    Width="300"
+                                    HorizontalAlignment="Left"/>
+
+                            <!-- Progress Indicator -->
+                            <TextBlock Text="Progreso:" 
+                                       Margin="0,15,0,10"
+                                       Foreground="{DynamicResource MaterialDesign.Brush.ForegroundLight}"/>
+                            
+                            <ProgressBar Style="{StaticResource MaterialDesignLinearProgressBar}"
+                                         Value="60"
+                                         Width="300"
+                                         HorizontalAlignment="Left"/>
+                        </StackPanel>
+                    </materialDesign:Card>
+
+                    <!-- ============================================================
+                         EXPLICACIÓN EDUCATIVA
+                         ============================================================ -->
+                    <materialDesign:Card Grid.Row="5" Padding="20">
+                        <StackPanel>
+                            <TextBlock Text="📚 Conceptos Aprendidos" 
+                                       Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                       Margin="0,0,0,15"/>
+                            
+                            <TextBlock TextWrapping="Wrap" 
+                                       Foreground="{DynamicResource MaterialDesign.Brush.ForegroundLight}">
+                                <Run FontWeight="Bold">1. Temas Personalizados:</Run>
+                                <Run>Estilos definidos manualmente con colores específicos. Útiles cuando necesitas control total sobre la apariencia.</Run>
+                                <LineBreak/>
+                                <Run FontWeight="Bold">2. Material Design:</Run>
+                                <Run>Biblioteca de componentes predefinidos con apariencia Material. Incluye paletas de colores, tipografía y componentes listos para usar.</Run>
+                                <LineBreak/>
+                                <Run FontWeight="Bold">3. Cambio Dinámico:</Run>
+                                <Run>Los temas se pueden cambiar en tiempo real usando binding. El ViewModel notifica cambios y la UI se actualiza automáticamente.</Run>
+                                <LineBreak/>
+                                <Run FontWeight="Bold">4. Triggers:</Run>
+                                <Run>Permiten cambiar propiedades según condiciones (hover, focus, etc.).</Run>
+                            </TextBlock>
+                        </StackPanel>
+                    </materialDesign:Card>
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+    </materialDesign:DialogHost>
+</Window>

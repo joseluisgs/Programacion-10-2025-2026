@@ -1,0 +1,167 @@
+<!-- ============================================================ -->
+<!-- MainWindow.xaml - Formulario de Registro con Validación -->
+<!-- ============================================================ -->
+<!-- Este formulario demonstra la validación natural en WPF. -->
+<!-- -->
+<!-- CONCEPTOS: -->
+<!-- 1. VALIDACIÓN NATURAL: -->
+<!--    - Validación mediante eventos y propiedades de los controles -->
+<!--    - No se usa IDataErrorInfo ni validación de datos -->
+<!--    - Validamos en los eventos (TextChanged, LostFocus, Click) -->
+<!-- -->
+<!-- 2. CONTROLES USADOS: -->
+<!--    - TextBox: Para texto (nombre, email, teléfono) -->
+<!--    - TextBox numérico: Para edad -->
+<!--    - PasswordBox: Para contraseña -->
+<!--    - CheckBox: Para aceptar términos -->
+<!--    - Button: Para enviar -->
+<!--    - Label: Para mensajes de error -->
+<!-- -->
+<!-- 3. PROPIEDADES DE ESTILO: -->
+<!--    - BorderBrush/Background: Color del borde/fondo -->
+<!--    - Validation.ErrorTemplate: Plantilla cuando hay error -->
+
+<Window x:Class="FormularioValidacion.Views.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="📝 Formulario de Registro" Height="550" Width="500"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize">
+
+    <!-- Estilos para campos válidos e inválidos -->
+    <Window.Resources>
+        <!-- Estilo para TextBox normal -->
+        <Style x:Key="CampoTexto" TargetType="TextBox">
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+        <!-- Estilo para TextBox con error -->
+        <Style x:Key="CampoError" TargetType="TextBox" BasedOn="{StaticResource CampoTexto}">
+            <Setter Property="BorderBrush" Value="Red"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Background" Value="#fffaf0"/>
+        </Style>
+
+        <!-- Estilo para Label de error -->
+        <Style x:Key="LabelError" TargetType="Label">
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+
+        <!-- Estilo para Labels normales -->
+        <Style x:Key="LabelNormal" TargetType="Label">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="0,10,0,5"/>
+        </Style>
+
+        <!-- Estilo para botón -->
+        <Style x:Key="BotonEnviar" TargetType="Button">
+            <Setter Property="Background" Value="#4CAF50"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="20,10"/>
+            <Setter Property="Margin" Value="0,20,0,0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <!-- Estilo para botón deshabilitado -->
+        <Style x:Key="BotonDeshabilitado" TargetType="Button" BasedOn="{StaticResource BotonEnviar}">
+            <Setter Property="Background" Value="Gray"/>
+            <Setter Property="IsEnabled" Value="False"/>
+        </Style>
+    </Window.Resources>
+
+    <!-- Grid principal -->
+    <Grid Margin="30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>   <!-- Título -->
+            <RowDefinition Height="Auto"/>   <!-- Nombre -->
+            <RowDefinition Height="Auto"/>   <!-- Email -->
+            <RowDefinition Height="Auto"/>   <!-- Teléfono -->
+            <RowDefinition Height="Auto"/>   <!-- Edad -->
+            <RowDefinition Height="Auto"/>   <!-- Contraseña -->
+            <RowDefinition Height="Auto"/>   <!-- Confirmar contraseña -->
+            <RowDefinition Height="Auto"/>   <!-- CheckBox términos -->
+            <RowDefinition Height="Auto"/>   <!-- Botón enviar -->
+            <RowDefinition Height="*"/>     <!-- Espacio -->
+        </Grid.RowDefinitions>
+
+        <!-- TÍTULO -->
+        <TextBlock Grid.Row="0" Text="📝 Formulario de Registro" 
+                   FontSize="24" FontWeight="Bold" 
+                   Foreground="#333" Margin="0,0,0,20"
+                   HorizontalAlignment="Center"/>
+
+        <!-- NOMBRE -->
+        <Label Grid.Row="1" Content="Nombre completo:" Style="{StaticResource LabelNormal}"/>
+        <TextBox x:Name="TxtNombre" Grid.Row="1" Style="{StaticResource CampoTexto}"
+                 Margin="0,30,0,5" ToolTip="Ej: Juan García López"
+                 TextChanged="TxtNombre_TextChanged"/>
+        <Label x:Name="LblErrorNombre" Grid.Row="1" Content="" 
+               Style="{StaticResource LabelError}" Margin="0,55,0,0"/>
+
+        <!-- EMAIL -->
+        <Label Grid.Row="2" Content="Email:" Style="{StaticResource LabelNormal}"/>
+        <TextBox x:Name="TxtEmail" Grid.Row="2" Style="{StaticResource CampoTexto}"
+                 Margin="0,30,0,5" ToolTip="Ej: juan@ejemplo.com"
+                 TextChanged="TxtEmail_TextChanged"/>
+        <Label x:Name="LblErrorEmail" Grid.Row="2" Content="" 
+               Style="{StaticResource LabelError}" Margin="0,55,0,0"/>
+
+        <!-- TELÉFONO -->
+        <Label Grid.Row="3" Content="Teléfono:" Style="{StaticResource LabelNormal}"/>
+        <TextBox x:Name="TxtTelefono" Grid.Row="3" Style="{StaticResource CampoTexto}"
+                 Margin="0,30,0,5" ToolTip="Ej: 612345678"
+                 PreviewTextInput="TxtTelefono_PreviewTextInput"
+                 MaxLength="9"/>
+        <Label x:Name="LblErrorTelefono" Grid.Row="3" Content="" 
+               Style="{StaticResource LabelError}" Margin="0,55,0,0"/>
+
+        <!-- EDAD -->
+        <Label Grid.Row="4" Content="Edad:" Style="{StaticResource LabelNormal}"/>
+        <TextBox x:Name="TxtEdad" Grid.Row="4" Style="{StaticResource CampoTexto}"
+                 Margin="0,30,0,5" ToolTip="Ej: 25"
+                 PreviewTextInput="TxtEdad_PreviewTextInput"
+                 MaxLength="3"/>
+        <Label x:Name="LblErrorEdad" Grid.Row="4" Content="" 
+               Style="{StaticResource LabelError}" Margin="0,55,0,0"/>
+
+        <!-- CONTRASEÑA -->
+        <Label Grid.Row="5" Content="Contraseña:" Style="{StaticResource LabelNormal}"/>
+        <PasswordBox x:Name="TxtPassword" Grid.Row="5" 
+                     Padding="8" Margin="0,30,0,5"
+                     PasswordChanged="TxtPassword_PasswordChanged"/>
+        <Label x:Name="LblErrorPassword" Grid.Row="5" Content="" 
+               Style="{StaticResource LabelError}" Margin="0,55,0,0"/>
+
+        <!-- CONFIRMAR CONTRASEÑA -->
+        <Label Grid.Row="6" Content="Confirmar contraseña:" Style="{StaticResource LabelNormal}"/>
+        <PasswordBox x:Name="TxtConfirmarPassword" Grid.Row="6" 
+                     Padding="8" Margin="0,30,0,5"
+                     PasswordChanged="TxtConfirmarPassword_PasswordChanged"/>
+        <Label x:Name="LblErrorConfirmar" Grid.Row="6" Content="" 
+               Style="{StaticResource LabelError}" Margin="0,55,0,0"/>
+
+        <!-- CHECKBOX TÉRMINOS -->
+        <StackPanel Grid.Row="7" Orientation="Horizontal" Margin="0,15,0,0">
+            <CheckBox x:Name="ChkTerminos" Content="Acepto los términos y condiciones"
+                      VerticalAlignment="Center" FontSize="13"
+                      Checked="ChkTerminos_Changed" Unchecked="ChkTerminos_Changed"/>
+        </StackPanel>
+        <Label x:Name="LblErrorTerminos" Grid.Row="7" Content="" 
+               Style="{StaticResource LabelError}" Margin="0,35,0,0"/>
+
+        <!-- BOTÓN ENVIAR -->
+        <Button x:Name="BtnEnviar" Grid.Row="8" Content="✅ Registrarse"
+                Style="{StaticResource BotonDeshabilitado}"
+                HorizontalAlignment="Center"
+                Click="BtnEnviar_Click"/>
+
+    </Grid>
+</Window>

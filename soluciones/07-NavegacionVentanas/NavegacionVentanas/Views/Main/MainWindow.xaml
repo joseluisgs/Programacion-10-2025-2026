@@ -1,0 +1,106 @@
+<!-- ============================================================ -->
+<!-- MainWindow.xaml - Ventana principal con demos de navegación -->
+<!-- ============================================================ -->
+<!-- Esta ventana presenta diferentes botones para abrir ventanas secundarias -->
+<!-- y demostrar las técnicas de navegación en WPF. -->
+<!-- -->
+<!-- DEMOS: -->
+<!-- 1. Ventana Modal con ShowDialog y DialogResult -->
+<!-- 2. Ventana No Modal con Show -->
+<!-- 3. Paso de datos por constructor -->
+<!-- 4. Paso de datos por propiedades -->
+<!-- 5. ViewModel compartido -->
+<!-- 6. Flujo Login -> Main -->
+
+<Window x:Class="NavegacionVentanas.Views.Main.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title=" Navegación entre Ventanas" Height="500" Width="600"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize">
+
+    <!-- Estilos -->
+    <Window.Resources>
+        <Style x:Key="BotonDemo" TargetType="Button">
+            <Setter Property="Padding" Value="20,10"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Background" Value="#2196F3"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <Style x:Key="BotonSecundario" TargetType="Button" BasedOn="{StaticResource BotonDemo}">
+            <Setter Property="Background" Value="#FF9800"/>
+        </Style>
+
+        <Style x:Key="BotonDanger" TargetType="Button" BasedOn="{StaticResource BotonDemo}">
+            <Setter Property="Background" Value="#f44336"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>      <!-- Título -->
+            <RowDefinition Height="*"/>          <!-- Botones demos -->
+            <RowDefinition Height="Auto"/>      <!-- ViewModel info -->
+            <RowDefinition Height="Auto"/>      <!-- Salir -->
+        </Grid.RowDefinitions>
+
+        <!-- TÍTULO -->
+        <TextBlock Grid.Row="0" Text="📱 Demo de Navegación entre Ventanas"
+                   FontSize="24" FontWeight="Bold" 
+                   HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+        <!-- BOTONES DE Demos -->
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+            
+            <!-- Demo 1: Ventana Modal -->
+            <Button Content="1️⃣ Ventana Modal (ShowDialog)"
+                    Style="{StaticResource BotonDemo}"
+                    Click="BtnVentanaModal_Click"/>
+            
+            <!-- Demo 2: Ventana No Modal -->
+            <Button Content="2️⃣ Ventana No Modal (Show)"
+                    Style="{StaticResource BotonDemo}"
+                    Click="BtnVentanaNoModal_Click"/>
+            
+            <!-- Demo 3: Paso de datos por constructor -->
+            <Button Content="3️⃣ Paso de datos (Constructor)"
+                    Style="{StaticResource BotonDemo}"
+                    Click="BtnDatosConstructor_Click"/>
+            
+            <!-- Demo 4: Paso de datos por propiedades -->
+            <Button Content="4️⃣ Paso de datos (Propiedades)"
+                    Style="{StaticResource BotonDemo}"
+                    Click="BtnDatosPropiedades_Click"/>
+            
+            <!-- Demo 5: ViewModel compartido -->
+            <Button Content="5️⃣ ViewModel Compartido"
+                    Style="{StaticResource BotonDemo}"
+                    Click="BtnViewModelCompartido_Click"/>
+            
+            <!-- Demo 6: Flujo Login -> Main -->
+            <Button Content="6️⃣ Flujo Login → Main"
+                    Style="{StaticResource BotonSecundario}"
+                    Click="BtnLogin_Click"/>
+
+        </StackPanel>
+
+        <!-- Info del ViewModel Compartido -->
+        <Border Grid.Row="2" Background="#e3f2fd" Padding="10" Margin="0,20,0,0" CornerRadius="5">
+            <StackPanel>
+                <TextBlock Text="📊 ViewModel Compartido:" FontWeight="Bold"/>
+                <TextBlock x:Name="TxtViewModelInfo" Text="No inicializado" Margin="0,5,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- BOTÓN SALIR -->
+        <Button Grid.Row="3" Content="❌ Salir"
+                Style="{StaticResource BotonDanger}"
+                HorizontalAlignment="Center"
+                Margin="0,20,0,0"
+                Click="BtnSalir_Click"/>
+
+    </Grid>
+</Window>

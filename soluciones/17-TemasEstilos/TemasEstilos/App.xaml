@@ -1,0 +1,28 @@
+<Application x:Class="TemasEstilos.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             StartupUri="Views/MainWindow.xaml">
+    <Application.Resources>
+        <!-- ============================================================
+             RECURSOS DE MATERIAL DESIGN
+             ============================================================
+             
+             Incluimos los diccioneros de recursos de Material Design.
+             Esto proporciona estilos y temas predefinidos de Material Design.
+             
+             Los temas disponibles son:
+             - MaterialDesignTheme.Light (claro)
+             - MaterialDesignTheme.Dark (oscuro)
+             
+             Se pueden cambiar dinámicamente en tiempo de ejecución.
+        -->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Recursos base de Material Design -->
+                <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="Blue" SecondaryColor="Orange" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
