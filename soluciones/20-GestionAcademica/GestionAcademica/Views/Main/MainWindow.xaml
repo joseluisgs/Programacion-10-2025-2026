@@ -62,18 +62,25 @@
                 <StackPanel Margin="10">
                     <TextBlock Text="NAVEGACIÓN" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" Margin="10,10,0,10"/>
                     
-                    <Button Content="Dashboard" Click="OnDashboardClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"/>
-                    <Button Content="Estudiantes" Click="OnEstudiantesClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"/>
-                    <Button Content="Docentes" Click="OnDocentesClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"/>
+                    <Button Content="Dashboard" Click="OnDashboardClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"
+                            ToolTip="Ver panel de control"/>
+                    <Button Content="Estudiantes" Click="OnEstudiantesClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"
+                            ToolTip="Ver gestión de estudiantes"/>
+                    <Button Content="Docentes" Click="OnDocentesClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"
+                            ToolTip="Ver gestión de docentes"/>
                     
                     <Separator Margin="10,15" Background="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
                     
                     <TextBlock Text="HERRAMIENTAS" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" Margin="10,0,0,10"/>
                     
-                    <Button Content="Informes" Click="OnInformesClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"/>
-                    <Button Content="Gráficos" Click="OnGraficosClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"/>
-                    <Button Content="Backups" Click="OnBackupClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"/>
-                    <Button Content="Import/Export" Click="OnImportExportClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"/>
+                    <Button Content="Informes" Click="OnInformesClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"
+                            ToolTip="Ver generación de informes"/>
+                    <Button Content="Gráficos" Click="OnGraficosClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"
+                            ToolTip="Ver gráficos y estadísticas"/>
+                    <Button Content="Backups" Click="OnBackupClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"
+                            ToolTip="Ver gestión de copias de seguridad"/>
+                    <Button Content="Import/Export" Click="OnImportExportClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"
+                            ToolTip="Ver importación y exportación de datos"/>
                 </StackPanel>
             </Border>
 

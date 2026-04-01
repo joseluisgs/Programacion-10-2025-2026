@@ -110,9 +110,11 @@
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
             <Button Content="Cancelar" Command="{Binding CancelCommand}"
                     Style="{StaticResource SecondaryButton}"
-                    Margin="0,0,10,0"/>
+                    Margin="0,0,10,0"
+                    ToolTip="Cancelar y cerrar ventana"/>
             <Button Content="💾 Guardar" Command="{Binding SaveCommand}"
-                    Style="{StaticResource PrimaryButton}"/>
+                    Style="{StaticResource PrimaryButton}"
+                    ToolTip="Guardar cambios"/>
         </StackPanel>
     </Grid>
 </Window>
