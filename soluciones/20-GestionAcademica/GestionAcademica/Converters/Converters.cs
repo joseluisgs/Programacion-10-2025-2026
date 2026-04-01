@@ -53,7 +53,14 @@ public class ImagePathConverter : IValueConverter
         try
         {
             var imagePath = value.ToString()!;
-            
+
+            // Si no es una ruta absoluta, combinar con el directorio de imágenes
+            if (!Path.IsPathRooted(imagePath))
+            {
+                var imagesDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "images");
+                imagePath = Path.Combine(imagesDirectory, imagePath);
+            }
+
             if (File.Exists(imagePath))
             {
                 var bitmap = new BitmapImage();

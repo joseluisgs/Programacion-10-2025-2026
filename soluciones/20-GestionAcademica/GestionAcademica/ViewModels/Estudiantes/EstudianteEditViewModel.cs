@@ -99,6 +99,8 @@ public partial class EstudianteEditViewModel : ObservableObject
     [RelayCommand]
     private void ChangeImage()
     {
+        _logger.Debug("Abriendo diálogo para seleccionar imagen");
+
         var dialog = new Microsoft.Win32.OpenFileDialog
         {
             Filter = "Imágenes|*.jpg;*.jpeg;*.png;*.bmp;*.gif",
@@ -107,11 +109,26 @@ public partial class EstudianteEditViewModel : ObservableObject
 
         if (dialog.ShowDialog() == true)
         {
+            _logger.Information("Usuario seleccionó imagen: {FilePath}", dialog.FileName);
             var imageResult = _imageService.SaveImage(dialog.FileName);
             if (imageResult.IsSuccess)
             {
                 FormData.Imagen = imageResult.Value;
+                _logger.Information("Imagen cambiada exitosamente: {ImagePath}", imageResult.Value);
             }
+            else
+            {
+                _logger.Error("Error al guardar imagen: {Error}", imageResult.Error.Message);
+                MessageBox.Show(
+                    $"Error al guardar la imagen: {imageResult.Error.Message}",
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+        }
+        else
+        {
+            _logger.Debug("Usuario canceló selección de imagen");
         }
     }
 }
