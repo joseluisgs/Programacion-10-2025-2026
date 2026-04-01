@@ -11,11 +11,15 @@ using Serilog;
 
 namespace GestionAcademica.ViewModels.ImportExport;
 
-public partial class ImportExportViewModel : ObservableObject
+public partial class ImportExportViewModel(
+    IPersonasService personasService,
+    IImportExportService importExportService,
+    IDialogService dialogService
+) : ObservableObject
 {
-    private readonly IPersonasService _personasService;
-    private readonly IImportExportService _importExportService;
-    private readonly IDialogService _dialogService;
+    private readonly IPersonasService _personasService = personasService;
+    private readonly IImportExportService _importExportService = importExportService;
+    private readonly IDialogService _dialogService = dialogService;
     private readonly ILogger _logger = Log.ForContext<ImportExportViewModel>();
 
     [ObservableProperty]
@@ -26,13 +30,6 @@ public partial class ImportExportViewModel : ObservableObject
 
     [ObservableProperty]
     private bool _sustituirDatos = false;
-
-    public ImportExportViewModel(IPersonasService personasService, IImportExportService importExportService, IDialogService dialogService)
-    {
-        _personasService = personasService;
-        _importExportService = importExportService;
-        _dialogService = dialogService;
-    }
 
     [RelayCommand]
     private void ExportarCsv()

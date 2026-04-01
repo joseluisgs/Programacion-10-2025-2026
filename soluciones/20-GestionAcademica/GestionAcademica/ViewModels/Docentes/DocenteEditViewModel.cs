@@ -17,42 +17,30 @@ namespace GestionAcademica.ViewModels.Docentes;
 ///     ViewModel especializado para la ventana modal de creación y edición de Docente.
 ///     Trabaja con DocenteFormData (IDataErrorInfo) y mapea al modelo de dominio para persistir.
 /// </summary>
-public partial class DocenteEditViewModel : ObservableObject
+public partial class DocenteEditViewModel(
+    Docente docente,
+    IPersonasService personasService,
+    IImageService imageService,
+    IDialogService dialogService,
+    bool isNew
+) : ObservableObject
 {
-    private readonly IPersonasService _personasService;
-    private readonly IImageService _imageService;
-    private readonly IDialogService _dialogService;
-    private readonly bool _isNew;
+    private readonly IPersonasService _personasService = personasService;
+    private readonly IImageService _imageService = imageService;
+    private readonly IDialogService _dialogService = dialogService;
+    private readonly bool _isNew = isNew;
     private readonly ILogger _logger = Log.ForContext<DocenteEditViewModel>();
 
     /// <summary>FormData con validación IDataErrorInfo para el binding WPF.</summary>
     [ObservableProperty]
-    private DocenteFormData _formData;
+    private DocenteFormData _formData = docente.ToFormData();
 
     [ObservableProperty]
-    private string _windowTitle = "";
+    private string _windowTitle = isNew ? "Nuevo Docente" : "Editar Docente";
 
     public IEnumerable<Ciclo> Ciclos => Enum.GetValues<Ciclo>();
 
     public Action<bool>? CloseAction { get; set; }
-
-    /// <summary>
-    ///     Inicializa el ViewModel convirtiendo el modelo de dominio a FormData.
-    /// </summary>
-    /// <param name="docente">Modelo de dominio de origen (puede ser vacío para creación).</param>
-    /// <param name="personasService">Servicio de persistencia de personas.</param>
-    /// <param name="imageService">Servicio de gestión de imágenes.</param>
-    /// <param name="dialogService">Servicio de diálogos desacoplado de WPF.</param>
-    /// <param name="isNew">True si se está creando un nuevo registro; False si se edita uno existente.</param>
-    public DocenteEditViewModel(Docente docente, IPersonasService personasService, IImageService imageService, IDialogService dialogService, bool isNew)
-    {
-        _personasService = personasService;
-        _imageService = imageService;
-        _dialogService = dialogService;
-        _isNew = isNew;
-        _formData = docente.ToFormData();
-        WindowTitle = isNew ? "Nuevo Docente" : "Editar Docente";
-    }
 
     /// <summary>
     ///     Guarda el docente si el FormData es válido, mapeando de vuelta al modelo de dominio.
@@ -113,30 +101,15 @@ public partial class DocenteEditViewModel : ObservableObject
         {
             _logger.Information("Usuario seleccionó imagen: {FilePath}", dialog.FileName);
 
-            try
+            if (!_imageService.ValidateImageSize(dialog.FileName, 2 * 1024 * 1024))
             {
-                var fileInfo = new System.IO.FileInfo(dialog.FileName);
-                if (fileInfo.Length > 2 * 1024 * 1024)
-                {
-                    _dialogService.ShowWarning("La imagen no puede superar 2MB");
-                    return;
-                }
-
-                var decoder = System.Windows.Media.Imaging.BitmapDecoder.Create(
-                    new Uri(dialog.FileName, UriKind.Absolute),
-                    System.Windows.Media.Imaging.BitmapCreateOptions.DelayCreation,
-                    System.Windows.Media.Imaging.BitmapCacheOption.None);
-                var frame = decoder.Frames[0];
-                if (frame.PixelWidth > 1920 || frame.PixelHeight > 1920)
-                {
-                    _dialogService.ShowWarning("La imagen no puede superar 1920x1920 píxeles");
-                    return;
-                }
+                _dialogService.ShowWarning("La imagen no puede superar 2MB");
+                return;
             }
-            catch (Exception ex)
+
+            if (!_imageService.ValidateImageDimensions(dialog.FileName, 1920, 1920))
             {
-                _logger.Error(ex, "Error al validar imagen: {FilePath}", dialog.FileName);
-                _dialogService.ShowError("No se pudo leer la imagen seleccionada");
+                _dialogService.ShowWarning("La imagen no puede superar 1920x1920 píxeles");
                 return;
             }
 

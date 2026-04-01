@@ -15,6 +15,7 @@ public partial class DashboardView : Page
         
         var vm = App.ServiceProvider.GetRequiredService<DashboardViewModel>();
         vm.NavigateAction = OnNavigate;
+        vm.Initialize();
         DataContext = vm;
         
         Log.Debug("📊 DashboardView cargado");

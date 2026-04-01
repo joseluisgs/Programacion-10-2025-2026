@@ -19,6 +19,7 @@ public partial class GraficosView : Page
     {
         InitializeComponent();
         _viewModel = App.ServiceProvider.GetRequiredService<GraficosViewModel>();
+        _viewModel.Initialize();
         DataContext = _viewModel;
 
         Loaded += OnLoaded;

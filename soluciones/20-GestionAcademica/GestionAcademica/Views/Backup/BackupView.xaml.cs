@@ -9,6 +9,8 @@ public partial class BackupView : Page
     public BackupView()
     {
         InitializeComponent();
-        DataContext = App.ServiceProvider.GetRequiredService<BackupViewModel>();
+        var vm = App.ServiceProvider.GetRequiredService<BackupViewModel>();
+        vm.Initialize();
+        DataContext = vm;
     }
 }

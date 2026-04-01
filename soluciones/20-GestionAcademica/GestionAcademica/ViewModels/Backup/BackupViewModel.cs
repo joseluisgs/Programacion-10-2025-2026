@@ -10,11 +10,15 @@ using Serilog;
 
 namespace GestionAcademica.ViewModels.Backup;
 
-public partial class BackupViewModel : ObservableObject
+public partial class BackupViewModel(
+    IPersonasService personasService,
+    IBackupService backupService,
+    IDialogService dialogService
+) : ObservableObject
 {
-    private readonly IPersonasService _personasService;
-    private readonly IBackupService _backupService;
-    private readonly IDialogService _dialogService;
+    private readonly IPersonasService _personasService = personasService;
+    private readonly IBackupService _backupService = backupService;
+    private readonly IDialogService _dialogService = dialogService;
     private readonly ILogger _logger = Log.ForContext<BackupViewModel>();
 
     [ObservableProperty]
@@ -29,11 +33,12 @@ public partial class BackupViewModel : ObservableObject
     [ObservableProperty]
     private bool _isLoading;
 
-    public BackupViewModel(IPersonasService personasService, IBackupService backupService, IDialogService dialogService)
+    /// <summary>
+    /// Inicializa el ViewModel cargando la lista de backups disponibles.
+    /// Debe llamarse explícitamente tras la construcción del objeto.
+    /// </summary>
+    public void Initialize()
     {
-        _personasService = personasService;
-        _backupService = backupService;
-        _dialogService = dialogService;
         LoadBackups();
     }
 

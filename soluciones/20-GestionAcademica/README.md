@@ -40,6 +40,8 @@ Los requisitos funcionales describen las operaciones que el sistema debe realiza
 | RF-GE-05 | Informe de Rendimiento    | El sistema deberá generar informes estadísticos de estudiantes con métricas (total, media, aprobados, suspensos) y filtrado por alcance (global, ciclo, curso, clase específica). Solo considera estudiantes activos. |
 | RF-GE-06 | Informe HTML Rendimiento | El sistema deberá generar y mostrar un informe de rendimiento en formato HTML que se abra automáticamente en el navegador.                                                |
 | RF-GE-07 | Paginación de Listados    | El sistema permitirá recuperar estudiantes de forma paginada para mejorar la eficiencia del repositorio. |
+| RF-GE-08 | Gestión Visual (WPF) | La interfaz muestra los estudiantes en una DataGrid con búsqueda en tiempo real, ordenación multicriterio y feedback visual del estado. |
+| RF-GE-09 | Validación de Imagen | Las imágenes de estudiantes se validan: extensión (png/jpg/jpeg/bmp/gif), tamaño máximo 5 MB, dimensiones máximas 4096×4096 px. |
 
 #### 1.3 Gestión de Docentes
 
@@ -52,6 +54,8 @@ Los requisitos funcionales describen las operaciones que el sistema debe realiza
 | RF-GD-05 | Informe de Experiencia | El sistema deberá generar informes estadísticos de docentes con métricas (total, experiencia media) y filtrado por ciclo. Solo considera docentes activos. |
 | RF-GD-06 | Informe HTML Experiencia | El sistema deberá generar y mostrar un informe de experiencia en formato HTML que se abra automáticamente en el navegador.                  |
 | RF-GD-07 | Mantenimiento (Vacuum) | El sistema permitirá compactar el almacén binario eliminando fragmentación física pero manteniendo íntegro el historial de bajas. |
+| RF-GD-08 | Gestión Visual (WPF) | La interfaz muestra los docentes en una DataGrid con búsqueda en tiempo real, ordenación multicriterio y feedback visual del estado. |
+| RF-GD-09 | Validación de Imagen | Las imágenes de docentes se validan: extensión (png/jpg/jpeg/bmp/gif), tamaño máximo 5 MB, dimensiones máximas 4096×4096 px. |
 
 #### 1.4 Gestión de Importación/Exportación
 
@@ -83,6 +87,10 @@ Los requisitos no funcionales describen las cualidades y restricciones del siste
 | RNF-05 | Robustez | El sistema debe manejar errores de forma correcta con mensajes claros al usuario. |
 | RNF-06 | Trazabilidad | Todas las operaciones deben estar registradas en log. |
 | RNF-07 | Recuperación | El sistema debe permitir restaurar desde backup en caso de pérdida de datos. |
+| RNF-08 | Arquitectura MVVM | La capa de presentación usa el patrón MVVM con CommunityToolkit.Mvvm (primary constructors, ObservableProperty, RelayCommand). |
+| RNF-09 | Validación UI | La validación de formularios se implementa con IDataErrorInfo en clases FormData, activada en tiempo real por el binding WPF. |
+| RNF-10 | Validación Imágenes | Las imágenes se validan en cuanto a extensión, tamaño máximo (5 MB) y dimensiones máximas (4096×4096 px) usando lectura de cabecera de archivo. |
+| RNF-11 | Inyección DI | Todos los ViewModels usan primary constructors (C# 12) con campos inicializados desde los parámetros del constructor. |
 
 ---
 
@@ -258,6 +266,424 @@ graph LR
 | ----------------------- | ---------------------------------------------- |
 | **Informe Estudiantes** | Global, Por Ciclo, Por Curso, Clase Específica |
 | **Informe Docentes**    | Global, Por Ciclo                              |
+
+---
+
+## 1.8 Arquitectura MVVM con WPF
+
+La capa de presentación implementa el patrón **Model-View-ViewModel (MVVM)** usando **CommunityToolkit.Mvvm** y **C# 12 primary constructors**.
+
+### Flujo de Datos MVVM
+
+```mermaid
+graph TB
+    subgraph "Capa de Presentación (WPF)"
+        VIEW[Views / Windows / Pages]
+    end
+
+    subgraph "Capa ViewModel (CommunityToolkit.Mvvm)"
+        VM_MAIN[MainViewModel]
+        VM_EST[EstudiantesViewModel]
+        VM_DOC[DocentesViewModel]
+        VM_DASH[DashboardViewModel]
+        VM_EDIT_EST[EstudianteEditViewModel]
+        VM_EDIT_DOC[DocenteEditViewModel]
+        FORM_EST[EstudianteFormData]
+        FORM_DOC[DocenteFormData]
+    end
+
+    subgraph "Capa de Servicios"
+        SVC_PER[IPersonasService]
+        SVC_IMG[IImageService]
+        SVC_DLG[IDialogService]
+        SVC_BCK[IBackupService]
+        SVC_REP[IReportService]
+    end
+
+    subgraph "Validación"
+        IDEI[IDataErrorInfo]
+    end
+
+    VIEW --> VM_MAIN
+    VIEW --> VM_EST
+    VIEW --> VM_DOC
+    VIEW --> VM_DASH
+    VM_EST --> VM_EDIT_EST
+    VM_DOC --> VM_EDIT_DOC
+    VM_EDIT_EST --> FORM_EST
+    VM_EDIT_DOC --> FORM_DOC
+    FORM_EST -.implementa.-> IDEI
+    FORM_DOC -.implementa.-> IDEI
+    VM_EST --> SVC_PER
+    VM_EST --> SVC_IMG
+    VM_EDIT_EST --> SVC_PER
+    VM_EDIT_EST --> SVC_IMG
+    VM_EDIT_EST --> SVC_DLG
+    VM_MAIN --> SVC_BCK
+
+    style FORM_EST fill:#4CAF50,color:#fff
+    style FORM_DOC fill:#4CAF50,color:#fff
+    style IDEI fill:#2196F3,color:#fff
+```
+
+### Primary Constructors en ViewModels
+
+Los ViewModels usan **primary constructors de C# 12** para inyección de dependencias limpia:
+
+```csharp
+// Antes (constructor tradicional)
+public partial class EstudiantesViewModel : ObservableObject
+{
+    private readonly IPersonasService _personasService;
+    
+    public EstudiantesViewModel(IPersonasService personasService, ...)
+    {
+        _personasService = personasService;
+        LoadEstudiantes(); // lógica de inicio en el constructor
+    }
+}
+
+// Después (primary constructor C# 12)
+public partial class EstudiantesViewModel(
+    IPersonasService personasService,
+    IImageService imageService,
+    IDialogService dialogService
+) : ObservableObject
+{
+    private readonly IPersonasService _personasService = personasService;
+    private readonly IImageService _imageService = imageService;
+    private readonly IDialogService _dialogService = dialogService;
+    private readonly ILogger _logger = Log.ForContext<EstudiantesViewModel>();
+
+    public void Initialize()
+    {
+        LoadEstudiantes(); // lógica de inicio separada
+    }
+}
+
+// En la View
+var vm = App.ServiceProvider.GetRequiredService<EstudiantesViewModel>();
+vm.Initialize(); // llamada explícita
+DataContext = vm;
+```
+
+### Ventajas de esta arquitectura
+
+| Aspecto | Beneficio |
+|---------|-----------|
+| **Primary constructors** | Código más conciso, parámetros disponibles en inicializadores de campo |
+| **Initialize() separado** | La construcción del objeto no tiene efectos secundarios; la inicialización es explícita |
+| **ObservableProperty** | Generación automática de propiedades con `INotifyPropertyChanged` |
+| **RelayCommand** | Comandos con soporte `CanExecute` sin boilerplate |
+| **WeakReferenceMessenger** | Comunicación entre VMs sin acoplamiento directo |
+
+---
+
+## 🎨 Validación de Formularios en Tiempo Real
+
+El sistema implementa validación en tiempo real mediante **FormData classes** que separan la lógica de validación de los ViewModels principales.
+
+### Arquitectura de Validación
+
+```mermaid
+graph TB
+    subgraph "Capa de Presentación"
+        VIEW[EstudianteEditWindow.xaml]
+    end
+
+    subgraph "Capa ViewModel"
+        VM[EstudianteEditViewModel]
+        FORM[EstudianteFormData]
+    end
+
+    subgraph "Validación"
+        VAL[IDataErrorInfo]
+        RULES[ValidationRules WPF]
+    end
+
+    VIEW --> VM
+    VM --> FORM
+    FORM -.implementa.-> VAL
+    VIEW --> RULES
+
+    style FORM fill:#4CAF50,color:#fff
+    style VAL fill:#2196F3,color:#fff
+```
+
+### Clases FormData
+
+#### 📌 EstudianteFormData.cs
+- **Propósito:** Validar datos de estudiante antes de persistir al modelo de dominio
+- **Implementa:** `IDataErrorInfo` para binding directo con WPF (`ValidatesOnDataErrors=True`)
+- **Validaciones:**
+  - **Nombre/Apellidos:** Mínimo 2, máximo 30/50 caracteres
+  - **DNI:** Formato `^\d{8}[A-Z]$` (8 dígitos + letra mayúscula)
+  - **Email:** Formato válido (`@` + dominio)
+  - **Calificación:** Rango 0–10
+  - **Fecha de nacimiento:** Posterior a 1900 y no futura
+
+#### 📌 DocenteFormData.cs
+- **Propósito:** Validar datos de docente antes de persistir
+- **Implementa:** `IDataErrorInfo`
+- **Validaciones:**
+  - **Nombre/Apellidos:** Mínimo 2, máximo 30/50 caracteres
+  - **DNI:** Formato `^\d{8}[A-Z]$`
+  - **Email:** Formato válido
+  - **Experiencia:** Entre 0 y 50 años
+  - **Especialidad:** Mínimo 3 caracteres, obligatoria
+
+### ¿Por qué FormData en lugar de validar en ViewModel?
+
+| Aspecto | FormData | ViewModel |
+|---------|----------|-----------|
+| **Separación de responsabilidades** | ✅ Aísla validación UI | ❌ Mezcla validación con lógica de negocio |
+| **Reutilización** | ✅ Reutilizable en otros contextos | ❌ Acoplado al caso de uso |
+| **Testing** | ✅ Testeable independientemente | ❌ Requiere mockear toda la UI |
+| **Binding WPF** | ✅ `IDataErrorInfo` funciona de forma nativa | ❌ Requiere lógica adicional |
+
+### Flujo de Validación
+
+1. **Usuario modifica campo** → WPF invoca `IDataErrorInfo[propertyName]`
+2. **FormData valida** → Retorna mensaje de error o `null`
+3. **WPF actualiza UI** → Muestra/oculta error visual en el campo
+4. **ViewModel verifica** → Antes de `Save()`, comprueba `FormData.IsValid()`
+5. **Persistencia** → Solo si validación OK, se crea/actualiza el modelo de dominio
+
+### Ejemplo de Uso
+
+```csharp
+// En EstudianteEditViewModel
+[RelayCommand]
+private void Save()
+{
+    if (!FormData.IsValid())
+    {
+        _dialogService.ShowWarning("Por favor, corrija los errores del formulario antes de guardar.");
+        return;
+    }
+
+    var modelo = FormData.ToModel(); // FormData → Modelo de dominio
+    var result = _isNew
+        ? _personasService.Save(modelo)
+        : _personasService.Update(modelo.Id, modelo);
+
+    if (result.IsSuccess)
+        CloseAction?.Invoke(true);
+    else
+        _dialogService.ShowError(result.Error.Message);
+}
+```
+
+---
+
+## 🖼️ Validación y Gestión de Imágenes
+
+El servicio `ImageService` implementa validación completa de imágenes usando **lectura de cabeceras de archivo** (sin dependencias externas), lo que garantiza compatibilidad multiplataforma.
+
+### Validaciones Implementadas
+
+| Validación | Límite | Método |
+|-----------|--------|--------|
+| **Extensión** | `.png`, `.jpg`, `.jpeg`, `.bmp`, `.gif` | `IsValidImage()` |
+| **Tamaño** | Máximo 5 MB (configurable) | `ValidateImageSize()` |
+| **Dimensiones** | Máximo 4096×4096 px (configurable) | `ValidateImageDimensions()` |
+
+### Lectura de Cabeceras de Imagen
+
+La validación de dimensiones se implementa leyendo directamente los bytes de cabecera de cada formato, sin necesidad de `System.Drawing` ni otras dependencias:
+
+```csharp
+// PNG: width en bytes [16-19], height en [20-23] (big-endian)
+private static (int Width, int Height) ReadPngDimensions(Stream stream)
+{
+    if (stream.Length < 24) return (0, 0);
+    stream.Seek(16, SeekOrigin.Begin);
+    var buf = new byte[8];
+    stream.ReadExactly(buf, 0, 8);
+    int width  = (buf[0] << 24) | (buf[1] << 16) | (buf[2] << 8) | buf[3];
+    int height = (buf[4] << 24) | (buf[5] << 16) | (buf[6] << 8) | buf[7];
+    return (width, height);
+}
+```
+
+| Formato | Offset Width | Offset Height | Endianness |
+|---------|-------------|--------------|------------|
+| PNG | 16-19 | 20-23 | Big-endian |
+| BMP | 18-21 | 22-25 | Little-endian |
+| GIF | 6-7 | 8-9 | Little-endian |
+| JPEG | Marcador SOF | SOF+1-2 | Big-endian |
+
+### Integración en SaveImage/UpdateImage
+
+```csharp
+public Result<string, DomainError> SaveImage(string sourcePath)
+{
+    // 1. Validar existencia
+    if (!File.Exists(sourcePath))
+        return Result.Failure(..., ImageErrors.NotFound(sourcePath));
+
+    // 2. Validar extensión
+    if (!IsValidImage(sourcePath))
+        return Result.Failure(..., ImageErrors.InvalidFormat(...));
+
+    // 3. Validar tamaño (máx. 5 MB)
+    if (!ValidateImageSize(sourcePath))
+        return Result.Failure(..., ImageErrors.FileSizeTooLarge(...));
+
+    // 4. Validar dimensiones (máx. 4096×4096)
+    var dims = GetImageDimensions(sourcePath);
+    if (dims.Width > 0 && (dims.Width > 4096 || dims.Height > 4096))
+        return Result.Failure(..., ImageErrors.DimensionsTooLarge(...));
+
+    // 5. Copiar con nombre UUID
+    var newFileName = $"{Guid.NewGuid()}{extension}";
+    File.Copy(sourcePath, Path.Combine(_imagesDirectory, newFileName));
+    return Result.Success(..., newFileName);
+}
+```
+
+### Flujo en los ViewModels de Edición
+
+Los ViewModels de edición (`EstudianteEditViewModel`, `DocenteEditViewModel`) usan los métodos del servicio para validación client-side antes de llamar a `SaveImage()`:
+
+```csharp
+[RelayCommand]
+private void ChangeImage()
+{
+    var dialog = new OpenFileDialog { Filter = "Imágenes|*.jpg;*.jpeg;*.png;*.bmp;*.gif" };
+
+    if (dialog.ShowDialog() == true)
+    {
+        // Validación client-side con límites específicos de UI (2MB, 1920×1920)
+        if (!_imageService.ValidateImageSize(dialog.FileName, 2 * 1024 * 1024))
+        {
+            _dialogService.ShowWarning("La imagen no puede superar 2MB");
+            return;
+        }
+
+        if (!_imageService.ValidateImageDimensions(dialog.FileName, 1920, 1920))
+        {
+            _dialogService.ShowWarning("La imagen no puede superar 1920x1920 píxeles");
+            return;
+        }
+
+        // SaveImage añade su propia validación de seguridad (5MB, 4096×4096)
+        var result = _imageService.SaveImage(dialog.FileName);
+        if (result.IsSuccess)
+            FormData.Imagen = result.Value;
+        else
+            _dialogService.ShowError(result.Error.Message);
+    }
+}
+```
+
+---
+
+## 🐛 Problemas Encontrados y Soluciones
+
+### 1️⃣ Primary Constructors con lógica de inicialización
+
+#### ❌ Problema
+Los primary constructors de C# 12 no permiten ejecutar código directamente en el cuerpo de la clase (no existe un "constructor body"):
+
+```csharp
+// ❌ NO COMPILA - no hay lugar para poner código de inicialización
+public partial class EstudiantesViewModel(IPersonasService service) : ObservableObject
+{
+    LoadEstudiantes(); // Error: esto no tiene sintaxis válida aquí
+}
+```
+
+#### ✅ Solución
+Separar la inicialización en un método `Initialize()` que las Views llaman explícitamente:
+
+```csharp
+public partial class EstudiantesViewModel(IPersonasService service) : ObservableObject
+{
+    private readonly IPersonasService _personasService = service;
+
+    public void Initialize() => LoadEstudiantes();
+}
+
+// En la View
+var vm = App.ServiceProvider.GetRequiredService<EstudiantesViewModel>();
+vm.Initialize(); // explícito y trazable
+DataContext = vm;
+```
+
+---
+
+### 2️⃣ Proyecto de Tests incompatible con proyecto WPF
+
+#### ❌ Problema
+El proyecto de tests (`net10.0`) no podía referenciar el proyecto WPF (`net10.0-windows`):
+```
+error NU1201: Project GestionAcademica is not compatible with net10.0
+```
+
+#### ✅ Solución
+Cambiar el target del proyecto de tests a `net10.0-windows` con `EnableWindowsTargeting=true`:
+
+```xml
+<PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+</PropertyGroup>
+```
+
+---
+
+### 3️⃣ Validación de dimensiones de imagen sin `System.Drawing`
+
+#### ❌ Problema
+`System.Drawing.Common` tiene limitaciones multiplataforma en .NET 6+ y requiere instalación adicional.
+
+#### ✅ Solución
+Leer directamente los bytes de la cabecera del archivo según el formato:
+- **PNG**: bytes 16-23 contienen width y height en big-endian
+- **BMP**: bytes 18-25 contienen width y height en little-endian
+- **GIF**: bytes 6-9 contienen width y height en little-endian
+- **JPEG**: buscar marcador SOF y leer después
+
+Esto funciona en cualquier plataforma sin dependencias adicionales.
+
+---
+
+### 4️⃣ CA2022: Stream.Read puede no leer todos los bytes
+
+#### ❌ Problema
+El compilador con `TreatWarningsAsErrors=true` rechazaba el uso de `Stream.Read(byte[], int, int)` porque puede devolver menos bytes de los solicitados:
+```
+error CA2022: Avoid inexact read with 'Stream.Read(byte[], int, int)'
+```
+
+#### ✅ Solución
+Usar `Stream.ReadExactly(byte[], int, int)` disponible desde .NET 7+, que garantiza leer exactamente el número de bytes solicitado o lanzar excepción:
+
+```csharp
+// ❌ Antes
+stream.Read(buf, 0, 8);
+
+// ✅ Después
+stream.ReadExactly(buf, 0, 8);
+```
+
+---
+
+### 5️⃣ Binding de errores de validación en formularios WPF
+
+#### ❌ Problema
+Los errores de `IDataErrorInfo` no se mostraban automáticamente en los TextBox del formulario de edición.
+
+#### ✅ Solución
+Activar `ValidatesOnDataErrors=True` y `NotifyOnValidationError=True` en cada Binding:
+
+```xaml
+<TextBox Text="{Binding FormData.Nombre, 
+                        ValidatesOnDataErrors=True, 
+                        NotifyOnValidationError=True, 
+                        UpdateSourceTrigger=PropertyChanged}" />
+```
 
 ---
 
