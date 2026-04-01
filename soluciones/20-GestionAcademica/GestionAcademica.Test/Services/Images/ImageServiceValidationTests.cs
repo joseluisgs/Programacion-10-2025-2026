@@ -1,4 +1,5 @@
 using FluentAssertions;
+using GestionAcademica.Errors.Images;
 using GestionAcademica.Services.Images;
 using NUnit.Framework;
 
@@ -40,7 +41,7 @@ public class ImageServiceValidationTests
     public class ValidateImageSizeTests : ImageServiceValidationTests
     {
         [Test]
-        public void ValidateImageSize_ConArchivoPequeno_DeberiaRetornarTrue()
+        public void ValidateImageSize_ConArchivoPequeno_DeberiaRetornarSuccess()
         {
             // Arrange
             var testFile = Path.Combine(_tempDir, "pequeno.png");
@@ -50,11 +51,12 @@ public class ImageServiceValidationTests
             var result = _service.ValidateImageSize(testFile, 5_242_880);
 
             // Assert
-            result.Should().BeTrue();
+            result.IsSuccess.Should().BeTrue();
+            result.Value.Should().BeTrue();
         }
 
         [Test]
-        public void ValidateImageSize_ConArchivoGrande_DeberiaRetornarFalse()
+        public void ValidateImageSize_ConArchivoGrande_DeberiaRetornarFailure()
         {
             // Arrange
             var testFile = Path.Combine(_tempDir, "grande.png");
@@ -64,11 +66,13 @@ public class ImageServiceValidationTests
             var result = _service.ValidateImageSize(testFile, 5_242_880);
 
             // Assert
-            result.Should().BeFalse();
+            result.IsFailure.Should().BeTrue();
+            result.Error.Should().BeOfType<ImageError.FileSizeTooLarge>();
+            result.Error.Message.Should().Contain("excede el tamaño máximo permitido");
         }
 
         [Test]
-        public void ValidateImageSize_ConArchivoExactamenteAlLimite_DeberiaRetornarTrue()
+        public void ValidateImageSize_ConArchivoExactamenteAlLimite_DeberiaRetornarSuccess()
         {
             // Arrange
             var testFile = Path.Combine(_tempDir, "limite.png");
@@ -78,11 +82,11 @@ public class ImageServiceValidationTests
             var result = _service.ValidateImageSize(testFile, 5_242_880);
 
             // Assert
-            result.Should().BeTrue();
+            result.IsSuccess.Should().BeTrue();
         }
 
         [Test]
-        public void ValidateImageSize_ConArchivoUnByteEncimaDeLimite_DeberiaRetornarFalse()
+        public void ValidateImageSize_ConArchivoUnByteEncimaDeLimite_DeberiaRetornarFailure()
         {
             // Arrange
             var testFile = Path.Combine(_tempDir, "encima.png");
@@ -92,17 +96,19 @@ public class ImageServiceValidationTests
             var result = _service.ValidateImageSize(testFile, 5_242_880);
 
             // Assert
-            result.Should().BeFalse();
+            result.IsFailure.Should().BeTrue();
+            result.Error.Should().BeOfType<ImageError.FileSizeTooLarge>();
         }
 
         [Test]
-        public void ValidateImageSize_ConArchivoNoExistente_DeberiaRetornarFalse()
+        public void ValidateImageSize_ConArchivoNoExistente_DeberiaRetornarNotFound()
         {
             // Act
             var result = _service.ValidateImageSize(Path.Combine(_tempDir, "no-existe.png"));
 
             // Assert
-            result.Should().BeFalse();
+            result.IsFailure.Should().BeTrue();
+            result.Error.Should().BeOfType<ImageError.NotFound>();
         }
 
         [Test]
@@ -117,8 +123,9 @@ public class ImageServiceValidationTests
             var resultEncimaDeLimite = _service.ValidateImageSize(testFile, 100);
 
             // Assert
-            resultBajoLimite.Should().BeTrue();
-            resultEncimaDeLimite.Should().BeFalse();
+            resultBajoLimite.IsSuccess.Should().BeTrue();
+            resultEncimaDeLimite.IsFailure.Should().BeTrue();
+            resultEncimaDeLimite.Error.Should().BeOfType<ImageError.FileSizeTooLarge>();
         }
     }
 
@@ -130,17 +137,18 @@ public class ImageServiceValidationTests
     public class ValidateImageDimensionsTests : ImageServiceValidationTests
     {
         [Test]
-        public void ValidateImageDimensions_ConArchivoNoExistente_DeberiaRetornarFalse()
+        public void ValidateImageDimensions_ConArchivoNoExistente_DeberiaRetornarNotFound()
         {
             // Act
             var result = _service.ValidateImageDimensions(Path.Combine(_tempDir, "no-existe.png"));
 
             // Assert
-            result.Should().BeFalse();
+            result.IsFailure.Should().BeTrue();
+            result.Error.Should().BeOfType<ImageError.NotFound>();
         }
 
         [Test]
-        public void ValidateImageDimensions_ConPngPequeno_DeberiaRetornarTrue()
+        public void ValidateImageDimensions_ConPngPequeno_DeberiaRetornarSuccess()
         {
             // Arrange: PNG with 100x100 px header
             var testFile = Path.Combine(_tempDir, "100x100.png");
@@ -150,11 +158,11 @@ public class ImageServiceValidationTests
             var result = _service.ValidateImageDimensions(testFile, 4096, 4096);
 
             // Assert
-            result.Should().BeTrue();
+            result.IsSuccess.Should().BeTrue();
         }
 
         [Test]
-        public void ValidateImageDimensions_ConPngGrande_DeberiaRetornarFalse()
+        public void ValidateImageDimensions_ConPngGrande_DeberiaRetornarFailure()
         {
             // Arrange: PNG with 5000x5000 px header (exceeds 4096)
             var testFile = Path.Combine(_tempDir, "5000x5000.png");
@@ -164,11 +172,13 @@ public class ImageServiceValidationTests
             var result = _service.ValidateImageDimensions(testFile, 4096, 4096);
 
             // Assert
-            result.Should().BeFalse();
+            result.IsFailure.Should().BeTrue();
+            result.Error.Should().BeOfType<ImageError.DimensionsTooLarge>();
+            result.Error.Message.Should().Contain("excede las dimensiones máximas");
         }
 
         [Test]
-        public void ValidateImageDimensions_ConPngExactamenteAlLimite_DeberiaRetornarTrue()
+        public void ValidateImageDimensions_ConPngExactamenteAlLimite_DeberiaRetornarSuccess()
         {
             // Arrange: PNG with exactly 4096x4096 px
             var testFile = Path.Combine(_tempDir, "4096x4096.png");
@@ -178,11 +188,11 @@ public class ImageServiceValidationTests
             var result = _service.ValidateImageDimensions(testFile, 4096, 4096);
 
             // Assert
-            result.Should().BeTrue();
+            result.IsSuccess.Should().BeTrue();
         }
 
         [Test]
-        public void ValidateImageDimensions_ConBmpPequeno_DeberiaRetornarTrue()
+        public void ValidateImageDimensions_ConBmpPequeno_DeberiaRetornarSuccess()
         {
             // Arrange: BMP with 200x150 px
             var testFile = Path.Combine(_tempDir, "200x150.bmp");
@@ -192,11 +202,11 @@ public class ImageServiceValidationTests
             var result = _service.ValidateImageDimensions(testFile, 4096, 4096);
 
             // Assert
-            result.Should().BeTrue();
+            result.IsSuccess.Should().BeTrue();
         }
 
         [Test]
-        public void ValidateImageDimensions_ConGifPequeno_DeberiaRetornarTrue()
+        public void ValidateImageDimensions_ConGifPequeno_DeberiaRetornarSuccess()
         {
             // Arrange: GIF with 320x240 px
             var testFile = Path.Combine(_tempDir, "320x240.gif");
@@ -206,11 +216,11 @@ public class ImageServiceValidationTests
             var result = _service.ValidateImageDimensions(testFile, 4096, 4096);
 
             // Assert
-            result.Should().BeTrue();
+            result.IsSuccess.Should().BeTrue();
         }
 
         [Test]
-        public void ValidateImageDimensions_ConArchivoPequenioSinCabecera_DeberiaRetornarTrue()
+        public void ValidateImageDimensions_ConArchivoPequenioSinCabecera_DeberiaRetornarSuccess()
         {
             // Arrange: file too small to contain a valid header
             // ValidateImageDimensions is lenient when dimensions cannot be determined
@@ -220,8 +230,8 @@ public class ImageServiceValidationTests
             // Act
             var result = _service.ValidateImageDimensions(testFile, 4096, 4096);
 
-            // Assert: lenient - returns true when dimensions cannot be determined
-            result.Should().BeTrue();
+            // Assert: lenient - returns success when dimensions cannot be determined
+            result.IsSuccess.Should().BeTrue();
         }
 
         [Test]
@@ -236,8 +246,9 @@ public class ImageServiceValidationTests
             var resultEncimaDeLimite = _service.ValidateImageDimensions(testFile, 400, 400);
 
             // Assert
-            resultBajoLimite.Should().BeTrue();
-            resultEncimaDeLimite.Should().BeFalse();
+            resultBajoLimite.IsSuccess.Should().BeTrue();
+            resultEncimaDeLimite.IsFailure.Should().BeTrue();
+            resultEncimaDeLimite.Error.Should().BeOfType<ImageError.DimensionsTooLarge>();
         }
     }
 
@@ -260,7 +271,7 @@ public class ImageServiceValidationTests
 
             // Assert
             result.IsFailure.Should().BeTrue();
-            result.Error.Should().BeOfType<GestionAcademica.Errors.Images.ImageError.FileSizeTooLarge>();
+            result.Error.Should().BeOfType<ImageError.FileSizeTooLarge>();
             result.Error.Message.Should().Contain("grande.png");
         }
 
@@ -276,7 +287,7 @@ public class ImageServiceValidationTests
 
             // Assert
             result.IsFailure.Should().BeTrue();
-            result.Error.Should().BeOfType<GestionAcademica.Errors.Images.ImageError.DimensionsTooLarge>();
+            result.Error.Should().BeOfType<ImageError.DimensionsTooLarge>();
             result.Error.Message.Should().Contain("5000");
         }
     }
@@ -382,3 +393,4 @@ public class ImageServiceValidationTests
         return header;
     }
 }
+

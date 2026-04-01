@@ -27,6 +27,9 @@ public abstract record ImageError(string Message) : DomainError(Message)
 
     public sealed record DimensionsTooLarge(string FileName, int Width, int Height, int MaxWidth, int MaxHeight)
         : ImageError($"La imagen {FileName} ({Width}x{Height}) excede las dimensiones máximas permitidas ({MaxWidth}x{MaxHeight})");
+
+    public sealed record ValidationError(string Details)
+        : ImageError($"Error en la validación de la imagen: {Details}");
 }
 
 /// <summary>
@@ -41,4 +44,5 @@ public static class ImageErrors
     public static DomainError AccessError(string details) => new ImageError.AccessError(details);
     public static DomainError FileSizeTooLarge(string fileName, long actualSize, long maxSize) => new ImageError.FileSizeTooLarge(fileName, actualSize, maxSize);
     public static DomainError DimensionsTooLarge(string fileName, int width, int height, int maxWidth, int maxHeight) => new ImageError.DimensionsTooLarge(fileName, width, height, maxWidth, maxHeight);
+    public static DomainError ValidationError(string details) => new ImageError.ValidationError(details);
 }

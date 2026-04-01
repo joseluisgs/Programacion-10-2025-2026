@@ -330,4 +330,54 @@ public class ImageServiceTests
             resultado.Error.Should().BeOfType<ImageError.NotFound>();
         }
     }
+
+    [TestFixture]
+    public class ValidacionesIntegradas : ImageServiceTests
+    {
+        [Test]
+        public void SaveImage_ConImagenValidaSinExcederTamanio_DeberiaGuardar()
+        {
+            // Arrange
+            var testPath = Path.Combine(_tempDir, "test.png");
+            File.WriteAllBytes(testPath, new byte[] { 0 });
+
+            // Act
+            var result = _service.SaveImage(testPath);
+
+            // Assert
+            result.IsSuccess.Should().BeTrue();
+        }
+
+        [Test]
+        public void SaveImage_ConImagenValidaSinExcederDimensiones_DeberiaGuardar()
+        {
+            // Arrange
+            var testPath = Path.Combine(_tempDir, "test.png");
+            File.WriteAllBytes(testPath, new byte[] { 0 });
+
+            // Act
+            var result = _service.SaveImage(testPath);
+
+            // Assert
+            result.IsSuccess.Should().BeTrue();
+        }
+
+        [Test]
+        public void UpdateImage_ConImagenValidaQuePassaTodasLasValidaciones_DeberiaActualizar()
+        {
+            // Arrange
+            var existingFile = "existing.png";
+            var existingPath = Path.Combine(_imagesDir, existingFile);
+            File.WriteAllBytes(existingPath, new byte[] { 0 });
+
+            var newImage = Path.Combine(_tempDir, "new.png");
+            File.WriteAllBytes(newImage, new byte[] { 1, 2, 3 });
+
+            // Act
+            var result = _service.UpdateImage(newImage, existingFile);
+
+            // Assert
+            result.IsSuccess.Should().BeTrue();
+        }
+    }
 }

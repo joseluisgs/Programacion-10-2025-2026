@@ -33,28 +33,24 @@ public interface IImageService
     bool IsValidImage(string sourcePath);
 
     /// <summary>
-    /// Valida el tamaño del archivo de imagen.
+    /// Valida que el tamaño del archivo no exceda el límite (5 MB por defecto).
     /// </summary>
     /// <param name="sourcePath">Ruta del archivo de imagen.</param>
     /// <param name="maxSizeInBytes">Tamaño máximo en bytes (por defecto 5 MB).</param>
-    /// <returns>True si el archivo existe y su tamaño es menor o igual al máximo permitido.</returns>
-    bool ValidateImageSize(string sourcePath, long maxSizeInBytes = 5_242_880);
+    /// <returns>Success si el archivo existe y su tamaño es menor o igual al máximo permitido; Failure con el error correspondiente en caso contrario.</returns>
+    Result<bool, DomainError> ValidateImageSize(string sourcePath, long maxSizeInBytes = 5_242_880);
 
     /// <summary>
-    /// Valida las dimensiones de la imagen.
+    /// Valida que las dimensiones de la imagen no excedan el límite (4096×4096 px por defecto).
     /// </summary>
     /// <remarks>
     /// La validación se implementa leyendo la cabecera del archivo (PNG, BMP, GIF, JPEG).
     /// Si las dimensiones no pueden determinarse (archivo truncado, formato desconocido, etc.),
-    /// el método retorna <c>true</c> (comportamiento leniente). En ese caso corresponde al
-    /// llamador decidir si procede con la imagen.
+    /// el método retorna Success (comportamiento leniente).
     /// </remarks>
     /// <param name="sourcePath">Ruta del archivo de imagen.</param>
     /// <param name="maxWidth">Ancho máximo en píxeles (por defecto 4096).</param>
     /// <param name="maxHeight">Alto máximo en píxeles (por defecto 4096).</param>
-    /// <returns>
-    /// <c>true</c> si las dimensiones son válidas o no se pueden determinar; 
-    /// <c>false</c> si superan los límites indicados.
-    /// </returns>
-    bool ValidateImageDimensions(string sourcePath, int maxWidth = 4096, int maxHeight = 4096);
+    /// <returns>Success si las dimensiones son válidas o no se pueden determinar; Failure con el error correspondiente si superan los límites.</returns>
+    Result<bool, DomainError> ValidateImageDimensions(string sourcePath, int maxWidth = 4096, int maxHeight = 4096);
 }
