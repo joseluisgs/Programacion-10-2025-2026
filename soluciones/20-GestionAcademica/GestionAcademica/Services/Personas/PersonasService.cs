@@ -164,6 +164,42 @@ public class PersonasService(
         return repository.DeleteAll();
     }
 
+    public int CountEstudiantes(bool includeDeleted = false)
+    {
+        return repository.CountEstudiantes(includeDeleted);
+    }
+
+    public int CountDocentes(bool includeDeleted = false)
+    {
+        return repository.CountDocentes(includeDeleted);
+    }
+
+    public int CountAprobados(double notaCorte, bool includeDeleted = false)
+    {
+        return repository.GetEstudiantes(1, int.MaxValue, includeDeleted)
+            .Count(e => e.Calificacion >= notaCorte);
+    }
+
+    public int CountSuspensos(double notaCorte, bool includeDeleted = false)
+    {
+        return repository.GetEstudiantes(1, int.MaxValue, includeDeleted)
+            .Count(e => e.Calificacion < notaCorte);
+    }
+
+    public Dictionary<Ciclo, int> GetEstudiantesPorCiclo(bool includeDeleted = false)
+    {
+        return repository.GetEstudiantes(1, int.MaxValue, includeDeleted)
+            .GroupBy(e => e.Ciclo)
+            .ToDictionary(g => g.Key, g => g.Count());
+    }
+
+    public Dictionary<Ciclo, int> GetDocentesPorCiclo(bool includeDeleted = false)
+    {
+        return repository.GetDocentes(1, int.MaxValue, includeDeleted)
+            .GroupBy(d => d.Ciclo)
+            .ToDictionary(g => g.Key, g => g.Count());
+    }
+
     private Result<Persona, DomainError> ValidarPersona(Persona persona)
     {
         return persona switch

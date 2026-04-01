@@ -1,8 +1,6 @@
 using System;
-using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using GestionAcademica.Models.Personas;
 using GestionAcademica.Models.Academia;
 using GestionAcademica.Services.Personas;
 using Serilog;
@@ -48,35 +46,45 @@ public partial class DashboardViewModel : ObservableObject
     {
         try
         {
-            var todasPersonas = _personasService.GetAll().ToList();
-            var estudiantes = todasPersonas.OfType<Estudiante>().ToList();
-            var docentes = todasPersonas.OfType<Docente>().ToList();
+            _logger.Information("📊 Cargando estadísticas del dashboard...");
 
-            TotalEstudiantes = estudiantes.Count;
-            TotalDocentes = docentes.Count;
+            // Usar métodos de conteo específicos en lugar de GetAll()
+            TotalEstudiantes = _personasService.CountEstudiantes(false);
+            TotalDocentes = _personasService.CountDocentes(false);
+
+            _logger.Information($"Total estudiantes: {TotalEstudiantes}, Total docentes: {TotalDocentes}");
 
             var notaCorte = GestionAcademica.Config.AppConfig.NotaAprobado;
-            var aprobados = estudiantes.Count(e => e.Calificacion >= notaCorte);
-            var suspensos = estudiantes.Count(e => e.Calificacion < notaCorte);
+            var aprobados = _personasService.CountAprobados(notaCorte, false);
+            var suspensos = _personasService.CountSuspensos(notaCorte, false);
 
-            if (estudiantes.Count > 0)
+            _logger.Information($"Aprobados: {aprobados}, Suspensos: {suspensos}");
+
+            if (TotalEstudiantes > 0)
             {
-                PorcentajeAprobados = Math.Round((double)aprobados / estudiantes.Count * 100, 1);
-                PorcentajeSuspensos = Math.Round((double)suspensos / estudiantes.Count * 100, 1);
+                PorcentajeAprobados = Math.Round((double)aprobados / TotalEstudiantes * 100, 1);
+                PorcentajeSuspensos = Math.Round((double)suspensos / TotalEstudiantes * 100, 1);
+            }
+            else
+            {
+                PorcentajeAprobados = 0;
+                PorcentajeSuspensos = 0;
             }
 
-            TotalDAM = estudiantes.Count(e => e.Ciclo == Ciclo.DAM) + docentes.Count(d => d.Ciclo == Ciclo.DAM);
-            TotalDAW = estudiantes.Count(e => e.Ciclo == Ciclo.DAW) + docentes.Count(d => d.Ciclo == Ciclo.DAW);
-            TotalASIR = estudiantes.Count(e => e.Ciclo == Ciclo.ASIR) + docentes.Count(d => d.Ciclo == Ciclo.ASIR);
+            var estudiantesPorCiclo = _personasService.GetEstudiantesPorCiclo(false);
+            var docentesPorCiclo = _personasService.GetDocentesPorCiclo(false);
 
-            MensajeEstado = "Datos cargados correctamente";
-            
-            _logger.Information("📊 Dashboard cargado");
+            TotalDAM = estudiantesPorCiclo.GetValueOrDefault(Ciclo.DAM) + docentesPorCiclo.GetValueOrDefault(Ciclo.DAM);
+            TotalDAW = estudiantesPorCiclo.GetValueOrDefault(Ciclo.DAW) + docentesPorCiclo.GetValueOrDefault(Ciclo.DAW);
+            TotalASIR = estudiantesPorCiclo.GetValueOrDefault(Ciclo.ASIR) + docentesPorCiclo.GetValueOrDefault(Ciclo.ASIR);
+
+            MensajeEstado = $"📊 Datos actualizados - Estudiantes: {TotalEstudiantes}, Docentes: {TotalDocentes}";
+            _logger.Information("✅ Dashboard cargado correctamente con conteos precisos");
         }
         catch (Exception ex)
         {
-            _logger.Error(ex, "❌ Error al cargar estadísticas");
-            MensajeEstado = "Error al cargar datos";
+            _logger.Error(ex, "❌ Error al cargar estadísticas del dashboard");
+            MensajeEstado = "❌ Error al cargar datos";
         }
     }
 

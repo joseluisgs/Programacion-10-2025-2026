@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "dgSpecHash": "+OLKYQyrpG8=",
+  "success": true,
+  "projectFilePath": "/home/runner/work/Programacion-10-2025-2026/Programacion-10-2025-2026/soluciones/19-StarWars/StarWars/StarWars.csproj",
+  "expectedPackageFiles": [
+    "/tmp/codeql-scratch-44285bbe39c9e149/dbs/csharp/working/packages/communitytoolkit.mvvm/8.4.1/communitytoolkit.mvvm.8.4.1.nupkg.sha512",
+    "/tmp/codeql-scratch-44285bbe39c9e149/dbs/csharp/working/packages/csharpfunctionalextensions/3.0.0/csharpfunctionalextensions.3.0.0.nupkg.sha512",
+    "/tmp/codeql-scratch-44285bbe39c9e149/dbs/csharp/working/packages/microsoft.extensions.dependencyinjection/10.0.0/microsoft.extensions.dependencyinjection.10.0.0.nupkg.sha512",
+    "/tmp/codeql-scratch-44285bbe39c9e149/dbs/csharp/working/packages/microsoft.extensions.dependencyinjection.abstractions/10.0.0/microsoft.extensions.dependencyinjection.abstractions.10.0.0.nupkg.sha512",
+    "/tmp/codeql-scratch-44285bbe39c9e149/dbs/csharp/working/packages/serilog/4.0.0/serilog.4.0.0.nupkg.sha512",
+    "/tmp/codeql-scratch-44285bbe39c9e149/dbs/csharp/working/packages/serilog.sinks.console/6.0.0/serilog.sinks.console.6.0.0.nupkg.sha512",
+    "/tmp/codeql-scratch-44285bbe39c9e149/dbs/csharp/working/packages/serilog.sinks.file/6.0.0/serilog.sinks.file.6.0.0.nupkg.sha512",
+    "/tmp/codeql-scratch-44285bbe39c9e149/dbs/csharp/working/packages/microsoft.netcore.app.ref/10.0.5/microsoft.netcore.app.ref.10.0.5.nupkg.sha512",
+    "/tmp/codeql-scratch-44285bbe39c9e149/dbs/csharp/working/packages/microsoft.windowsdesktop.app.ref/10.0.5/microsoft.windowsdesktop.app.ref.10.0.5.nupkg.sha512",
+    "/tmp/codeql-scratch-44285bbe39c9e149/dbs/csharp/working/packages/microsoft.aspnetcore.app.ref/10.0.5/microsoft.aspnetcore.app.ref.10.0.5.nupkg.sha512",
+    "/tmp/codeql-scratch-44285bbe39c9e149/dbs/csharp/working/packages/microsoft.netcore.app.host.linux-x64/10.0.5/microsoft.netcore.app.host.linux-x64.10.0.5.nupkg.sha512"
+  ],
+  "logs": []
+}

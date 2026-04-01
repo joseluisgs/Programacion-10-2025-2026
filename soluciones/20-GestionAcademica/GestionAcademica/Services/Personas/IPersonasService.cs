@@ -1,6 +1,7 @@
 using CSharpFunctionalExtensions;
 using GestionAcademica.Enums;
 using GestionAcademica.Errors.Common;
+using GestionAcademica.Models.Academia;
 using GestionAcademica.Models.Personas;
 
 namespace GestionAcademica.Services.Personas;
@@ -37,4 +38,12 @@ public interface IPersonasService
     Result<Persona, DomainError> Update(int id, Persona persona);
     Result<Persona, DomainError> Delete(int id, bool isLogical = true);
     bool DeleteAll();
+
+    // Métodos de conteo para estadísticas del Dashboard
+    int CountEstudiantes(bool includeDeleted = false);
+    int CountDocentes(bool includeDeleted = false);
+    int CountAprobados(double notaCorte, bool includeDeleted = false);
+    int CountSuspensos(double notaCorte, bool includeDeleted = false);
+    Dictionary<Ciclo, int> GetEstudiantesPorCiclo(bool includeDeleted = false);
+    Dictionary<Ciclo, int> GetDocentesPorCiclo(bool includeDeleted = false);
 }
