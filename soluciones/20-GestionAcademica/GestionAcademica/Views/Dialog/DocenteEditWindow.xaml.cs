@@ -6,22 +6,16 @@ namespace GestionAcademica.Views.Dialog;
 
 public partial class DocenteEditWindow : Window
 {
-    public DocenteEditWindow()
+    public DocenteEditWindow(DocenteEditViewModel viewModel)
     {
+        DataContext = viewModel;
         InitializeComponent();
-    }
 
-    protected override void OnContentRendered(EventArgs e)
-    {
-        base.OnContentRendered(e);
-        if (DataContext is DocenteEditViewModel vm)
+        viewModel.CloseAction = result =>
         {
-            vm.CloseAction = result =>
-            {
-                DialogResult = result;
-                Close();
-            };
-        }
+            DialogResult = result;
+            Close();
+        };
     }
 
     private void OnPhotoClick(object sender, MouseButtonEventArgs e)

@@ -134,9 +134,8 @@ public partial class EstudiantesViewModel : ObservableObject
         };
 
         var editViewModel = new EstudianteEditViewModel(newEstudiante, _personasService, _imageService, _dialogService, isNew: true);
-        var editWindow = new EstudianteEditWindow
+        var editWindow = new EstudianteEditWindow(editViewModel)
         {
-            DataContext = editViewModel,
             Owner = Application.Current.MainWindow
         };
 
@@ -156,9 +155,8 @@ public partial class EstudiantesViewModel : ObservableObject
         var editEstudiante = SelectedEstudiante.Clone();
 
         var editViewModel = new EstudianteEditViewModel(editEstudiante, _personasService, _imageService, _dialogService, isNew: false);
-        var editWindow = new EstudianteEditWindow
+        var editWindow = new EstudianteEditWindow(editViewModel)
         {
-            DataContext = editViewModel,
             Owner = Application.Current.MainWindow
         };
 

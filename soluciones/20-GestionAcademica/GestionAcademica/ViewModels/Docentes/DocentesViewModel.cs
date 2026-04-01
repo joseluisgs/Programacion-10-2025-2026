@@ -134,9 +134,8 @@ public partial class DocentesViewModel : ObservableObject
         };
 
         var editViewModel = new DocenteEditViewModel(newDocente, _personasService, _imageService, _dialogService, isNew: true);
-        var editWindow = new DocenteEditWindow
+        var editWindow = new DocenteEditWindow(editViewModel)
         {
-            DataContext = editViewModel,
             Owner = Application.Current.MainWindow
         };
 
@@ -156,9 +155,8 @@ public partial class DocentesViewModel : ObservableObject
         var editDocente = SelectedDocente.Clone();
 
         var editViewModel = new DocenteEditViewModel(editDocente, _personasService, _imageService, _dialogService, isNew: false);
-        var editWindow = new DocenteEditWindow
+        var editWindow = new DocenteEditWindow(editViewModel)
         {
-            DataContext = editViewModel,
             Owner = Application.Current.MainWindow
         };
 
