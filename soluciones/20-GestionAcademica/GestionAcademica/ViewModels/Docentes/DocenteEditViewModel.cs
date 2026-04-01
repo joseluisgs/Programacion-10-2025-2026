@@ -1,4 +1,3 @@
-using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CSharpFunctionalExtensions;
@@ -6,6 +5,7 @@ using GestionAcademica.Models.Academia;
 using GestionAcademica.Models.Personas;
 using GestionAcademica.Services.Images;
 using GestionAcademica.Services.Personas;
+using GestionAcademica.Services.Dialogs;
 using GestionAcademica.Errors.Common;
 using GestionAcademica.ViewModels.Forms;
 using GestionAcademica.Mappers.Personas;
@@ -21,6 +21,7 @@ public partial class DocenteEditViewModel : ObservableObject
 {
     private readonly IPersonasService _personasService;
     private readonly IImageService _imageService;
+    private readonly IDialogService _dialogService;
     private readonly bool _isNew;
     private readonly ILogger _logger = Log.ForContext<DocenteEditViewModel>();
 
@@ -41,11 +42,13 @@ public partial class DocenteEditViewModel : ObservableObject
     /// <param name="docente">Modelo de dominio de origen (puede ser vacío para creación).</param>
     /// <param name="personasService">Servicio de persistencia de personas.</param>
     /// <param name="imageService">Servicio de gestión de imágenes.</param>
+    /// <param name="dialogService">Servicio de diálogos desacoplado de WPF.</param>
     /// <param name="isNew">True si se está creando un nuevo registro; False si se edita uno existente.</param>
-    public DocenteEditViewModel(Docente docente, IPersonasService personasService, IImageService imageService, bool isNew)
+    public DocenteEditViewModel(Docente docente, IPersonasService personasService, IImageService imageService, IDialogService dialogService, bool isNew)
     {
         _personasService = personasService;
         _imageService = imageService;
+        _dialogService = dialogService;
         _isNew = isNew;
         _formData = docente.ToFormData();
         WindowTitle = isNew ? "Nuevo Docente" : "Editar Docente";
@@ -59,7 +62,7 @@ public partial class DocenteEditViewModel : ObservableObject
     {
         if (!FormData.IsValid())
         {
-            MessageBox.Show("Por favor, corrija los errores del formulario antes de guardar.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+            _dialogService.ShowWarning("Por favor, corrija los errores del formulario antes de guardar.");
             return;
         }
 
@@ -77,13 +80,13 @@ public partial class DocenteEditViewModel : ObservableObject
             }
             else
             {
-                MessageBox.Show(result.Error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                _dialogService.ShowError(result.Error.Message);
             }
         }
         catch (Exception ex)
         {
             _logger.Error(ex, "Error al guardar docente");
-            MessageBox.Show("Error al guardar el docente.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            _dialogService.ShowError("Error al guardar el docente.");
         }
     }
 
@@ -94,7 +97,7 @@ public partial class DocenteEditViewModel : ObservableObject
         CloseAction?.Invoke(false);
     }
 
-    /// <summary>Abre el selector de archivo y actualiza la imagen del FormData.</summary>
+    /// <summary>Abre el selector de archivo, valida la imagen y actualiza el FormData.</summary>
     [RelayCommand]
     private void ChangeImage()
     {
@@ -109,6 +112,34 @@ public partial class DocenteEditViewModel : ObservableObject
         if (dialog.ShowDialog() == true)
         {
             _logger.Information("Usuario seleccionó imagen: {FilePath}", dialog.FileName);
+
+            try
+            {
+                var fileInfo = new System.IO.FileInfo(dialog.FileName);
+                if (fileInfo.Length > 2 * 1024 * 1024)
+                {
+                    _dialogService.ShowWarning("La imagen no puede superar 2MB");
+                    return;
+                }
+
+                var decoder = System.Windows.Media.Imaging.BitmapDecoder.Create(
+                    new Uri(dialog.FileName, UriKind.Absolute),
+                    System.Windows.Media.Imaging.BitmapCreateOptions.DelayCreation,
+                    System.Windows.Media.Imaging.BitmapCacheOption.None);
+                var frame = decoder.Frames[0];
+                if (frame.PixelWidth > 1920 || frame.PixelHeight > 1920)
+                {
+                    _dialogService.ShowWarning("La imagen no puede superar 1920x1920 píxeles");
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error al validar imagen: {FilePath}", dialog.FileName);
+                _dialogService.ShowError("No se pudo leer la imagen seleccionada");
+                return;
+            }
+
             var imageResult = _imageService.SaveImage(dialog.FileName);
             if (imageResult.IsSuccess)
             {
@@ -118,11 +149,7 @@ public partial class DocenteEditViewModel : ObservableObject
             else
             {
                 _logger.Error("Error al guardar imagen: {Error}", imageResult.Error.Message);
-                MessageBox.Show(
-                    $"Error al guardar la imagen: {imageResult.Error.Message}",
-                    "Error",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                _dialogService.ShowError($"Error al guardar la imagen: {imageResult.Error.Message}");
             }
         }
         else

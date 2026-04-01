@@ -8,6 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GestionAcademica.Services.Personas;
 using GestionAcademica.Services.Backup;
+using GestionAcademica.Services.Dialogs;
 using GestionAcademica.Services.Report;
 using GestionAcademica.Services.ImportExport;
 using Serilog;
@@ -27,6 +28,7 @@ public partial class MainViewModel : ObservableObject
     private readonly IBackupService _backupService;
     private readonly IReportService _reportService;
     private readonly IImportExportService _importExportService;
+    private readonly IDialogService _dialogService;
     private readonly ILogger _logger = Log.ForContext<MainViewModel>();
 
     // ====================================================================
@@ -49,12 +51,14 @@ public partial class MainViewModel : ObservableObject
         IPersonasService personasService,
         IBackupService backupService,
         IReportService reportService,
-        IImportExportService importExportService)
+        IImportExportService importExportService,
+        IDialogService dialogService)
     {
         _personasService = personasService;
         _backupService = backupService;
         _reportService = reportService;
         _importExportService = importExportService;
+        _dialogService = dialogService;
         
         _logger.Information("✅ MainViewModel inicializado");
     }
@@ -125,13 +129,7 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void Salir()
     {
-        var result = MessageBox.Show(
-            "¿Estás seguro de que quieres salir?",
-            "Confirmar salida",
-            MessageBoxButton.YesNo,
-            MessageBoxImage.Question);
-
-        if (result == MessageBoxResult.Yes)
+        if (_dialogService.ShowConfirmation("¿Estás seguro de que quieres salir?", "Confirmar salida"))
         {
             _logger.Information("👋 Usuario cerró la aplicación");
             Application.Current.Shutdown();

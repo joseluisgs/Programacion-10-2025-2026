@@ -1,15 +1,18 @@
 using System.Collections.ObjectModel;
-using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using GestionAcademica.Messages;
 using GestionAcademica.Models.Academia;
 using GestionAcademica.Models.Personas;
 using GestionAcademica.Services.Personas;
 using GestionAcademica.Services.Images;
+using GestionAcademica.Services.Dialogs;
 using GestionAcademica.Enums;
 using GestionAcademica.Views.Dialog;
 using GestionAcademica.Extensions;
 using Serilog;
+using System.Windows;
 
 namespace GestionAcademica.ViewModels.Estudiantes;
 
@@ -17,6 +20,7 @@ public partial class EstudiantesViewModel : ObservableObject
 {
     private readonly IPersonasService _personasService;
     private readonly IImageService _imageService;
+    private readonly IDialogService _dialogService;
     private readonly ILogger _logger = Log.ForContext<EstudiantesViewModel>();
 
     private List<Estudiante> _todosLosEstudiantes = new();
@@ -36,20 +40,31 @@ public partial class EstudiantesViewModel : ObservableObject
     [ObservableProperty]
     private string _statusMessage = "";
 
-    public EstudiantesViewModel(IPersonasService personasService, IImageService imageService)
+    [ObservableProperty]
+    private bool _isLoading;
+
+    public EstudiantesViewModel(IPersonasService personasService, IImageService imageService, IDialogService dialogService)
     {
         _personasService = personasService;
         _imageService = imageService;
+        _dialogService = dialogService;
         LoadEstudiantes();
     }
 
     partial void OnSearchTextChanged(string value) => FilterEstudiantes();
 
+    partial void OnSelectedEstudianteChanged(Estudiante? value)
+    {
+        EditCommand.NotifyCanExecuteChanged();
+        DeleteCommand.NotifyCanExecuteChanged();
+    }
+
     private void FilterEstudiantes()
     {
         if (string.IsNullOrWhiteSpace(SearchText))
         {
-            Estudiantes = new ObservableCollection<Estudiante>(_todosLosEstudiantes);
+            var listaOrdenada = AplicarOrdenamiento(_todosLosEstudiantes, OrdenActual);
+            Estudiantes = new ObservableCollection<Estudiante>(listaOrdenada);
             StatusMessage = $"Total: {Estudiantes.Count} estudiantes";
             return;
         }
@@ -60,23 +75,43 @@ public partial class EstudiantesViewModel : ObservableObject
             e.Dni.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
             e.Email.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
 
-        Estudiantes = new ObservableCollection<Estudiante>(filtered);
+        var listaFiltradaOrdenada = AplicarOrdenamiento(filtered, OrdenActual);
+        Estudiantes = new ObservableCollection<Estudiante>(listaFiltradaOrdenada);
         StatusMessage = $"Encontrados: {Estudiantes.Count} estudiantes";
+    }
+
+    private IEnumerable<Estudiante> AplicarOrdenamiento(IEnumerable<Estudiante> lista, TipoOrdenamiento orden)
+    {
+        return orden switch
+        {
+            TipoOrdenamiento.Dni => lista.OrderBy(e => e.Dni),
+            TipoOrdenamiento.Nombre => lista.OrderBy(e => e.Nombre),
+            TipoOrdenamiento.Apellidos => lista.OrderBy(e => e.Apellidos),
+            TipoOrdenamiento.Nota => lista.OrderByDescending(e => e.Calificacion),
+            _ => lista.OrderBy(e => e.Id)
+        };
     }
 
     private void LoadEstudiantes()
     {
+        IsLoading = true;
+        StatusMessage = "Cargando estudiantes...";
+
         try
         {
-            var result = _personasService.GetEstudiantesOrderBy(OrdenActual);
+            var result = _personasService.GetEstudiantesOrderBy(OrdenActual, 1, int.MaxValue, false);
             _todosLosEstudiantes = result.ToList();
-            Estudiantes = new ObservableCollection<Estudiante>(_todosLosEstudiantes);
-            StatusMessage = $"Total: {Estudiantes.Count} estudiantes";
+            FilterEstudiantes();
         }
         catch (Exception ex)
         {
             _logger.Error(ex, "Error al cargar estudiantes");
             StatusMessage = "Error al cargar";
+            _dialogService.ShowError("Error al cargar los estudiantes");
+        }
+        finally
+        {
+            IsLoading = false;
         }
     }
 
@@ -95,7 +130,7 @@ public partial class EstudiantesViewModel : ObservableObject
             Calificacion = 5.0
         };
 
-        var editViewModel = new EstudianteEditViewModel(newEstudiante, _personasService, _imageService, isNew: true);
+        var editViewModel = new EstudianteEditViewModel(newEstudiante, _personasService, _imageService, _dialogService, isNew: true);
         var editWindow = new EstudianteEditWindow
         {
             DataContext = editViewModel,
@@ -106,17 +141,18 @@ public partial class EstudiantesViewModel : ObservableObject
         {
             LoadEstudiantes();
             StatusMessage = "Estudiante creado";
+            WeakReferenceMessenger.Default.Send(new PersonaCambiadaMessage());
         }
     }
 
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(CanEdit))]
     private void Edit()
     {
         if (SelectedEstudiante == null) return;
 
         var editEstudiante = SelectedEstudiante.Clone();
 
-        var editViewModel = new EstudianteEditViewModel(editEstudiante, _personasService, _imageService, isNew: false);
+        var editViewModel = new EstudianteEditViewModel(editEstudiante, _personasService, _imageService, _dialogService, isNew: false);
         var editWindow = new EstudianteEditWindow
         {
             DataContext = editViewModel,
@@ -127,34 +163,43 @@ public partial class EstudiantesViewModel : ObservableObject
         {
             LoadEstudiantes();
             StatusMessage = "Estudiante actualizado";
+            WeakReferenceMessenger.Default.Send(new PersonaCambiadaMessage());
         }
     }
 
-    [RelayCommand]
+    private bool CanEdit() => SelectedEstudiante != null;
+
+    [RelayCommand(CanExecute = nameof(CanDelete))]
     private void Delete()
     {
         if (SelectedEstudiante == null) return;
 
-        var result = MessageBox.Show(
-            $"¿Eliminar a {SelectedEstudiante.NombreCompleto}?",
-            "Confirmar",
-            MessageBoxButton.YesNo,
-            MessageBoxImage.Question);
+        if (!_dialogService.ShowConfirmation($"¿Eliminar a {SelectedEstudiante.NombreCompleto}?"))
+            return;
 
-        if (result == MessageBoxResult.Yes)
+        var deleteResult = _personasService.Delete(SelectedEstudiante.Id);
+        if (deleteResult.IsSuccess)
         {
-            var deleteResult = _personasService.Delete(SelectedEstudiante.Id);
-            if (deleteResult.IsSuccess)
+            if (!string.IsNullOrWhiteSpace(SearchText))
+            {
+                _todosLosEstudiantes.Remove(SelectedEstudiante);
+                Estudiantes.Remove(SelectedEstudiante);
+                StatusMessage = $"Estudiante eliminado - Encontrados: {Estudiantes.Count}";
+            }
+            else
             {
                 LoadEstudiantes();
                 StatusMessage = "Estudiante eliminado";
             }
-            else
-            {
-                MessageBox.Show(deleteResult.Error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            WeakReferenceMessenger.Default.Send(new PersonaCambiadaMessage());
+        }
+        else
+        {
+            _dialogService.ShowError(deleteResult.Error.Message);
         }
     }
+
+    private bool CanDelete() => SelectedEstudiante != null;
 
     [RelayCommand]
     private void Load()
@@ -166,6 +211,6 @@ public partial class EstudiantesViewModel : ObservableObject
     private void OrderBy(TipoOrdenamiento orden)
     {
         OrdenActual = orden;
-        LoadEstudiantes();
+        FilterEstudiantes();
     }
 }

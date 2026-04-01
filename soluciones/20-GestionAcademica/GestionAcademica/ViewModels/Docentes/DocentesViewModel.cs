@@ -1,15 +1,18 @@
 using System.Collections.ObjectModel;
-using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using GestionAcademica.Messages;
 using GestionAcademica.Models.Academia;
 using GestionAcademica.Models.Personas;
 using GestionAcademica.Services.Personas;
 using GestionAcademica.Services.Images;
+using GestionAcademica.Services.Dialogs;
 using GestionAcademica.Enums;
 using GestionAcademica.Views.Dialog;
 using GestionAcademica.Extensions;
 using Serilog;
+using System.Windows;
 
 namespace GestionAcademica.ViewModels.Docentes;
 
@@ -17,6 +20,7 @@ public partial class DocentesViewModel : ObservableObject
 {
     private readonly IPersonasService _personasService;
     private readonly IImageService _imageService;
+    private readonly IDialogService _dialogService;
     private readonly ILogger _logger = Log.ForContext<DocentesViewModel>();
 
     private List<Docente> _todosLosDocentes = new();
@@ -36,20 +40,31 @@ public partial class DocentesViewModel : ObservableObject
     [ObservableProperty]
     private string _statusMessage = "";
 
-    public DocentesViewModel(IPersonasService personasService, IImageService imageService)
+    [ObservableProperty]
+    private bool _isLoading;
+
+    public DocentesViewModel(IPersonasService personasService, IImageService imageService, IDialogService dialogService)
     {
         _personasService = personasService;
         _imageService = imageService;
+        _dialogService = dialogService;
         LoadDocentes();
     }
 
     partial void OnSearchTextChanged(string value) => FilterDocentes();
 
+    partial void OnSelectedDocenteChanged(Docente? value)
+    {
+        EditCommand.NotifyCanExecuteChanged();
+        DeleteCommand.NotifyCanExecuteChanged();
+    }
+
     private void FilterDocentes()
     {
         if (string.IsNullOrWhiteSpace(SearchText))
         {
-            Docentes = new ObservableCollection<Docente>(_todosLosDocentes);
+            var listaOrdenada = AplicarOrdenamiento(_todosLosDocentes, OrdenActual);
+            Docentes = new ObservableCollection<Docente>(listaOrdenada);
             StatusMessage = $"Total: {Docentes.Count} docentes";
             return;
         }
@@ -60,23 +75,43 @@ public partial class DocentesViewModel : ObservableObject
             d.Dni.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
             d.Email.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
 
-        Docentes = new ObservableCollection<Docente>(filtered);
+        var listaFiltradaOrdenada = AplicarOrdenamiento(filtered, OrdenActual);
+        Docentes = new ObservableCollection<Docente>(listaFiltradaOrdenada);
         StatusMessage = $"Encontrados: {Docentes.Count} docentes";
+    }
+
+    private IEnumerable<Docente> AplicarOrdenamiento(IEnumerable<Docente> lista, TipoOrdenamiento orden)
+    {
+        return orden switch
+        {
+            TipoOrdenamiento.Dni => lista.OrderBy(d => d.Dni),
+            TipoOrdenamiento.Nombre => lista.OrderBy(d => d.Nombre),
+            TipoOrdenamiento.Apellidos => lista.OrderBy(d => d.Apellidos),
+            TipoOrdenamiento.Experiencia => lista.OrderByDescending(d => d.Experiencia),
+            _ => lista.OrderBy(d => d.Id)
+        };
     }
 
     private void LoadDocentes()
     {
+        IsLoading = true;
+        StatusMessage = "Cargando docentes...";
+
         try
         {
-            var result = _personasService.GetDocentesOrderBy(OrdenActual);
+            var result = _personasService.GetDocentesOrderBy(OrdenActual, 1, int.MaxValue, false);
             _todosLosDocentes = result.ToList();
-            Docentes = new ObservableCollection<Docente>(_todosLosDocentes);
-            StatusMessage = $"Total: {Docentes.Count} docentes";
+            FilterDocentes();
         }
         catch (Exception ex)
         {
             _logger.Error(ex, "Error al cargar docentes");
             StatusMessage = "Error al cargar";
+            _dialogService.ShowError("Error al cargar los docentes");
+        }
+        finally
+        {
+            IsLoading = false;
         }
     }
 
@@ -95,7 +130,7 @@ public partial class DocentesViewModel : ObservableObject
             Experiencia = 0
         };
 
-        var editViewModel = new DocenteEditViewModel(newDocente, _personasService, _imageService, isNew: true);
+        var editViewModel = new DocenteEditViewModel(newDocente, _personasService, _imageService, _dialogService, isNew: true);
         var editWindow = new DocenteEditWindow
         {
             DataContext = editViewModel,
@@ -106,17 +141,18 @@ public partial class DocentesViewModel : ObservableObject
         {
             LoadDocentes();
             StatusMessage = "Docente creado";
+            WeakReferenceMessenger.Default.Send(new PersonaCambiadaMessage());
         }
     }
 
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(CanEdit))]
     private void Edit()
     {
         if (SelectedDocente == null) return;
 
         var editDocente = SelectedDocente.Clone();
 
-        var editViewModel = new DocenteEditViewModel(editDocente, _personasService, _imageService, isNew: false);
+        var editViewModel = new DocenteEditViewModel(editDocente, _personasService, _imageService, _dialogService, isNew: false);
         var editWindow = new DocenteEditWindow
         {
             DataContext = editViewModel,
@@ -127,34 +163,43 @@ public partial class DocentesViewModel : ObservableObject
         {
             LoadDocentes();
             StatusMessage = "Docente actualizado";
+            WeakReferenceMessenger.Default.Send(new PersonaCambiadaMessage());
         }
     }
 
-    [RelayCommand]
+    private bool CanEdit() => SelectedDocente != null;
+
+    [RelayCommand(CanExecute = nameof(CanDelete))]
     private void Delete()
     {
         if (SelectedDocente == null) return;
 
-        var result = MessageBox.Show(
-            $"¿Eliminar a {SelectedDocente.NombreCompleto}?",
-            "Confirmar",
-            MessageBoxButton.YesNo,
-            MessageBoxImage.Question);
+        if (!_dialogService.ShowConfirmation($"¿Eliminar a {SelectedDocente.NombreCompleto}?"))
+            return;
 
-        if (result == MessageBoxResult.Yes)
+        var deleteResult = _personasService.Delete(SelectedDocente.Id);
+        if (deleteResult.IsSuccess)
         {
-            var deleteResult = _personasService.Delete(SelectedDocente.Id);
-            if (deleteResult.IsSuccess)
+            if (!string.IsNullOrWhiteSpace(SearchText))
+            {
+                _todosLosDocentes.Remove(SelectedDocente);
+                Docentes.Remove(SelectedDocente);
+                StatusMessage = $"Docente eliminado - Encontrados: {Docentes.Count}";
+            }
+            else
             {
                 LoadDocentes();
                 StatusMessage = "Docente eliminado";
             }
-            else
-            {
-                MessageBox.Show(deleteResult.Error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            WeakReferenceMessenger.Default.Send(new PersonaCambiadaMessage());
+        }
+        else
+        {
+            _dialogService.ShowError(deleteResult.Error.Message);
         }
     }
+
+    private bool CanDelete() => SelectedDocente != null;
 
     [RelayCommand]
     private void Load()
@@ -162,4 +207,10 @@ public partial class DocentesViewModel : ObservableObject
         LoadDocentes();
     }
 
+    [RelayCommand]
+    private void OrderBy(TipoOrdenamiento orden)
+    {
+        OrdenActual = orden;
+        FilterDocentes();
+    }
 }

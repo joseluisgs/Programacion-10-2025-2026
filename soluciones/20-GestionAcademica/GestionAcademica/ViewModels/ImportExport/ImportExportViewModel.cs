@@ -1,4 +1,3 @@
-using System.Windows;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -6,6 +5,7 @@ using CSharpFunctionalExtensions;
 using GestionAcademica.Config;
 using GestionAcademica.Models.Personas;
 using GestionAcademica.Services.Personas;
+using GestionAcademica.Services.Dialogs;
 using GestionAcademica.Services.ImportExport;
 using Serilog;
 
@@ -15,6 +15,7 @@ public partial class ImportExportViewModel : ObservableObject
 {
     private readonly IPersonasService _personasService;
     private readonly IImportExportService _importExportService;
+    private readonly IDialogService _dialogService;
     private readonly ILogger _logger = Log.ForContext<ImportExportViewModel>();
 
     [ObservableProperty]
@@ -26,10 +27,11 @@ public partial class ImportExportViewModel : ObservableObject
     [ObservableProperty]
     private bool _sustituirDatos = false;
 
-    public ImportExportViewModel(IPersonasService personasService, IImportExportService importExportService)
+    public ImportExportViewModel(IPersonasService personasService, IImportExportService importExportService, IDialogService dialogService)
     {
         _personasService = personasService;
         _importExportService = importExportService;
+        _dialogService = dialogService;
     }
 
     [RelayCommand]
@@ -55,11 +57,11 @@ public partial class ImportExportViewModel : ObservableObject
                 {
                     System.IO.File.Copy(System.IO.Path.Combine(AppConfig.DataFolder, "personas.csv"), dialog.FileName, true);
                     StatusMessage = $"Exportados {result.Value} registros";
-                    MessageBox.Show($"Exportación completada\n{result.Value} registros", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                    _dialogService.ShowSuccess($"Exportación completada\n{result.Value} registros");
                 }
                 else
                 {
-                    MessageBox.Show(result.Error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    _dialogService.ShowError(result.Error.Message);
                     StatusMessage = "Error al exportar";
                 }
             }
@@ -102,11 +104,11 @@ public partial class ImportExportViewModel : ObservableObject
             {
                 var count = result.Value.Count();
                 StatusMessage = $"Importados {count} registros";
-                MessageBox.Show($"Importación completada\n{count} registros", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                _dialogService.ShowSuccess($"Importación completada\n{count} registros");
             }
             else
             {
-                MessageBox.Show(result.Error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                _dialogService.ShowError(result.Error.Message);
                 StatusMessage = "Error al importar";
             }
         }
@@ -142,7 +144,7 @@ public partial class ImportExportViewModel : ObservableObject
                 System.IO.File.WriteAllText(dialog.FileName, json);
 
                 StatusMessage = "Exportación JSON completada";
-                MessageBox.Show("Exportación JSON completada", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                _dialogService.ShowSuccess("Exportación JSON completada");
             }
         }
         catch (Exception ex)
@@ -190,7 +192,7 @@ public partial class ImportExportViewModel : ObservableObject
                 }
 
                 StatusMessage = $"Importados {count} registros";
-                MessageBox.Show($"Importación completada\n{count} registros", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                _dialogService.ShowSuccess($"Importación completada\n{count} registros");
             }
         }
         catch (Exception ex)

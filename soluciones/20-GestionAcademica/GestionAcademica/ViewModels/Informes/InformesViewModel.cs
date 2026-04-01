@@ -1,4 +1,3 @@
-using System.Windows;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -7,6 +6,7 @@ using GestionAcademica.Enums;
 using GestionAcademica.Models.Academia;
 using GestionAcademica.Models.Personas;
 using GestionAcademica.Services.Personas;
+using GestionAcademica.Services.Dialogs;
 using GestionAcademica.Services.Report;
 using Serilog;
 
@@ -16,6 +16,7 @@ public partial class InformesViewModel : ObservableObject
 {
     private readonly IPersonasService _personasService;
     private readonly IReportService _reportService;
+    private readonly IDialogService _dialogService;
     private readonly ILogger _logger = Log.ForContext<InformesViewModel>();
 
     [ObservableProperty]
@@ -39,10 +40,11 @@ public partial class InformesViewModel : ObservableObject
     public IEnumerable<Ciclo> Ciclos => Enum.GetValues<Ciclo>();
     public IEnumerable<Curso> Cursos => Enum.GetValues<Curso>();
 
-    public InformesViewModel(IPersonasService personasService, IReportService reportService)
+    public InformesViewModel(IPersonasService personasService, IReportService reportService, IDialogService dialogService)
     {
         _personasService = personasService;
         _reportService = reportService;
+        _dialogService = dialogService;
     }
 
     [RelayCommand]
@@ -62,7 +64,7 @@ public partial class InformesViewModel : ObservableObject
             var informeHtml = _reportService.GenerarInformeEstudiantesHtml(estudiantes, MostrarEliminados);
             if (informeHtml.IsFailure)
             {
-                MessageBox.Show(informeHtml.Error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                _dialogService.ShowError(informeHtml.Error.Message);
                 return;
             }
 
@@ -78,11 +80,11 @@ public partial class InformesViewModel : ObservableObject
                 if (result.IsSuccess)
                 {
                     StatusMessage = "Informe PDF generado";
-                    MessageBox.Show("Informe PDF generado correctamente", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                    _dialogService.ShowSuccess("Informe PDF generado correctamente");
                 }
                 else
                 {
-                    MessageBox.Show(result.Error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    _dialogService.ShowError(result.Error.Message);
                 }
             }
         }
@@ -114,7 +116,7 @@ public partial class InformesViewModel : ObservableObject
             var result = _reportService.GenerarInformeEstudiantesHtml(estudiantes, MostrarEliminados);
             if (result.IsFailure)
             {
-                MessageBox.Show(result.Error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                _dialogService.ShowError(result.Error.Message);
                 return;
             }
 
@@ -130,11 +132,11 @@ public partial class InformesViewModel : ObservableObject
                 if (saveResult.IsSuccess)
                 {
                     StatusMessage = "Informe HTML guardado";
-                    MessageBox.Show("Informe HTML generado correctamente", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                    _dialogService.ShowSuccess("Informe HTML generado correctamente");
                 }
                 else
                 {
-                    MessageBox.Show(saveResult.Error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    _dialogService.ShowError(saveResult.Error.Message);
                 }
             }
         }
@@ -166,7 +168,7 @@ public partial class InformesViewModel : ObservableObject
             var informeHtml = _reportService.GenerarInformeDocentesHtml(docentes, MostrarEliminados);
             if (informeHtml.IsFailure)
             {
-                MessageBox.Show(informeHtml.Error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                _dialogService.ShowError(informeHtml.Error.Message);
                 return;
             }
 
@@ -182,11 +184,11 @@ public partial class InformesViewModel : ObservableObject
                 if (result.IsSuccess)
                 {
                     StatusMessage = "Informe PDF generado";
-                    MessageBox.Show("Informe PDF generado correctamente", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                    _dialogService.ShowSuccess("Informe PDF generado correctamente");
                 }
                 else
                 {
-                    MessageBox.Show(result.Error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    _dialogService.ShowError(result.Error.Message);
                 }
             }
         }
@@ -218,7 +220,7 @@ public partial class InformesViewModel : ObservableObject
             var result = _reportService.GenerarInformeDocentesHtml(docentes, MostrarEliminados);
             if (result.IsFailure)
             {
-                MessageBox.Show(result.Error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                _dialogService.ShowError(result.Error.Message);
                 return;
             }
 
@@ -234,11 +236,11 @@ public partial class InformesViewModel : ObservableObject
                 if (saveResult.IsSuccess)
                 {
                     StatusMessage = "Informe HTML guardado";
-                    MessageBox.Show("Informe HTML generado correctamente", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                    _dialogService.ShowSuccess("Informe HTML generado correctamente");
                 }
                 else
                 {
-                    MessageBox.Show(saveResult.Error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    _dialogService.ShowError(saveResult.Error.Message);
                 }
             }
         }
@@ -271,7 +273,7 @@ public partial class InformesViewModel : ObservableObject
             var result = _reportService.GenerarListadoPersonasHtml(personas, MostrarEliminados);
             if (result.IsFailure)
             {
-                MessageBox.Show(result.Error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                _dialogService.ShowError(result.Error.Message);
                 return;
             }
 
@@ -287,7 +289,7 @@ public partial class InformesViewModel : ObservableObject
                 if (saveResult.IsSuccess)
                 {
                     StatusMessage = "Listado HTML guardado";
-                    MessageBox.Show("Listado generado correctamente", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                    _dialogService.ShowSuccess("Listado generado correctamente");
                 }
             }
         }
