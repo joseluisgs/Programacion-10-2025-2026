@@ -4,6 +4,7 @@ using GestionAcademica.Entity;
 using GestionAcademica.Enums;
 using GestionAcademica.Models.Academia;
 using GestionAcademica.Models.Personas;
+using GestionAcademica.ViewModels.Forms;
 
 namespace GestionAcademica.Mappers.Personas;
 
@@ -216,4 +217,98 @@ public static class PersonaMapper {
             _ => throw new ArgumentException($"Tipo de persona desconocido: {model.GetType().Name}")
         };
     }
+
+    // ─── MAPPERS PARA FORMDATA ──────────────────────────────────────────────
+
+    /// <summary>
+    ///     Convierte un modelo de dominio Estudiante en su FormData de presentación.
+    /// </summary>
+    /// <param name="model">El estudiante de dominio a convertir.</param>
+    /// <returns>Una instancia de EstudianteFormData lista para el binding WPF.</returns>
+    public static EstudianteFormData ToFormData(this Estudiante model) => new()
+    {
+        Id = model.Id,
+        Nombre = model.Nombre,
+        Apellidos = model.Apellidos,
+        Dni = model.Dni,
+        Email = model.Email,
+        FechaNacimiento = model.FechaNacimiento,
+        Imagen = model.Imagen,
+        Calificacion = model.Calificacion,
+        Ciclo = model.Ciclo,
+        Curso = model.Curso,
+        CreatedAt = model.CreatedAt,
+        UpdatedAt = model.UpdatedAt,
+        IsDeleted = model.IsDeleted,
+        DeletedAt = model.DeletedAt
+    };
+
+    /// <summary>
+    ///     Convierte un FormData de Estudiante en su modelo de dominio puro.
+    /// </summary>
+    /// <param name="formData">El FormData a convertir.</param>
+    /// <returns>Una instancia inmutable de Estudiante.</returns>
+    public static Estudiante ToModel(this EstudianteFormData formData) => new()
+    {
+        Id = formData.Id,
+        Nombre = formData.Nombre,
+        Apellidos = formData.Apellidos,
+        Dni = formData.Dni,
+        Email = formData.Email,
+        FechaNacimiento = formData.FechaNacimiento,
+        Imagen = formData.Imagen,
+        Calificacion = formData.Calificacion,
+        Ciclo = formData.Ciclo,
+        Curso = formData.Curso,
+        CreatedAt = formData.CreatedAt,
+        UpdatedAt = formData.UpdatedAt,
+        IsDeleted = formData.IsDeleted,
+        DeletedAt = formData.DeletedAt
+    };
+
+    /// <summary>
+    ///     Convierte un modelo de dominio Docente en su FormData de presentación.
+    /// </summary>
+    /// <param name="model">El docente de dominio a convertir.</param>
+    /// <returns>Una instancia de DocenteFormData lista para el binding WPF.</returns>
+    public static DocenteFormData ToFormData(this Docente model) => new()
+    {
+        Id = model.Id,
+        Nombre = model.Nombre,
+        Apellidos = model.Apellidos,
+        Dni = model.Dni,
+        Email = model.Email,
+        FechaNacimiento = model.FechaNacimiento,
+        Imagen = model.Imagen,
+        Experiencia = model.Experiencia,
+        Especialidad = model.Especialidad,
+        Ciclo = model.Ciclo,
+        CreatedAt = model.CreatedAt,
+        UpdatedAt = model.UpdatedAt,
+        IsDeleted = model.IsDeleted,
+        DeletedAt = model.DeletedAt
+    };
+
+    /// <summary>
+    ///     Convierte un FormData de Docente en su modelo de dominio puro.
+    /// </summary>
+    /// <param name="formData">El FormData a convertir.</param>
+    /// <returns>Una instancia inmutable de Docente.</returns>
+    public static Docente ToModel(this DocenteFormData formData) => new()
+    {
+        Id = formData.Id,
+        Nombre = formData.Nombre,
+        Apellidos = formData.Apellidos,
+        Dni = formData.Dni,
+        Email = formData.Email,
+        FechaNacimiento = formData.FechaNacimiento,
+        Imagen = formData.Imagen,
+        Experiencia = formData.Experiencia,
+        Especialidad = formData.Especialidad,
+        Ciclo = formData.Ciclo,
+        CreatedAt = formData.CreatedAt,
+        UpdatedAt = formData.UpdatedAt,
+        IsDeleted = formData.IsDeleted,
+        DeletedAt = formData.DeletedAt
+    };
 }

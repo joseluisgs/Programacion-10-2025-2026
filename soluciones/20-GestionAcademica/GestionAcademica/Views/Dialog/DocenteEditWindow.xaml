@@ -29,7 +29,7 @@
             <Border.Clip>
                 <EllipseGeometry Center="60,60" RadiusX="60" RadiusY="60"/>
             </Border.Clip>
-            <Image Source="{Binding Docente.Imagen, Converter={StaticResource ImagePathConverter}}"
+            <Image Source="{Binding FormData.Imagen, Converter={StaticResource ImagePathConverter}}"
                    Stretch="UniformToFill"/>
         </Border>
 
@@ -44,28 +44,28 @@
             <!-- Columna izquierda -->
             <StackPanel Grid.Column="0">
                 <TextBlock Text="Nombre *" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="13" Margin="0,0,0,5"/>
-                <TextBox Text="{Binding Docente.Nombre, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                <TextBox Text="{Binding FormData.Nombre, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                          Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
                          Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"
                          BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
                          BorderThickness="1" Padding="10,10" FontSize="14" Margin="0,0,0,15"/>
 
                 <TextBlock Text="Apellidos *" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="13" Margin="0,0,0,5"/>
-                <TextBox Text="{Binding Docente.Apellidos, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                <TextBox Text="{Binding FormData.Apellidos, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                          Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
                          Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"
                          BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
                          BorderThickness="1" Padding="10,10" FontSize="14" Margin="0,0,0,15"/>
 
                 <TextBlock Text="DNI *" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="13" Margin="0,0,0,5"/>
-                <TextBox Text="{Binding Docente.Dni, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                <TextBox Text="{Binding FormData.Dni, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                          Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
                          Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"
                          BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
                          BorderThickness="1" Padding="10,10" FontSize="14" Margin="0,0,0,15"/>
 
                 <TextBlock Text="Email *" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="13" Margin="0,0,0,5"/>
-                <TextBox Text="{Binding Docente.Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                <TextBox Text="{Binding FormData.Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                          Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
                          Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"
                          BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
@@ -75,21 +75,21 @@
             <!-- Columna derecha -->
             <StackPanel Grid.Column="2">
                 <TextBlock Text="Fecha de Nacimiento *" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="13" Margin="0,0,0,5"/>
-                <DatePicker SelectedDate="{Binding Docente.FechaNacimiento, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                <DatePicker SelectedDate="{Binding FormData.FechaNacimiento, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                             Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
                             Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"
                             BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
                             BorderThickness="1" Padding="10,8" FontSize="14" Margin="0,0,0,15"/>
 
                 <TextBlock Text="Especialidad *" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="13" Margin="0,0,0,5"/>
-                <TextBox Text="{Binding Docente.Especialidad, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                <TextBox Text="{Binding FormData.Especialidad, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                          Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
                          Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"
                          BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
                          BorderThickness="1" Padding="10,10" FontSize="14" Margin="0,0,0,15"/>
 
                 <TextBlock Text="Experiencia (años)" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="13" Margin="0,0,0,5"/>
-                <TextBox Text="{Binding Docente.Experiencia, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                <TextBox Text="{Binding FormData.Experiencia, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                          Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
                          Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"
                          BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
@@ -97,7 +97,7 @@
 
                 <TextBlock Text="Ciclo" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="13" Margin="0,0,0,5"/>
                 <ComboBox ItemsSource="{Binding Ciclos}"
-                          SelectedItem="{Binding Docente.Ciclo}"
+                          SelectedItem="{Binding FormData.Ciclo}"
                           Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
                           Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"
                           BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
