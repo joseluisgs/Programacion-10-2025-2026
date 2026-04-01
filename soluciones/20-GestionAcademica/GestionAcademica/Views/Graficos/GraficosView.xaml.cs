@@ -75,12 +75,20 @@ public partial class GraficosView : Page
             }
 
             NotasChart.Plot.YLabel("Nota Media");
+            NotasChart.Plot.XLabel("Ciclos");
             NotasChart.Plot.Title("Notas medias por ciclo");
             NotasChart.Plot.Axes.Bottom.TickGenerator = new ScottPlot.TickGenerators.NumericManual(
                 Enumerable.Range(0, ciclosLabels.Length).Select(i => (double)i).ToArray(),
                 ciclosLabels
             );
-            NotasChart.Plot.Axes.Margins(bottom: 0);
+            NotasChart.Plot.Axes.Bottom.MajorTickStyle.Length = 0;
+            NotasChart.Plot.Axes.Title.Label.FontSize = 16;
+            NotasChart.Plot.Axes.Title.Label.Bold = true;
+            NotasChart.Plot.Axes.Bottom.Label.FontSize = 12;
+            NotasChart.Plot.Axes.Left.Label.FontSize = 12;
+            NotasChart.Plot.Axes.Bottom.TickLabelStyle.FontSize = 10;
+            NotasChart.Plot.Axes.Left.TickLabelStyle.FontSize = 10;
+            NotasChart.Plot.Axes.Margins(bottom: 0.05, top: 0.2, left: 0.1, right: 0.1);
             NotasChart.Refresh();
 
             _logger.Information("✅ Gráfico de notas inicializado");
@@ -96,34 +104,37 @@ public partial class GraficosView : Page
         try
         {
             var distribution = _viewModel.GetNotasDistribution();
-            string[] labels = { "Suspensos\n(<5)", "Aprobados\n(5-7)", "Notables\n(7-9)", "Sobresalientes\n(≥9)" };
 
             DistributionChart.Plot.Clear();
 
-            var pie = DistributionChart.Plot.Add.Pie(distribution);
+            // Crear slices con colores y etiquetas
+            var slices = new List<ScottPlot.PieSlice>
+            {
+                new() { Value = distribution[0], Label = $"Suspensos ({(int)distribution[0]})", FillColor = ScottPlot.Color.FromHex("#DC3545") },
+                new() { Value = distribution[1], Label = $"Aprobados ({(int)distribution[1]})", FillColor = ScottPlot.Color.FromHex("#FFC107") },
+                new() { Value = distribution[2], Label = $"Notables ({(int)distribution[2]})",  FillColor = ScottPlot.Color.FromHex("#17A2B8") },
+                new() { Value = distribution[3], Label = $"Sobresalientes ({(int)distribution[3]})", FillColor = ScottPlot.Color.FromHex("#28A745") }
+            };
+
+            var pie = DistributionChart.Plot.Add.Pie(slices);
             pie.ExplodeFraction = 0.05;
+            pie.DonutFraction = 0.5; // Convertir en doughnut chart
 
-            for (int i = 0; i < pie.Slices.Count && i < labels.Length; i++)
-            {
-                pie.Slices[i].Label = labels[i];
-                pie.Slices[i].LabelStyle.FontSize = 12;
-                pie.Slices[i].LabelStyle.Bold = true;
-            }
+            // Leyenda fuera del gráfico
+            DistributionChart.Plot.Legend.IsVisible = true;
+            DistributionChart.Plot.Legend.Alignment = ScottPlot.Alignment.UpperRight;
+            DistributionChart.Plot.Legend.FontSize = 11;
 
-            // Colores personalizados
-            if (pie.Slices.Count >= 4)
-            {
-                pie.Slices[0].FillColor = ScottPlot.Color.FromHex("#DC3545"); // Rojo para suspensos
-                pie.Slices[1].FillColor = ScottPlot.Color.FromHex("#FFC107"); // Amarillo para aprobados
-                pie.Slices[2].FillColor = ScottPlot.Color.FromHex("#17A2B8"); // Azul para notables
-                pie.Slices[3].FillColor = ScottPlot.Color.FromHex("#28A745"); // Verde para sobresalientes
-            }
+            // Título
+            DistributionChart.Plot.Title("Distribución de calificaciones");
+            DistributionChart.Plot.Axes.Title.Label.FontSize = 16;
+            DistributionChart.Plot.Axes.Title.Label.Bold = true;
 
             DistributionChart.Plot.Axes.Frameless();
             DistributionChart.Plot.HideGrid();
             DistributionChart.Refresh();
 
-            _logger.Information("✅ Gráfico de distribución inicializado");
+            _logger.Information("✅ Gráfico de distribución (doughnut) inicializado");
         }
         catch (Exception ex)
         {
@@ -136,11 +147,11 @@ public partial class GraficosView : Page
         try
         {
             var calificaciones = _viewModel.GetCalificacionesData();
-            var (docentesValues, docentesLabels) = _viewModel.GetDocentesPorCiclo();
+            var (docentesValues, _) = _viewModel.GetDocentesPorCiclo();
 
             CiclosChart.Plot.Clear();
 
-            // Crear barras de estudiantes
+            // Crear barras agrupadas (estudiantes y docentes por ciclo)
             var positions = Enumerable.Range(0, calificaciones.Length).Select(i => (double)i).ToArray();
             var estudiantesBars = positions.Select((pos, i) => new ScottPlot.Bar
             {
@@ -150,7 +161,6 @@ public partial class GraficosView : Page
                 Label = "Estudiantes"
             }).ToList();
 
-            // Crear barras de docentes
             var docentesBars = positions.Select((pos, i) => new ScottPlot.Bar
             {
                 Position = pos + 0.2,
@@ -163,12 +173,26 @@ public partial class GraficosView : Page
             CiclosChart.Plot.Add.Bars(docentesBars.ToArray());
 
             CiclosChart.Plot.YLabel("Cantidad");
+            CiclosChart.Plot.XLabel("Ciclos");
             CiclosChart.Plot.Title("Personas por ciclo");
-            CiclosChart.Plot.ShowLegend(Alignment.UpperRight);
+
+            // Leyenda fuera del gráfico
+            CiclosChart.Plot.Legend.IsVisible = true;
+            CiclosChart.Plot.Legend.Alignment = ScottPlot.Alignment.UpperRight;
+            CiclosChart.Plot.Legend.FontSize = 11;
+
             CiclosChart.Plot.Axes.Bottom.TickGenerator = new ScottPlot.TickGenerators.NumericManual(
                 positions,
                 _viewModel.GetCicloLabels()
             );
+            CiclosChart.Plot.Axes.Bottom.MajorTickStyle.Length = 0;
+            CiclosChart.Plot.Axes.Title.Label.FontSize = 16;
+            CiclosChart.Plot.Axes.Title.Label.Bold = true;
+            CiclosChart.Plot.Axes.Bottom.Label.FontSize = 12;
+            CiclosChart.Plot.Axes.Left.Label.FontSize = 12;
+            CiclosChart.Plot.Axes.Bottom.TickLabelStyle.FontSize = 10;
+            CiclosChart.Plot.Axes.Left.TickLabelStyle.FontSize = 10;
+            CiclosChart.Plot.Axes.Margins(bottom: 0.05, top: 0.2, left: 0.1, right: 0.2);
             CiclosChart.Refresh();
 
             _logger.Information("✅ Gráfico de ciclos inicializado");
@@ -202,7 +226,13 @@ public partial class GraficosView : Page
                 Enumerable.Range(0, edadLabels.Length).Select(i => (double)i).ToArray(),
                 edadLabels
             );
-            EdadChart.Plot.Axes.Margins(bottom: 0);
+            EdadChart.Plot.Axes.Bottom.MajorTickStyle.Length = 0;
+            EdadChart.Plot.Axes.Title.Label.FontSize = 16;
+            EdadChart.Plot.Axes.Title.Label.Bold = true;
+            EdadChart.Plot.Axes.Bottom.TickLabelStyle.FontSize = 10;
+            EdadChart.Plot.Axes.Left.Label.FontSize = 12;
+            EdadChart.Plot.Axes.Left.TickLabelStyle.FontSize = 10;
+            EdadChart.Plot.Axes.Margins(bottom: 0.05, top: 0.2, left: 0.1, right: 0.1);
             EdadChart.Refresh();
 
             _logger.Information("✅ Gráfico de edad inicializado");

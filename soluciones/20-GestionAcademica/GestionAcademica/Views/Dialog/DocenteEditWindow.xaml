@@ -20,18 +20,37 @@
                    Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"
                    Margin="0,0,0,20"/>
 
-        <!-- Imagen circular clickeable -->
-        <Border Grid.Row="1" Width="120" Height="120" CornerRadius="60"
-                Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
-                HorizontalAlignment="Center" Margin="0,0,0,20"
-                Cursor="Hand"
-                MouseLeftButtonDown="OnPhotoClick">
-            <Border.Clip>
-                <EllipseGeometry Center="60,60" RadiusX="60" RadiusY="60"/>
-            </Border.Clip>
-            <Image Source="{Binding FormData.Imagen, Converter={StaticResource ImagePathConverter}}"
-                   Stretch="UniformToFill"/>
-        </Border>
+        <!-- Imagen circular clickeable con botones de imagen -->
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="0,0,0,20">
+            <Border Width="120" Height="120" CornerRadius="60"
+                    Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+                    Cursor="Hand"
+                    MouseLeftButtonDown="OnPhotoClick">
+                <Border.Clip>
+                    <EllipseGeometry Center="60,60" RadiusX="60" RadiusY="60"/>
+                </Border.Clip>
+                <Grid>
+                    <Image Source="{Binding FormData.Imagen, Converter={StaticResource ImagePathConverter}}"
+                           Stretch="UniformToFill"/>
+                    <TextBlock Text="Sin imagen"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
+                               FontSize="11"
+                               Visibility="{Binding FormData.Imagen, Converter={StaticResource InverseStringToVisibilityConverter}}"/>
+                </Grid>
+            </Border>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,8,0,0">
+                <Button Content="Limpiar imagen"
+                        Command="{Binding LimpiarImagenCommand}"
+                        Style="{StaticResource SecondaryButton}"
+                        IsEnabled="{Binding FormData.Imagen, Converter={StaticResource StringToBooleanConverter}}"
+                        FontSize="12" MinWidth="120"/>
+            </StackPanel>
+            <TextBlock Text="Formatos: JPG, PNG, GIF, BMP · Máx. 2 MB"
+                       FontSize="10"
+                       Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
+                       HorizontalAlignment="Center" Margin="0,4,0,0"/>
+        </StackPanel>
 
         <!-- Formulario en 2 columnas -->
         <Grid Grid.Row="2">
