@@ -11,7 +11,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Panel de Control" 
+        <TextBlock Grid.Row="0" Text="📊 Panel de Control" 
                    Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" FontSize="28" FontWeight="Bold" Margin="0,0,0,20"/>
 
         <Border Grid.Row="1" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" CornerRadius="8" Padding="20" Margin="0,0,0,20">

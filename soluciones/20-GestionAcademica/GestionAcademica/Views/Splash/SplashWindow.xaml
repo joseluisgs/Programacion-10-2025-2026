@@ -11,14 +11,17 @@
         Topmost="True"
         Icon="pack://application:,,,/Resources/icons/app-icon.png">
     
-    <Border CornerRadius="15" Background="#1E1E1E" BorderBrush="#333333" BorderThickness="1">
+    <Border CornerRadius="15" 
+            Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" 
+            BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" 
+            BorderThickness="1">
         <Grid Margin="20">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                 <!-- Icono Estático Profesional -->
                 <Image Source="pack://application:,,,/Resources/icons/app-icon.png" Width="80" Height="80" Margin="0,0,0,20"/>
                 
-                <TextBlock Text="GESTIÓN ACADÉMICA" Foreground="White" FontSize="22" FontWeight="Bold" HorizontalAlignment="Center"/>
-                <TextBlock Text="Cargando sistema..." Foreground="#888888" FontSize="12" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                <TextBlock Text="GESTIÓN ACADÉMICA" Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" FontSize="22" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <TextBlock Text="Cargando sistema..." Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="12" HorizontalAlignment="Center" Margin="0,10,0,0"/>
             </StackPanel>
         </Grid>
     </Border>

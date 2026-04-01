@@ -19,6 +19,8 @@ public partial class DocentesViewModel : ObservableObject
     private readonly IImageService _imageService;
     private readonly ILogger _logger = Log.ForContext<DocentesViewModel>();
 
+    private List<Docente> _todosLosDocentes = new();
+
     [ObservableProperty]
     private ObservableCollection<Docente> _docentes = new();
 
@@ -41,12 +43,34 @@ public partial class DocentesViewModel : ObservableObject
         LoadDocentes();
     }
 
+    partial void OnSearchTextChanged(string value) => FilterDocentes();
+
+    private void FilterDocentes()
+    {
+        if (string.IsNullOrWhiteSpace(SearchText))
+        {
+            Docentes = new ObservableCollection<Docente>(_todosLosDocentes);
+            StatusMessage = $"Total: {Docentes.Count} docentes";
+            return;
+        }
+
+        var filtered = _todosLosDocentes.Where(d =>
+            d.Nombre.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+            d.Apellidos.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+            d.Dni.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+            d.Email.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
+
+        Docentes = new ObservableCollection<Docente>(filtered);
+        StatusMessage = $"Encontrados: {Docentes.Count} docentes";
+    }
+
     private void LoadDocentes()
     {
         try
         {
             var result = _personasService.GetDocentesOrderBy(OrdenActual);
-            Docentes = new ObservableCollection<Docente>(result);
+            _todosLosDocentes = result.ToList();
+            Docentes = new ObservableCollection<Docente>(_todosLosDocentes);
             StatusMessage = $"Total: {Docentes.Count} docentes";
         }
         catch (Exception ex)
@@ -138,22 +162,4 @@ public partial class DocentesViewModel : ObservableObject
         LoadDocentes();
     }
 
-    [RelayCommand]
-    private void Search()
-    {
-        if (string.IsNullOrWhiteSpace(SearchText))
-        {
-            LoadDocentes();
-            return;
-        }
-
-        var filtered = Docentes.Where(d =>
-            d.Nombre.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-            d.Apellidos.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-            d.Dni.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-            d.Email.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
-
-        Docentes = new ObservableCollection<Docente>(filtered);
-        StatusMessage = $"Encontrados: {Docentes.Count}";
-    }
 }

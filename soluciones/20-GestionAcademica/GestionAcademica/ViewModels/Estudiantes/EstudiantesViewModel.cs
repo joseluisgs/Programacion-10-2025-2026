@@ -19,6 +19,8 @@ public partial class EstudiantesViewModel : ObservableObject
     private readonly IImageService _imageService;
     private readonly ILogger _logger = Log.ForContext<EstudiantesViewModel>();
 
+    private List<Estudiante> _todosLosEstudiantes = new();
+
     [ObservableProperty]
     private ObservableCollection<Estudiante> _estudiantes = new();
 
@@ -41,12 +43,34 @@ public partial class EstudiantesViewModel : ObservableObject
         LoadEstudiantes();
     }
 
+    partial void OnSearchTextChanged(string value) => FilterEstudiantes();
+
+    private void FilterEstudiantes()
+    {
+        if (string.IsNullOrWhiteSpace(SearchText))
+        {
+            Estudiantes = new ObservableCollection<Estudiante>(_todosLosEstudiantes);
+            StatusMessage = $"Total: {Estudiantes.Count} estudiantes";
+            return;
+        }
+
+        var filtered = _todosLosEstudiantes.Where(e =>
+            e.Nombre.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+            e.Apellidos.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+            e.Dni.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+            e.Email.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
+
+        Estudiantes = new ObservableCollection<Estudiante>(filtered);
+        StatusMessage = $"Encontrados: {Estudiantes.Count} estudiantes";
+    }
+
     private void LoadEstudiantes()
     {
         try
         {
             var result = _personasService.GetEstudiantesOrderBy(OrdenActual);
-            Estudiantes = new ObservableCollection<Estudiante>(result);
+            _todosLosEstudiantes = result.ToList();
+            Estudiantes = new ObservableCollection<Estudiante>(_todosLosEstudiantes);
             StatusMessage = $"Total: {Estudiantes.Count} estudiantes";
         }
         catch (Exception ex)
@@ -136,25 +160,6 @@ public partial class EstudiantesViewModel : ObservableObject
     private void Load()
     {
         LoadEstudiantes();
-    }
-
-    [RelayCommand]
-    private void Search()
-    {
-        if (string.IsNullOrWhiteSpace(SearchText))
-        {
-            LoadEstudiantes();
-            return;
-        }
-
-        var filtered = Estudiantes.Where(e =>
-            e.Nombre.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-            e.Apellidos.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-            e.Dni.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
-            e.Email.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
-
-        Estudiantes = new ObservableCollection<Estudiante>(filtered);
-        StatusMessage = $"Encontrados: {Estudiantes.Count}";
     }
 
     [RelayCommand]

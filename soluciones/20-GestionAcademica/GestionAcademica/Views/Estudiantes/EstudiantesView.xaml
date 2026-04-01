@@ -11,7 +11,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Gestión de Estudiantes" 
+        <TextBlock Grid.Row="0" Text="👨‍🎓 Gestión de Estudiantes" 
                    Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" FontSize="28" FontWeight="Bold" Margin="0,0,0,20"/>
 
         <!-- Toolbar -->
