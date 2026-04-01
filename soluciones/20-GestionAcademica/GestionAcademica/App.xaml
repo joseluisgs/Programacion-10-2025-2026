@@ -6,10 +6,23 @@
     <Application.Resources>
         <ResourceDictionary>
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
             <converters:NullToBoolConverter x:Key="NullToBoolConverter"/>
             <converters:ImagePathConverter x:Key="ImagePathConverter"/>
             <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
+            <converters:InverseBoolConverter x:Key="InverseBool"/>
+            <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
+            <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibility"/>
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+            <converters:NullToVisibilityConverter x:Key="NullToVisibility"/>
+            <converters:InverseNullToVisibilityConverter x:Key="InverseNullToVisibilityConverter"/>
+            <converters:InverseNullToVisibilityConverter x:Key="InverseNullToVisibility"/>
+            <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+            <converters:StringToVisibilityConverter x:Key="StringToVisibility"/>
+            <converters:InverseStringToVisibilityConverter x:Key="InverseStringToVisibilityConverter"/>
+            <converters:InverseStringToVisibilityConverter x:Key="InverseStringToVisibility"/>
+            <converters:StringToBooleanConverter x:Key="StringToBooleanConverter"/>
+            <converters:StringToBooleanConverter x:Key="StringToBoolean"/>
 
             <!-- Estilos base de botones con colores nativos -->
             <Style x:Key="BaseButtonStyle" TargetType="Button">

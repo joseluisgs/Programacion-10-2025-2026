@@ -76,7 +76,7 @@
                     <TextBlock Grid.Row="0" Text="📊 Notas medias por ciclo" 
                                FontSize="14" FontWeight="SemiBold" Margin="5,0,0,10"
                                Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
-                    <wpf:WpfPlot Grid.Row="1" x:Name="NotasChart"/>
+                    <wpf:WpfPlot Grid.Row="1" x:Name="NotasChart" MinHeight="400"/>
                 </Grid>
             </Border>
 
@@ -93,7 +93,7 @@
                     <TextBlock Grid.Row="0" Text="🥧 Distribución de calificaciones" 
                                FontSize="14" FontWeight="SemiBold" Margin="5,0,0,10"
                                Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
-                    <wpf:WpfPlot Grid.Row="1" x:Name="DistributionChart"/>
+                    <wpf:WpfPlot Grid.Row="1" x:Name="DistributionChart" MinHeight="400"/>
                 </Grid>
             </Border>
 
@@ -110,7 +110,7 @@
                     <TextBlock Grid.Row="0" Text="👥 Estudiantes y Docentes por ciclo" 
                                FontSize="14" FontWeight="SemiBold" Margin="5,0,0,10"
                                Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
-                    <wpf:WpfPlot Grid.Row="1" x:Name="CiclosChart"/>
+                    <wpf:WpfPlot Grid.Row="1" x:Name="CiclosChart" MinHeight="400"/>
                 </Grid>
             </Border>
 
@@ -127,7 +127,7 @@
                     <TextBlock Grid.Row="0" Text="🎂 Estudiantes por rango de edad" 
                                FontSize="14" FontWeight="SemiBold" Margin="5,0,0,10"
                                Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
-                    <wpf:WpfPlot Grid.Row="1" x:Name="EdadChart"/>
+                    <wpf:WpfPlot Grid.Row="1" x:Name="EdadChart" MinHeight="400"/>
                 </Grid>
             </Border>
         </Grid>
