@@ -88,11 +88,14 @@ public partial class GraficosView : Page
             NotasChart.Plot.Axes.Bottom.MajorTickStyle.Length = 0;
             NotasChart.Plot.Axes.Title.Label.FontSize = 16;
             NotasChart.Plot.Axes.Title.Label.Bold = true;
+            NotasChart.Plot.Axes.Bottom.Label.Text = "Ciclo Formativo";
             NotasChart.Plot.Axes.Bottom.Label.FontSize = 12;
+            NotasChart.Plot.Axes.Bottom.Label.Bold = true;
             NotasChart.Plot.Axes.Left.Label.FontSize = 12;
-            NotasChart.Plot.Axes.Bottom.TickLabelStyle.FontSize = 10;
+            NotasChart.Plot.Axes.Left.Label.Bold = true;
+            NotasChart.Plot.Axes.Bottom.TickLabelStyle.FontSize = 12;
             NotasChart.Plot.Axes.Left.TickLabelStyle.FontSize = 10;
-            NotasChart.Plot.Axes.Margins(bottom: 0.2, top: 0.2, left: 0.1, right: 0.1);
+            NotasChart.Plot.Axes.Margins(bottom: 0.3, top: 0.1, left: 0.1, right: 0.1);
             NotasChart.Refresh();
 
             _logger.Information("✅ Gráfico de notas inicializado");
@@ -199,11 +202,14 @@ public partial class GraficosView : Page
             CiclosChart.Plot.Axes.Bottom.MajorTickStyle.Length = 0;
             CiclosChart.Plot.Axes.Title.Label.FontSize = 16;
             CiclosChart.Plot.Axes.Title.Label.Bold = true;
+            CiclosChart.Plot.Axes.Bottom.Label.Text = "Ciclo Formativo";
             CiclosChart.Plot.Axes.Bottom.Label.FontSize = 12;
+            CiclosChart.Plot.Axes.Bottom.Label.Bold = true;
             CiclosChart.Plot.Axes.Left.Label.FontSize = 12;
-            CiclosChart.Plot.Axes.Bottom.TickLabelStyle.FontSize = 10;
+            CiclosChart.Plot.Axes.Left.Label.Bold = true;
+            CiclosChart.Plot.Axes.Bottom.TickLabelStyle.FontSize = 12;
             CiclosChart.Plot.Axes.Left.TickLabelStyle.FontSize = 10;
-            CiclosChart.Plot.Axes.Margins(bottom: 0.2, top: 0.2, left: 0.1, right: 0.2);
+            CiclosChart.Plot.Axes.Margins(bottom: 0.3, top: 0.1, left: 0.1, right: 0.2);
             CiclosChart.Refresh();
 
             _logger.Information("✅ Gráfico de ciclos inicializado");
@@ -244,10 +250,14 @@ public partial class GraficosView : Page
             EdadChart.Plot.Axes.Bottom.MajorTickStyle.Length = 0;
             EdadChart.Plot.Axes.Title.Label.FontSize = 16;
             EdadChart.Plot.Axes.Title.Label.Bold = true;
-            EdadChart.Plot.Axes.Bottom.TickLabelStyle.FontSize = 10;
+            EdadChart.Plot.Axes.Bottom.Label.Text = "Rango de Edad";
+            EdadChart.Plot.Axes.Bottom.Label.FontSize = 12;
+            EdadChart.Plot.Axes.Bottom.Label.Bold = true;
+            EdadChart.Plot.Axes.Bottom.TickLabelStyle.FontSize = 12;
             EdadChart.Plot.Axes.Left.Label.FontSize = 12;
+            EdadChart.Plot.Axes.Left.Label.Bold = true;
             EdadChart.Plot.Axes.Left.TickLabelStyle.FontSize = 10;
-            EdadChart.Plot.Axes.Margins(bottom: 0.2, top: 0.2, left: 0.1, right: 0.1);
+            EdadChart.Plot.Axes.Margins(bottom: 0.3, top: 0.1, left: 0.1, right: 0.1);
             EdadChart.Refresh();
 
             _logger.Information("✅ Gráfico de edad inicializado");
