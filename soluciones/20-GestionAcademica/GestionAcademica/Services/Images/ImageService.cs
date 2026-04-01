@@ -154,15 +154,19 @@ public class ImageService : IImageService
         try
         {
             var dims = GetImageDimensions(sourcePath);
-            // If dimensions cannot be determined, allow the image (lenient validation)
+            // If dimensions cannot be determined (file too small, unknown format, etc.), 
+            // allow the image (lenient validation). The caller must decide whether to 
+            // proceed with an image whose dimensions could not be verified.
             if (dims.Width <= 0 || dims.Height <= 0)
                 return true;
 
             return dims.Width <= maxWidth && dims.Height <= maxHeight;
         }
-        catch
+        catch (Exception ex)
         {
-            return true; // If the header cannot be read, allow the image
+            // If the header cannot be read, log the issue and allow the image (lenient)
+            _logger.Warning(ex, "No se pudieron leer las dimensiones de {SourcePath}; se asume que son válidas", sourcePath);
+            return true;
         }
     }
 

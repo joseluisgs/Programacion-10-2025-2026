@@ -43,9 +43,18 @@ public interface IImageService
     /// <summary>
     /// Valida las dimensiones de la imagen.
     /// </summary>
+    /// <remarks>
+    /// La validación se implementa leyendo la cabecera del archivo (PNG, BMP, GIF, JPEG).
+    /// Si las dimensiones no pueden determinarse (archivo truncado, formato desconocido, etc.),
+    /// el método retorna <c>true</c> (comportamiento leniente). En ese caso corresponde al
+    /// llamador decidir si procede con la imagen.
+    /// </remarks>
     /// <param name="sourcePath">Ruta del archivo de imagen.</param>
     /// <param name="maxWidth">Ancho máximo en píxeles (por defecto 4096).</param>
     /// <param name="maxHeight">Alto máximo en píxeles (por defecto 4096).</param>
-    /// <returns>True si las dimensiones son válidas o no se pueden determinar.</returns>
+    /// <returns>
+    /// <c>true</c> si las dimensiones son válidas o no se pueden determinar; 
+    /// <c>false</c> si superan los límites indicados.
+    /// </returns>
     bool ValidateImageDimensions(string sourcePath, int maxWidth = 4096, int maxHeight = 4096);
 }
