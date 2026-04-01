@@ -44,6 +44,7 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <Resource Include="Resources\icons\**\*" />
+        <Resource Include="Resources\app-icon.ico" />
         <None Update="Resources\images\**\*">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>

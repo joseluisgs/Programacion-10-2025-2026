@@ -5,6 +5,7 @@
         Width="800" Height="750"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
+        Icon="/Resources/app-icon.ico"
         Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
     <Grid Margin="25">
         <Grid.RowDefinitions>

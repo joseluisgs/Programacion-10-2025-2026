@@ -112,4 +112,29 @@ public partial class DocenteFormData : ObservableObject, IDataErrorInfo
         string.IsNullOrEmpty(this[nameof(FechaNacimiento)]) &&
         string.IsNullOrEmpty(this[nameof(Experiencia)]) &&
         string.IsNullOrEmpty(this[nameof(Especialidad)]);
+
+    /// <summary>
+    ///     Devuelve una cadena con todos los errores de validación actuales, uno por línea.
+    /// </summary>
+    /// <returns>Texto con los errores de validación, o cadena vacía si el formulario es válido.</returns>
+    public string GetValidationErrors()
+    {
+        var campos = new[]
+        {
+            (nameof(Nombre),            "Nombre"),
+            (nameof(Apellidos),         "Apellidos"),
+            (nameof(Dni),               "DNI"),
+            (nameof(Email),             "Email"),
+            (nameof(FechaNacimiento),   "Fecha de Nacimiento"),
+            (nameof(Experiencia),       "Experiencia"),
+            (nameof(Especialidad),      "Especialidad"),
+        };
+
+        var errores = campos
+            .Select(c => (Campo: c.Item2, Error: this[c.Item1]))
+            .Where(c => !string.IsNullOrEmpty(c.Error))
+            .Select(c => $"• {c.Campo}: {c.Error}");
+
+        return string.Join("\n", errores);
+    }
 }

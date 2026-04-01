@@ -110,28 +110,32 @@ public partial class GraficosView : Page
             // Crear slices con colores y etiquetas
             var slices = new List<ScottPlot.PieSlice>
             {
-                new() { Value = distribution[0], Label = $"Suspensos ({(int)distribution[0]})", FillColor = ScottPlot.Color.FromHex("#DC3545") },
-                new() { Value = distribution[1], Label = $"Aprobados ({(int)distribution[1]})", FillColor = ScottPlot.Color.FromHex("#FFC107") },
-                new() { Value = distribution[2], Label = $"Notables ({(int)distribution[2]})",  FillColor = ScottPlot.Color.FromHex("#17A2B8") },
-                new() { Value = distribution[3], Label = $"Sobresalientes ({(int)distribution[3]})", FillColor = ScottPlot.Color.FromHex("#28A745") }
+                new() { Value = distribution[0], Label = $"Suspensos ({(int)distribution[0]})", FillColor = ScottPlot.Color.FromHex("#EF4444") },
+                new() { Value = distribution[1], Label = $"Aprobados ({(int)distribution[1]})", FillColor = ScottPlot.Color.FromHex("#F59E0B") },
+                new() { Value = distribution[2], Label = $"Notables ({(int)distribution[2]})",  FillColor = ScottPlot.Color.FromHex("#3B82F6") },
+                new() { Value = distribution[3], Label = $"Sobresalientes ({(int)distribution[3]})", FillColor = ScottPlot.Color.FromHex("#10B981") }
             };
 
             var pie = DistributionChart.Plot.Add.Pie(slices);
-            pie.ExplodeFraction = 0.05;
-            pie.DonutFraction = 0.5; // Convertir en doughnut chart
+            pie.DonutFraction = 0.5;
+            pie.ExplodeFraction = 0.02;
 
-            // Leyenda fuera del gráfico
+            // Leyenda a la derecha con fuente grande y legible
             DistributionChart.Plot.Legend.IsVisible = true;
-            DistributionChart.Plot.Legend.Alignment = ScottPlot.Alignment.UpperRight;
-            DistributionChart.Plot.Legend.FontSize = 11;
+            DistributionChart.Plot.Legend.Alignment = ScottPlot.Alignment.MiddleRight;
+            DistributionChart.Plot.Legend.FontSize = 14;
 
-            // Título
+            // Título grande y en negrita
             DistributionChart.Plot.Title("Distribución de calificaciones");
-            DistributionChart.Plot.Axes.Title.Label.FontSize = 16;
+            DistributionChart.Plot.Axes.Title.Label.FontSize = 18;
             DistributionChart.Plot.Axes.Title.Label.Bold = true;
 
             DistributionChart.Plot.Axes.Frameless();
             DistributionChart.Plot.HideGrid();
+
+            // Margen derecho amplio para que la leyenda no solape el gráfico
+            DistributionChart.Plot.Axes.Margins(bottom: 0.05, top: 0.05, left: 0.05, right: 0.35);
+
             DistributionChart.Refresh();
 
             _logger.Information("✅ Gráfico de distribución (doughnut) inicializado");

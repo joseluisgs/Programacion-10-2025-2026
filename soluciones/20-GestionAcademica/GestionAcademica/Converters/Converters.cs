@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
+using GestionAcademica.Config;
 
 namespace GestionAcademica.Converters;
 
@@ -54,10 +55,10 @@ public class ImagePathConverter : IValueConverter
         {
             var imagePath = value.ToString()!;
 
-            // Si no es una ruta absoluta, combinar con el directorio de imágenes
+            // Si no es una ruta absoluta, combinar con el directorio de imágenes de la aplicación
             if (!Path.IsPathRooted(imagePath))
             {
-                var imagesDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "images");
+                var imagesDirectory = AppConfig.ImagesDirectory;
                 imagePath = Path.Combine(imagesDirectory, imagePath);
             }
 

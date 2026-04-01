@@ -53,9 +53,9 @@
         <!-- Grid de 4 gráficos en 2x2 -->
         <Grid Grid.Row="2" Margin="10">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="*" MinHeight="300"/>
                 <RowDefinition Height="10"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="*" MinHeight="300"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
