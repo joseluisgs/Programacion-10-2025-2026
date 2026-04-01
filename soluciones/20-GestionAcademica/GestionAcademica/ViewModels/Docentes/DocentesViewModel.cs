@@ -2,13 +2,12 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CSharpFunctionalExtensions;
 using GestionAcademica.Models.Academia;
 using GestionAcademica.Models.Personas;
 using GestionAcademica.Services.Personas;
 using GestionAcademica.Services.Images;
 using GestionAcademica.Enums;
-using GestionAcademica.Errors.Common;
+using GestionAcademica.Views.Dialog;
 using Serilog;
 
 namespace GestionAcademica.ViewModels.Docentes;
@@ -26,15 +25,6 @@ public partial class DocentesViewModel : ObservableObject
     private Docente? _selectedDocente;
 
     [ObservableProperty]
-    private Docente _editingDocente = new();
-
-    [ObservableProperty]
-    private bool _isEditing;
-
-    [ObservableProperty]
-    private bool _isNewItem;
-
-    [ObservableProperty]
     private string _searchText = "";
 
     [ObservableProperty]
@@ -42,9 +32,6 @@ public partial class DocentesViewModel : ObservableObject
 
     [ObservableProperty]
     private string _statusMessage = "";
-
-    public IEnumerable<Ciclo> Ciclos => Enum.GetValues<Ciclo>();
-    public IEnumerable<string> Especialidades => new List<string> { "Informática", "Sistemas", "Programación", "Base de Datos", "Redes" };
 
     public DocentesViewModel(IPersonasService personasService, IImageService imageService)
     {
@@ -71,7 +58,7 @@ public partial class DocentesViewModel : ObservableObject
     [RelayCommand]
     private void New()
     {
-        EditingDocente = new Docente
+        var newDocente = new Docente
         {
             Nombre = "",
             Apellidos = "",
@@ -82,8 +69,19 @@ public partial class DocentesViewModel : ObservableObject
             Especialidad = "",
             Experiencia = 0
         };
-        IsNewItem = true;
-        IsEditing = true;
+
+        var editViewModel = new DocenteEditViewModel(newDocente, _personasService, _imageService, isNew: true);
+        var editWindow = new DocenteEditWindow
+        {
+            DataContext = editViewModel,
+            Owner = Application.Current.MainWindow
+        };
+
+        if (editWindow.ShowDialog() == true)
+        {
+            LoadDocentes();
+            StatusMessage = "Docente creado";
+        }
     }
 
     [RelayCommand]
@@ -91,7 +89,7 @@ public partial class DocentesViewModel : ObservableObject
     {
         if (SelectedDocente == null) return;
 
-        EditingDocente = new Docente
+        var editDocente = new Docente
         {
             Id = SelectedDocente.Id,
             Nombre = SelectedDocente.Nombre,
@@ -105,48 +103,19 @@ public partial class DocentesViewModel : ObservableObject
             Imagen = SelectedDocente.Imagen,
             IsDeleted = SelectedDocente.IsDeleted
         };
-        IsNewItem = false;
-        IsEditing = true;
-    }
 
-    [RelayCommand]
-    private void Save()
-    {
-        try
+        var editViewModel = new DocenteEditViewModel(editDocente, _personasService, _imageService, isNew: false);
+        var editWindow = new DocenteEditWindow
         {
-            Result<Persona, DomainError> result;
+            DataContext = editViewModel,
+            Owner = Application.Current.MainWindow
+        };
 
-            if (IsNewItem)
-            {
-                result = _personasService.Save(EditingDocente);
-            }
-            else
-            {
-                result = _personasService.Update(EditingDocente.Id, EditingDocente);
-            }
-
-            if (result.IsSuccess)
-            {
-                IsEditing = false;
-                LoadDocentes();
-                StatusMessage = IsNewItem ? "Docente creado" : "Docente actualizado";
-            }
-            else
-            {
-                MessageBox.Show(result.Error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-        catch (Exception ex)
+        if (editWindow.ShowDialog() == true)
         {
-            _logger.Error(ex, "Error al guardar docente");
-            StatusMessage = "Error al guardar";
+            LoadDocentes();
+            StatusMessage = "Docente actualizado";
         }
-    }
-
-    [RelayCommand]
-    private void Cancel()
-    {
-        IsEditing = false;
     }
 
     [RelayCommand]
@@ -198,25 +167,5 @@ public partial class DocentesViewModel : ObservableObject
 
         Docentes = new ObservableCollection<Docente>(filtered);
         StatusMessage = $"Encontrados: {Docentes.Count}";
-    }
-
-    [RelayCommand]
-    private void SelectImage()
-    {
-        var dialog = new Microsoft.Win32.OpenFileDialog
-        {
-            Filter = "Imágenes|*.jpg;*.jpeg;*.png;*.bmp;*.gif",
-            Title = "Seleccionar imagen"
-        };
-
-        if (dialog.ShowDialog() == true)
-        {
-            var imageResult = _imageService.SaveImage(dialog.FileName);
-            if (imageResult.IsSuccess)
-            {
-                EditingDocente = EditingDocente with { Imagen = imageResult.Value };
-                OnPropertyChanged(nameof(EditingDocente));
-            }
-        }
     }
 }

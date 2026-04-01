@@ -41,13 +41,8 @@
         </Border>
 
         <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-
-            <!-- DataGrid -->
-            <DataGrid Grid.Column="0" ItemsSource="{Binding Estudiantes}" 
+            <!-- DataGrid ocupando todo el espacio -->
+            <DataGrid ItemsSource="{Binding Estudiantes}" 
                       SelectedItem="{Binding SelectedEstudiante}"
                       AutoGenerateColumns="False" IsReadOnly="True"
                       Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
@@ -58,7 +53,6 @@
                       RowBackground="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
                       AlternatingRowBackground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
                       SelectionUnit="FullRow"
-                      Margin="0,0,20,0"
                       FontSize="13">
                 <DataGrid.ColumnHeaderStyle>
                     <Style TargetType="DataGridColumnHeader">
@@ -124,110 +118,6 @@
                     <DataGridTextColumn Header="Nota" Binding="{Binding Calificacion, StringFormat=F2}" Width="80"/>
                 </DataGrid.Columns>
             </DataGrid>
-
-            <!-- Edit Form Panel -->
-            <Border Grid.Column="1" Width="450" 
-                    Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}"
-                    Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
-                    BorderBrush="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"
-                    BorderThickness="2"
-                    CornerRadius="10" 
-                    Padding="25">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel>
-                        <TextBlock Text="Datos del Estudiante" 
-                                   Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" FontSize="22" FontWeight="Bold" 
-                                   Margin="0,0,0,25"/>
-
-                        <!-- Image -->
-                        <Border Width="120" Height="120" CornerRadius="60" 
-                                Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" 
-                                HorizontalAlignment="Center" Margin="0,0,0,25"
-                                Cursor="Hand"
-                                MouseLeftButtonDown="OnPhotoClick">
-                            <Grid>
-                                <Image Source="{Binding EditingEstudiante.Imagen, Converter={StaticResource ImagePathConverter}}" 
-                                       Stretch="UniformToFill"/>
-                            </Grid>
-                        </Border>
-
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="15"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0">
-                                <TextBlock Text="Nombre *" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="13" Margin="0,0,0,5"/>
-                                <TextBox Text="{Binding EditingEstudiante.Nombre, UpdateSourceTrigger=PropertyChanged}" 
-                                         Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="1" 
-                                         Padding="10,10" FontSize="14"/>
-                            </StackPanel>
-                            <StackPanel Grid.Column="2">
-                                <TextBlock Text="Apellidos *" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="13" Margin="0,0,0,5"/>
-                                <TextBox Text="{Binding EditingEstudiante.Apellidos, UpdateSourceTrigger=PropertyChanged}" 
-                                         Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="1" 
-                                         Padding="10,10" FontSize="14"/>
-                            </StackPanel>
-                        </Grid>
-
-                        <Grid Margin="0,15,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="15"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0">
-                                <TextBlock Text="DNI *" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="13" Margin="0,0,0,5"/>
-                                <TextBox Text="{Binding EditingEstudiante.Dni, UpdateSourceTrigger=PropertyChanged}" 
-                                         Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="1" 
-                                         Padding="10,10" FontSize="14"/>
-                            </StackPanel>
-                            <StackPanel Grid.Column="2">
-                                <TextBlock Text="Nota *" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="13" Margin="0,0,0,5"/>
-                                <TextBox Text="{Binding EditingEstudiante.Calificacion, UpdateSourceTrigger=PropertyChanged}" 
-                                         Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="1" 
-                                         Padding="10,10" FontSize="14"/>
-                            </StackPanel>
-                        </Grid>
-
-                        <Grid Margin="0,15,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="15"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0">
-                                <TextBlock Text="Ciclo" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="13" Margin="0,0,0,5"/>
-                                <ComboBox ItemsSource="{Binding Ciclos}" 
-                                          SelectedItem="{Binding EditingEstudiante.Ciclo}" 
-                                          Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
-                                          Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"
-                                          BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
-                                          BorderThickness="1"
-                                          Padding="10,8"/>
-                            </StackPanel>
-                            <StackPanel Grid.Column="2">
-                                <TextBlock Text="Curso" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="13" Margin="0,0,0,5"/>
-                                <ComboBox ItemsSource="{Binding Cursos}" 
-                                          SelectedItem="{Binding EditingEstudiante.Curso}" 
-                                          Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
-                                          Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"
-                                          BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
-                                          BorderThickness="1"
-                                          Padding="10,8"/>
-                            </StackPanel>
-                        </Grid>
-
-                        <Button Content="Guardar Estudiante" Command="{Binding SaveCommand}" 
-                                Style="{StaticResource PrimaryButton}"
-                                Margin="0,30,0,10" FontSize="15" FontWeight="Bold"/>
-                        <Button Content="Cancelar" Command="{Binding CancelCommand}" 
-                                Style="{StaticResource SecondaryButton}"
-                                Margin="0,0,0,0" FontSize="14"/>
-                    </StackPanel>
-                </ScrollViewer>
-            </Border>
         </Grid>
 
         <Border Grid.Row="3" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" CornerRadius="5" Padding="15,10" Margin="0,15,0,0">
