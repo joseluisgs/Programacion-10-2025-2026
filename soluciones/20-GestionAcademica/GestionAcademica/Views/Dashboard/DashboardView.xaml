@@ -59,8 +59,8 @@
             <Border Grid.Column="1" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" CornerRadius="8" Padding="20" Margin="10,0,0,0">
                 <StackPanel>
                     <TextBlock Text="ACCIONES RÁPIDAS" Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
-                    <Button Content="Refrescar Datos" Command="{Binding RefrescarCommand}" Style="{StaticResource SecondaryButton}" Margin="0,0,0,10"/>
-                    <Button Content="Ver Gráficos" Command="{Binding ViewGraficosCommand}" Style="{StaticResource SecondaryButton}" Margin="0,0,0,10"/>
+                    <Button Content="🔄 Actualizar" Command="{Binding RefrescarCommand}" Style="{StaticResource PrimaryButton}" Margin="0,0,0,10"/>
+                    <Button Content="📊 Ver Gráficos" Command="{Binding ViewGraficosCommand}" Style="{StaticResource SecondaryButton}" Margin="0,0,0,10"/>
                 </StackPanel>
             </Border>
         </Grid>

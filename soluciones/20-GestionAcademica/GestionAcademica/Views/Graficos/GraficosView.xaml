@@ -50,15 +50,86 @@
             </Border>
         </WrapPanel>
 
-        <!-- Charts -->
-        <Grid Grid.Row="2">
+        <!-- Grid de 4 gráficos en 2x2 -->
+        <Grid Grid.Row="2" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <wpf:WpfPlot Grid.Column="0" x:Name="NotasChart" Margin="5"/>
-            <wpf:WpfPlot Grid.Column="1" x:Name="DistributionChart" Margin="5"/>
+            <!-- Gráfico 1: Notas medias por ciclo -->
+            <Border Grid.Row="0" Grid.Column="0" 
+                    Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+                    BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+                    BorderThickness="1" CornerRadius="8" Padding="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="📊 Notas medias por ciclo" 
+                               FontSize="14" FontWeight="SemiBold" Margin="5,0,0,10"
+                               Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+                    <wpf:WpfPlot Grid.Row="1" x:Name="NotasChart"/>
+                </Grid>
+            </Border>
+
+            <!-- Gráfico 2: Distribución de calificaciones -->
+            <Border Grid.Row="0" Grid.Column="2" 
+                    Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+                    BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+                    BorderThickness="1" CornerRadius="8" Padding="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="🥧 Distribución de calificaciones" 
+                               FontSize="14" FontWeight="SemiBold" Margin="5,0,0,10"
+                               Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+                    <wpf:WpfPlot Grid.Row="1" x:Name="DistributionChart"/>
+                </Grid>
+            </Border>
+
+            <!-- Gráfico 3: Personas por ciclo -->
+            <Border Grid.Row="2" Grid.Column="0" 
+                    Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+                    BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+                    BorderThickness="1" CornerRadius="8" Padding="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="👥 Estudiantes y Docentes por ciclo" 
+                               FontSize="14" FontWeight="SemiBold" Margin="5,0,0,10"
+                               Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+                    <wpf:WpfPlot Grid.Row="1" x:Name="CiclosChart"/>
+                </Grid>
+            </Border>
+
+            <!-- Gráfico 4: Estudiantes por edad -->
+            <Border Grid.Row="2" Grid.Column="2" 
+                    Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+                    BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+                    BorderThickness="1" CornerRadius="8" Padding="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="🎂 Estudiantes por rango de edad" 
+                               FontSize="14" FontWeight="SemiBold" Margin="5,0,0,10"
+                               Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+                    <wpf:WpfPlot Grid.Row="1" x:Name="EdadChart"/>
+                </Grid>
+            </Border>
         </Grid>
 
         <!-- Status Bar -->

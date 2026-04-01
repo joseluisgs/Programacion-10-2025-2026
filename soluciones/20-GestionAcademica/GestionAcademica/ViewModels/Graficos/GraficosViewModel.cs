@@ -115,4 +115,35 @@ public partial class GraficosViewModel : ObservableObject
 
         return (grouped.Select(g => (double)g.Count).ToArray(), grouped.Select(g => g.Ciclo.ToString()).ToArray());
     }
+
+    /// <summary>
+    /// Obtiene la distribución de estudiantes por rangos de edad
+    /// </summary>
+    public Dictionary<string, int> GetEstudiantesPorEdad()
+    {
+        _logger.Information("📊 Calculando distribución de estudiantes por edad");
+
+        var estudiantes = _personasService.GetEstudiantesOrderBy(TipoOrdenamiento.Dni, 1, 1000, false).ToList();
+        var hoy = DateTime.Now;
+
+        static double CalcularEdad(DateTime fechaNacimiento, DateTime hoy) =>
+            (hoy - fechaNacimiento).TotalDays / 365.25;
+
+        var menores18 = estudiantes.Count(e => CalcularEdad(e.FechaNacimiento, hoy) < 18);
+        var entre18y25 = estudiantes.Count(e =>
+        {
+            var edad = CalcularEdad(e.FechaNacimiento, hoy);
+            return edad >= 18 && edad < 25;
+        });
+        var mayores25 = estudiantes.Count(e => CalcularEdad(e.FechaNacimiento, hoy) >= 25);
+
+        _logger.Information($"Menores de 18: {menores18}, Entre 18-25: {entre18y25}, Mayores de 25: {mayores25}");
+
+        return new Dictionary<string, int>
+        {
+            ["Menores de 18"] = menores18,
+            ["18-25 años"] = entre18y25,
+            ["Mayores de 25"] = mayores25
+        };
+    }
 }

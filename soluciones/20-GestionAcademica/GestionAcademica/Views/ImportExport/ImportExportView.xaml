@@ -32,10 +32,10 @@
             <GroupBox Grid.Column="0" Header="Exportar" 
                       Style="{DynamicResource GroupBoxStyle}" Margin="0,0,10,0">
                 <StackPanel Margin="10">
-                    <Button Content="Exportar CSV" Command="{Binding ExportarCsvCommand}" 
-                            Style="{DynamicResource PrimaryButton}" Margin="0,0,0,10"/>
-                    <Button Content="Exportar JSON" Command="{Binding ExportarJsonCommand}" 
-                            Style="{DynamicResource SecondaryButton}"/>
+                    <Button Content="📤 Exportar CSV" Command="{Binding ExportarCsvCommand}" 
+                            Style="{StaticResource PrimaryButton}" Margin="0,0,0,10"/>
+                    <Button Content="📤 Exportar JSON" Command="{Binding ExportarJsonCommand}" 
+                            Style="{StaticResource SecondaryButton}"/>
                 </StackPanel>
             </GroupBox>
 
@@ -43,10 +43,10 @@
             <GroupBox Grid.Column="1" Header="Importar" 
                       Style="{DynamicResource GroupBoxStyle}" Margin="10,0,0,0">
                 <StackPanel Margin="10">
-                    <Button Content="Importar CSV" Command="{Binding ImportarCsvCommand}" 
-                            Style="{DynamicResource PrimaryButton}" Margin="0,0,0,10"/>
-                    <Button Content="Importar JSON" Command="{Binding ImportarJsonCommand}" 
-                            Style="{DynamicResource SecondaryButton}"/>
+                    <Button Content="📥 Importar CSV" Command="{Binding ImportarCsvCommand}" 
+                            Style="{StaticResource PrimaryButton}" Margin="0,0,0,10"/>
+                    <Button Content="📥 Importar JSON" Command="{Binding ImportarJsonCommand}" 
+                            Style="{StaticResource SecondaryButton}"/>
                 </StackPanel>
             </GroupBox>
         </Grid>

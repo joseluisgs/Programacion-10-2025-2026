@@ -176,6 +176,12 @@ public partial class DocentesViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private void Load()
+    {
+        LoadDocentes();
+    }
+
+    [RelayCommand]
     private void Search()
     {
         if (string.IsNullOrWhiteSpace(SearchText))

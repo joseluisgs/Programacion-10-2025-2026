@@ -17,17 +17,20 @@
         <!-- Toolbar -->
         <Border Grid.Row="1" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" CornerRadius="8" Padding="15" Margin="0,0,0,20">
             <WrapPanel>
-                <Button Content="+ Nuevo" Command="{Binding NewCommand}" 
+                <Button Content="➕ Nuevo" Command="{Binding NewCommand}" 
                         Style="{StaticResource PrimaryButton}"
                         Margin="0,0,10,0" FontWeight="Bold"/>
-                <Button Content="Editar" Command="{Binding EditCommand}" 
+                <Button Content="✏️ Editar" Command="{Binding EditCommand}" 
                         Style="{StaticResource SecondaryButton}"
                         Margin="0,0,10,0"
                         IsEnabled="{Binding SelectedDocente, Converter={StaticResource NullToBoolConverter}}"/>
-                <Button Content="Eliminar" Command="{Binding DeleteCommand}" 
+                <Button Content="🗑️ Eliminar" Command="{Binding DeleteCommand}" 
                         Style="{StaticResource DangerButton}"
-                        Margin="0,0,30,0"
+                        Margin="0,0,10,0"
                         IsEnabled="{Binding SelectedDocente, Converter={StaticResource NullToBoolConverter}}"/>
+                <Button Content="🔄 Recargar" Command="{Binding LoadCommand}" 
+                        Style="{StaticResource SecondaryButton}"
+                        Margin="0,0,30,0"/>
                 
                 <TextBlock Text="Buscar:" VerticalAlignment="Center" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" Margin="0,0,10,0" FontSize="14"/>
                 <TextBox Width="300" 
