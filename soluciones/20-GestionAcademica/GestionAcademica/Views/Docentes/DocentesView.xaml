@@ -11,7 +11,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Gestión de Docentes" 
+        <TextBlock Grid.Row="0" Text="👨‍🏫 Gestión de Docentes" 
                    Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" FontSize="28" FontWeight="Bold" Margin="0,0,0,20"/>
 
         <!-- Toolbar -->
@@ -36,11 +36,7 @@
                 <TextBox Width="300" 
                          Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" 
                          Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="1" 
-                         Padding="10,8" FontSize="14">
-                    <TextBox.InputBindings>
-                        <KeyBinding Key="Enter" Command="{Binding SearchCommand}"/>
-                    </TextBox.InputBindings>
-                </TextBox>
+                         Padding="10,8" FontSize="14"/>
             </WrapPanel>
         </Border>
 
