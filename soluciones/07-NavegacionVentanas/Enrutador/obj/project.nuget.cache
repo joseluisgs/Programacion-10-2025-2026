@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "wgE/TY1UQIY=",
+  "success": true,
+  "projectFilePath": "/home/runner/work/Programacion-10-2025-2026/Programacion-10-2025-2026/soluciones/07-NavegacionVentanas/Enrutador/Enrutador.csproj",
+  "expectedPackageFiles": [
+    "/tmp/codeql-scratch-44285bbe39c9e149/dbs/csharp/working/packages/microsoft.netcore.app.ref/10.0.5/microsoft.netcore.app.ref.10.0.5.nupkg.sha512",
+    "/tmp/codeql-scratch-44285bbe39c9e149/dbs/csharp/working/packages/microsoft.windowsdesktop.app.ref/10.0.5/microsoft.windowsdesktop.app.ref.10.0.5.nupkg.sha512",
+    "/tmp/codeql-scratch-44285bbe39c9e149/dbs/csharp/working/packages/microsoft.aspnetcore.app.ref/10.0.5/microsoft.aspnetcore.app.ref.10.0.5.nupkg.sha512",
+    "/tmp/codeql-scratch-44285bbe39c9e149/dbs/csharp/working/packages/microsoft.netcore.app.host.linux-x64/10.0.5/microsoft.netcore.app.host.linux-x64.10.0.5.nupkg.sha512"
+  ],
+  "logs": []
+}

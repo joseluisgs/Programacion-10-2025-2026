@@ -289,4 +289,36 @@ public class PersonasEfRepository : IPersonasRepository
             return false;
         }
     }
+
+    public int CountEstudiantes(bool includeDeleted = false)
+    {
+        try
+        {
+            var query = includeDeleted
+                ? _context.Personas.Where(p => p.Tipo == "Estudiante")
+                : _context.Personas.Where(p => p.Tipo == "Estudiante" && !p.IsDeleted);
+            return query.Count();
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "Error al contar estudiantes");
+            return 0;
+        }
+    }
+
+    public int CountDocentes(bool includeDeleted = false)
+    {
+        try
+        {
+            var query = includeDeleted
+                ? _context.Personas.Where(p => p.Tipo == "Docente")
+                : _context.Personas.Where(p => p.Tipo == "Docente" && !p.IsDeleted);
+            return query.Count();
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "Error al contar docentes");
+            return 0;
+        }
+    }
 }

@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "dgSpecHash": "nsoInV0lpAQ=",
+  "success": true,
+  "projectFilePath": "/home/runner/work/Programacion-10-2025-2026/Programacion-10-2025-2026/soluciones/17-TemasEstilos/TemasEstilos/TemasEstilos.csproj",
+  "expectedPackageFiles": [
+    "/tmp/codeql-scratch-44285bbe39c9e149/dbs/csharp/working/packages/communitytoolkit.mvvm/8.2.2/communitytoolkit.mvvm.8.2.2.nupkg.sha512",
+    "/tmp/codeql-scratch-44285bbe39c9e149/dbs/csharp/working/packages/materialdesigncolors/3.1.0/materialdesigncolors.3.1.0.nupkg.sha512",
+    "/tmp/codeql-scratch-44285bbe39c9e149/dbs/csharp/working/packages/materialdesignthemes/5.1.0/materialdesignthemes.5.1.0.nupkg.sha512",
+    "/tmp/codeql-scratch-44285bbe39c9e149/dbs/csharp/working/packages/microsoft.extensions.dependencyinjection/8.0.0/microsoft.extensions.dependencyinjection.8.0.0.nupkg.sha512",
+    "/tmp/codeql-scratch-44285bbe39c9e149/dbs/csharp/working/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "/tmp/codeql-scratch-44285bbe39c9e149/dbs/csharp/working/packages/microsoft.xaml.behaviors.wpf/1.1.39/microsoft.xaml.behaviors.wpf.1.1.39.nupkg.sha512",
+    "/tmp/codeql-scratch-44285bbe39c9e149/dbs/csharp/working/packages/microsoft.netcore.app.ref/10.0.5/microsoft.netcore.app.ref.10.0.5.nupkg.sha512",
+    "/tmp/codeql-scratch-44285bbe39c9e149/dbs/csharp/working/packages/microsoft.windowsdesktop.app.ref/10.0.5/microsoft.windowsdesktop.app.ref.10.0.5.nupkg.sha512",
+    "/tmp/codeql-scratch-44285bbe39c9e149/dbs/csharp/working/packages/microsoft.aspnetcore.app.ref/10.0.5/microsoft.aspnetcore.app.ref.10.0.5.nupkg.sha512",
+    "/tmp/codeql-scratch-44285bbe39c9e149/dbs/csharp/working/packages/microsoft.netcore.app.host.linux-x64/10.0.5/microsoft.netcore.app.host.linux-x64.10.0.5.nupkg.sha512"
+  ],
+  "logs": []
+}

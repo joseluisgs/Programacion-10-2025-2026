@@ -9,8 +9,8 @@
         Height="800"
         WindowStartupLocation="CenterScreen"
         Closing="OnWindowClosing"
-        Background="#1E1E1E"
-        Foreground="White">
+        Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
+        Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -20,7 +20,7 @@
         </Grid.RowDefinitions>
 
         <!-- Menu Bar -->
-        <Menu Grid.Row="0" Background="#252525" Foreground="White" Padding="5">
+        <Menu Grid.Row="0" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" Padding="5">
             <MenuItem Header="_Archivo">
                 <MenuItem Header="_Exportar datos..." Click="OnExportarClick"/>
                 <MenuItem Header="_Importar datos..." Click="OnImportarClick"/>
@@ -42,10 +42,6 @@
             </MenuItem>
             
             <MenuItem Header="_Herramientas">
-                <MenuItem Header="_Cambiar tema">
-                    <MenuItem x:Name="MenuTemaOscuro" Header="Tema Oscuro" IsCheckable="True" IsChecked="True" Click="OnTemaOscuroClick"/>
-                    <MenuItem x:Name="MenuTemaClaro" Header="Tema Claro" IsCheckable="True" IsChecked="False" Click="OnTemaClaroClick"/>
-                </MenuItem>
                 <MenuItem Header="_Configuración" Click="OnConfiguracionClick"/>
             </MenuItem>
             
@@ -62,29 +58,22 @@
             </Grid.ColumnDefinitions>
 
             <!-- Sidebar -->
-            <Border Grid.Column="0" Background="#252525" BorderBrush="#333333" BorderThickness="0,0,1,0">
+            <Border Grid.Column="0" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="0,0,1,0">
                 <StackPanel Margin="10">
-                    <TextBlock Text="NAVEGACIÓN" FontSize="12" FontWeight="Bold" Foreground="#888888" Margin="10,10,0,10"/>
+                    <TextBlock Text="NAVEGACIÓN" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" Margin="10,10,0,10"/>
                     
-                    <Button Content="Dashboard" Click="OnDashboardClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="White" BorderThickness="0"/>
-                    <Button Content="Estudiantes" Click="OnEstudiantesClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="White" BorderThickness="0"/>
-                    <Button Content="Docentes" Click="OnDocentesClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="White" BorderThickness="0"/>
+                    <Button Content="Dashboard" Click="OnDashboardClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"/>
+                    <Button Content="Estudiantes" Click="OnEstudiantesClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"/>
+                    <Button Content="Docentes" Click="OnDocentesClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"/>
                     
-                    <Separator Margin="10,15" Background="#333333"/>
+                    <Separator Margin="10,15" Background="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
                     
-                    <TextBlock Text="HERRAMIENTAS" FontSize="12" FontWeight="Bold" Foreground="#888888" Margin="10,0,0,10"/>
+                    <TextBlock Text="HERRAMIENTAS" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" Margin="10,0,0,10"/>
                     
-                    <Button Content="Informes" Click="OnInformesClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="White" BorderThickness="0"/>
-                    <Button Content="Gráficos" Click="OnGraficosClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="White" BorderThickness="0"/>
-                    <Button Content="Backups" Click="OnBackupClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="White" BorderThickness="0"/>
-                    <Button Content="Import/Export" Click="OnImportExportClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="White" BorderThickness="0"/>
-                    
-                    <Separator Margin="10,15" Background="#333333"/>
-                    
-                    <TextBlock Text="APARIENCIA" FontSize="12" FontWeight="Bold" Foreground="#888888" Margin="10,0,0,10"/>
-                    
-                    <RadioButton x:Name="TemaOscuroRadio" Content="Tema Oscuro" IsChecked="True" Foreground="White" Margin="15,5" Checked="OnTemaOscuroChecked"/>
-                    <RadioButton x:Name="TemaClaroRadio" Content="Tema Claro" Foreground="White" Margin="15,5" Checked="OnTemaClaroChecked"/>
+                    <Button Content="Informes" Click="OnInformesClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"/>
+                    <Button Content="Gráficos" Click="OnGraficosClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"/>
+                    <Button Content="Backups" Click="OnBackupClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"/>
+                    <Button Content="Import/Export" Click="OnImportExportClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"/>
                 </StackPanel>
             </Border>
 
@@ -93,13 +82,13 @@
         </Grid>
 
         <!-- Status Bar -->
-        <StatusBar Grid.Row="2" Background="#252525" Foreground="#888888" Padding="5">
+        <StatusBar Grid.Row="2" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" Padding="5">
             <StatusBarItem>
                 <TextBlock x:Name="StatusText" Text="Listo" FontSize="12"/>
             </StatusBarItem>
-            <Separator Background="#333333"/>
+            <Separator Background="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
             <StatusBarItem>
-                <TextBlock Text="{Binding Source={x:Static sys:DateTime.Now}, StringFormat='{}{0:dd/MM/yyyy HH:mm}'}" FontSize="12" Foreground="#888888"/>
+                <TextBlock Text="{Binding Source={x:Static sys:DateTime.Now}, StringFormat='{}{0:dd/MM/yyyy HH:mm}'}" FontSize="12" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
             </StatusBarItem>
         </StatusBar>
     </Grid>
