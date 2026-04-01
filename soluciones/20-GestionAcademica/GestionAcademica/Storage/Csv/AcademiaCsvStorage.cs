@@ -26,7 +26,7 @@ public class AcademiaCsvStorage : IAcademiaCsvStorage
         try
         {
             _logger.Debug("Guardando los items en el archivo '{path}'", path);
-            using var writer = new StreamWriter(path, false, Encoding.UTF8);
+            using var writer = new StreamWriter(path, false, new System.Text.UTF8Encoding(false));
             writer.WriteLine("Id;Dni;Nombre;Apellidos;FechaNacimiento;Email;Imagen;Tipo;Experiencia;Especialidad;Ciclo;Curso;Calificacion;CreatedAt;UpdatedAt;IsDeleted;DeletedAt");
 
             foreach (var p in items)

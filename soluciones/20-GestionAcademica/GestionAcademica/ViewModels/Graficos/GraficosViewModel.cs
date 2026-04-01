@@ -116,6 +116,16 @@ public partial class GraficosViewModel : ObservableObject
         return (grouped.Select(g => (double)g.Count).ToArray(), grouped.Select(g => g.Ciclo.ToString()).ToArray());
     }
 
+    public (double[] values, string[] labels) GetEstudiantesCantidadPorCiclo()
+    {
+        var estudiantes = _personasService.GetEstudiantesOrderBy(TipoOrdenamiento.Dni, 1, 1000, false).ToList();
+        var grouped = estudiantes.GroupBy(e => e.Ciclo)
+            .Select(g => new { Ciclo = g.Key, Count = g.Count() })
+            .ToList();
+
+        return (grouped.Select(g => (double)g.Count).ToArray(), grouped.Select(g => g.Ciclo.ToString()).ToArray());
+    }
+
     /// <summary>
     /// Obtiene la distribución de estudiantes por rangos de edad
     /// </summary>

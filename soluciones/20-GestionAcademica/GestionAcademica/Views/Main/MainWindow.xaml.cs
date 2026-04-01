@@ -9,6 +9,8 @@ namespace GestionAcademica.Views.Main;
 
 public partial class MainWindow : Window
 {
+    private bool _exitConfirmedViaMenu = false;
+
     public MainWindow()
     {
         InitializeComponent();
@@ -30,6 +32,12 @@ public partial class MainWindow : Window
 
     private void OnWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
     {
+        if (_exitConfirmedViaMenu)
+        {
+            // La confirmación ya se realizó en el menú, no volver a preguntar
+            return;
+        }
+
         var result = MessageBox.Show(
             "¿Está seguro de que desea salir de la aplicación?",
             "Confirmar salida",
@@ -57,14 +65,15 @@ public partial class MainWindow : Window
     private void OnSalirClick(object sender, RoutedEventArgs e)
     {
         var result = MessageBox.Show(
-            "¿Esta seguro de que desea salir de la aplicacion?",
+            "¿Está seguro de que desea salir de la aplicación?",
             "Confirmar salida",
             MessageBoxButton.YesNo,
             MessageBoxImage.Question);
 
         if (result == MessageBoxResult.Yes)
         {
-            Log.Information("👋 Usuario cerró la aplicacion");
+            Log.Information("👋 Usuario cerró la aplicación desde el menú");
+            _exitConfirmedViaMenu = true;
             Application.Current.Shutdown();
         }
     }

@@ -36,9 +36,9 @@ public class AcademiaJsonStorage : IAcademiaJsonStorage
         try
         {
             _logger.Debug("Guardando los items en el archivo '{path}'", path);
-            using var stream = File.Create(path);
             var dtos = items.Select(p => p.ToDto()).ToList();
-            JsonSerializer.Serialize(stream, dtos, _options);
+            var json = JsonSerializer.Serialize(dtos, _options);
+            File.WriteAllText(path, json, new System.Text.UTF8Encoding(false));
             return Result.Success<bool, DomainError>(true);
         }
         catch (Exception ex)
@@ -60,8 +60,8 @@ public class AcademiaJsonStorage : IAcademiaJsonStorage
 
         try
         {
-            using var stream = File.OpenRead(path);
-            var dtos = JsonSerializer.Deserialize<List<PersonaDto>>(stream, _options);
+            var json = File.ReadAllText(path, System.Text.Encoding.UTF8);
+            var dtos = JsonSerializer.Deserialize<List<PersonaDto>>(json, _options);
 
             if (dtos == null)
                 return Result.Failure<IEnumerable<Persona>, DomainError>(StorageErrors.InvalidFormat("No se pudieron deserializar los DTOs."));
