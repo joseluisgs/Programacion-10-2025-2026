@@ -9,11 +9,9 @@ using Serilog;
 
 namespace GestionAcademica.ViewModels.Graficos;
 
-public partial class GraficosViewModel(
-    IPersonasService personasService
-) : ObservableObject
+public partial class GraficosViewModel : ObservableObject
 {
-    private readonly IPersonasService _personasService = personasService;
+    private readonly IPersonasService _personasService;
     private readonly ILogger _logger = Log.ForContext<GraficosViewModel>();
 
     [ObservableProperty]
@@ -40,12 +38,9 @@ public partial class GraficosViewModel(
     [ObservableProperty]
     private int _estudiantesSobresaliente;
 
-    /// <summary>
-    /// Inicializa el ViewModel cargando las estadísticas iniciales.
-    /// Debe llamarse explícitamente tras la construcción del objeto.
-    /// </summary>
-    public void Initialize()
+    public GraficosViewModel(IPersonasService personasService)
     {
+        _personasService = personasService;
         LoadStatistics();
     }
 

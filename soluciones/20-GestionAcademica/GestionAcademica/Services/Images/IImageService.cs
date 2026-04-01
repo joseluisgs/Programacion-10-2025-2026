@@ -1,3 +1,4 @@
+using System.Windows.Media.Imaging;
 using CSharpFunctionalExtensions;
 using GestionAcademica.Errors.Common;
 
@@ -7,7 +8,7 @@ public interface IImageService
 {
     /// <summary>
     /// Guarda una imagen desde una ruta de origen al directorio de imágenes con un nombre único.
-    /// Valida extensión, tamaño (máx. 5 MB) y dimensiones (máx. 4096×4096 px).
+    /// Valida extensión, tipo MIME, tamaño (máx. 5 MB) y dimensiones (máx. 4096×4096 px).
     /// </summary>
     /// <param name="sourcePath">Ruta completa del archivo de origen.</param>
     /// <returns>Nombre del archivo guardado (UUID + extensión).</returns>
@@ -53,4 +54,14 @@ public interface IImageService
     /// <param name="maxHeight">Alto máximo en píxeles (por defecto 4096).</param>
     /// <returns>Success si las dimensiones son válidas o no se pueden determinar; Failure con el error correspondiente si superan los límites.</returns>
     Result<bool, DomainError> ValidateImageDimensions(string sourcePath, int maxWidth = 4096, int maxHeight = 4096);
+
+    /// <summary>
+    /// Crea una previsualización de la imagen antes de guardarla.
+    /// Retorna un BitmapImage que puede usarse en WPF.
+    /// </summary>
+    /// <param name="sourcePath">Ruta completa del archivo de origen.</param>
+    /// <param name="maxWidth">Ancho máximo de la previsualización en píxeles (por defecto 300).</param>
+    /// <param name="maxHeight">Alto máximo de la previsualización en píxeles (por defecto 300).</param>
+    /// <returns>Success con el BitmapImage si la imagen se puede cargar; Failure con el error correspondiente en caso contrario.</returns>
+    Result<BitmapImage, DomainError> CreatePreview(string sourcePath, int maxWidth = 300, int maxHeight = 300);
 }

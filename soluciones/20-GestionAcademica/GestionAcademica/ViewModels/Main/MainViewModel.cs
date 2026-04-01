@@ -54,10 +54,7 @@ public partial class MainViewModel(
     // INICIALIZACIÓN
     // ====================================================================
 
-    /// <summary>
-    /// Inicializa el ViewModel. Debe llamarse explícitamente tras la construcción del objeto.
-    /// </summary>
-    public void Initialize()
+    private void OnInitialized()
     {
         _logger.Information("✅ MainViewModel inicializado");
     }

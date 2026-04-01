@@ -1,4 +1,5 @@
 using System.IO;
+using System.Windows.Media.Imaging;
 using CSharpFunctionalExtensions;
 using GestionAcademica.Errors.Common;
 using GestionAcademica.Errors.Images;
@@ -41,6 +42,10 @@ public class ImageService : IImageService
         if (sizeValidation.IsFailure)
             return Result.Failure<string, DomainError>(sizeValidation.Error);
 
+        var mimeResult = ValidateMimeType(sourcePath);
+        if (mimeResult.IsFailure)
+            return Result.Failure<string, DomainError>(mimeResult.Error);
+
         var dimensionsValidation = ValidateImageDimensions(sourcePath);
         if (dimensionsValidation.IsFailure)
             return Result.Failure<string, DomainError>(dimensionsValidation.Error);
@@ -48,13 +53,13 @@ public class ImageService : IImageService
         try
         {
             var extension = Path.GetExtension(sourcePath).ToLower();
-            var newFileName = $"{Guid.NewGuid()}{extension}";
-            var destinationPath = Path.Combine(_imagesDirectory, newFileName);
+            var sanitizedFileName = SanitizeFileName($"{Guid.NewGuid()}{extension}");
+            var destinationPath = Path.Combine(_imagesDirectory, sanitizedFileName);
 
             File.Copy(sourcePath, destinationPath, true);
-            _logger.Information("Imagen guardada exitosamente como {NewFileName}", newFileName);
+            _logger.Information("Imagen guardada exitosamente como {FileName}", sanitizedFileName);
             
-            return Result.Success<string, DomainError>(newFileName);
+            return Result.Success<string, DomainError>(sanitizedFileName);
         }
         catch (Exception ex)
         {
@@ -188,6 +193,126 @@ public class ImageService : IImageService
             _logger.Error(ex, "Error al validar dimensiones de imagen");
             return Result.Failure<bool, DomainError>(ImageErrors.ValidationError(ex.Message));
         }
+    }
+
+    /// <summary>
+    /// Crea una previsualización de la imagen antes de guardarla.
+    /// Retorna un BitmapImage que puede usarse en WPF.
+    /// </summary>
+    public Result<BitmapImage, DomainError> CreatePreview(string sourcePath, int maxWidth = 300, int maxHeight = 300)
+    {
+        if (!File.Exists(sourcePath))
+            return Result.Failure<BitmapImage, DomainError>(ImageErrors.NotFound(sourcePath));
+
+        try
+        {
+            var bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri(sourcePath, UriKind.Absolute);
+            bitmap.DecodePixelWidth = maxWidth;
+            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+            bitmap.EndInit();
+            bitmap.Freeze();
+
+            return Result.Success<BitmapImage, DomainError>(bitmap);
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "Error al crear previsualización de {SourcePath}", sourcePath);
+            return Result.Failure<BitmapImage, DomainError>(
+                ImageErrors.SaveError($"No se pudo crear la previsualización: {ex.Message}"));
+        }
+    }
+
+    /// <summary>
+    /// Sanitiza el nombre de un archivo eliminando caracteres peligrosos.
+    /// </summary>
+    internal string SanitizeFileName(string fileName)
+    {
+        var invalidChars = Path.GetInvalidFileNameChars();
+        var sanitized = string.Join("_", fileName.Split(invalidChars));
+
+        if (sanitized.Length > 200)
+            sanitized = sanitized.Substring(0, 200);
+
+        sanitized = sanitized
+            .Replace(" ", "_")
+            .Replace("..", ".")
+            .Replace("--", "-");
+
+        return sanitized;
+    }
+
+    /// <summary>
+    /// Valida el tipo MIME real del archivo leyendo sus magic numbers.
+    /// </summary>
+    private Result<string, DomainError> ValidateMimeType(string sourcePath)
+    {
+        if (!File.Exists(sourcePath))
+            return Result.Failure<string, DomainError>(ImageErrors.NotFound(sourcePath));
+
+        try
+        {
+            using var fs = new FileStream(sourcePath, FileMode.Open, FileAccess.Read);
+            var buffer = new byte[8];
+            var bytesRead = 0;
+            while (bytesRead < buffer.Length)
+            {
+                var read = fs.Read(buffer, bytesRead, buffer.Length - bytesRead);
+                if (read == 0) break;
+                bytesRead += read;
+            }
+
+            var mimeType = GetMimeTypeFromBytes(buffer);
+
+            var allowedMimeTypes = new[]
+            {
+                "image/png",
+                "image/jpeg",
+                "image/bmp",
+                "image/gif"
+            };
+
+            if (!allowedMimeTypes.Contains(mimeType))
+            {
+                return Result.Failure<string, DomainError>(
+                    ImageErrors.InvalidFormat($"Tipo MIME no permitido: {mimeType}. Solo se permiten PNG, JPEG, BMP y GIF."));
+            }
+
+            return Result.Success<string, DomainError>(mimeType);
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "Error al validar tipo MIME de {SourcePath}", sourcePath);
+            return Result.Failure<string, DomainError>(
+                ImageErrors.SaveError($"Error al validar el tipo de archivo: {ex.Message}"));
+        }
+    }
+
+    /// <summary>
+    /// Determina el tipo MIME a partir de los magic numbers del archivo.
+    /// </summary>
+    private static string GetMimeTypeFromBytes(byte[] buffer)
+    {
+        // PNG: 89 50 4E 47
+        if (buffer.Length >= 4 && buffer[0] == 0x89 && buffer[1] == 0x50 &&
+            buffer[2] == 0x4E && buffer[3] == 0x47)
+            return "image/png";
+
+        // JPEG: FF D8 FF
+        if (buffer.Length >= 3 && buffer[0] == 0xFF && buffer[1] == 0xD8 && buffer[2] == 0xFF)
+            return "image/jpeg";
+
+        // BMP: 42 4D
+        if (buffer.Length >= 2 && buffer[0] == 0x42 && buffer[1] == 0x4D)
+            return "image/bmp";
+
+        // GIF: 47 49 46 38
+        if (buffer.Length >= 4 && buffer[0] == 0x47 && buffer[1] == 0x49 &&
+            buffer[2] == 0x46 && buffer[3] == 0x38)
+            return "image/gif";
+
+        return "unknown";
     }
 
     /// <summary>

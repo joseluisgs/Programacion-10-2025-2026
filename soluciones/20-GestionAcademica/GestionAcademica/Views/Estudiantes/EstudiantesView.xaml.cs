@@ -10,7 +10,6 @@ public partial class EstudiantesView : Page
     {
         InitializeComponent();
         var vm = App.ServiceProvider.GetRequiredService<EstudiantesViewModel>();
-        vm.Initialize();
         DataContext = vm;
     }
 }

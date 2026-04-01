@@ -16,15 +16,11 @@ using System.Windows;
 
 namespace GestionAcademica.ViewModels.Estudiantes;
 
-public partial class EstudiantesViewModel(
-    IPersonasService personasService,
-    IImageService imageService,
-    IDialogService dialogService
-) : ObservableObject
+public partial class EstudiantesViewModel : ObservableObject
 {
-    private readonly IPersonasService _personasService = personasService;
-    private readonly IImageService _imageService = imageService;
-    private readonly IDialogService _dialogService = dialogService;
+    private readonly IPersonasService _personasService;
+    private readonly IImageService _imageService;
+    private readonly IDialogService _dialogService;
     private readonly ILogger _logger = Log.ForContext<EstudiantesViewModel>();
 
     private List<Estudiante> _todosLosEstudiantes = new();
@@ -47,12 +43,14 @@ public partial class EstudiantesViewModel(
     [ObservableProperty]
     private bool _isLoading;
 
-    /// <summary>
-    /// Inicializa el ViewModel cargando los datos iniciales.
-    /// Debe llamarse explícitamente tras la construcción del objeto.
-    /// </summary>
-    public void Initialize()
+    public EstudiantesViewModel(
+        IPersonasService personasService,
+        IImageService imageService,
+        IDialogService dialogService)
     {
+        _personasService = personasService;
+        _imageService = imageService;
+        _dialogService = dialogService;
         LoadEstudiantes();
     }
 

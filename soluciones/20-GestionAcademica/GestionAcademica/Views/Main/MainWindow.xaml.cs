@@ -17,7 +17,6 @@ public partial class MainWindow : Window
         DataContext = viewModel;
         
         viewModel.OnNavigateRequested += OnNavigateRequested;
-        viewModel.Initialize();
         
         Log.Information("🏠 MainWindow inicializada");
         
