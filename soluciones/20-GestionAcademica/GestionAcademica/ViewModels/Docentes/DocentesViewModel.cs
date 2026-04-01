@@ -8,6 +8,7 @@ using GestionAcademica.Services.Personas;
 using GestionAcademica.Services.Images;
 using GestionAcademica.Enums;
 using GestionAcademica.Views.Dialog;
+using GestionAcademica.Extensions;
 using Serilog;
 
 namespace GestionAcademica.ViewModels.Docentes;
@@ -89,20 +90,7 @@ public partial class DocentesViewModel : ObservableObject
     {
         if (SelectedDocente == null) return;
 
-        var editDocente = new Docente
-        {
-            Id = SelectedDocente.Id,
-            Nombre = SelectedDocente.Nombre,
-            Apellidos = SelectedDocente.Apellidos,
-            Dni = SelectedDocente.Dni,
-            Email = SelectedDocente.Email,
-            FechaNacimiento = SelectedDocente.FechaNacimiento,
-            Ciclo = SelectedDocente.Ciclo,
-            Especialidad = SelectedDocente.Especialidad,
-            Experiencia = SelectedDocente.Experiencia,
-            Imagen = SelectedDocente.Imagen,
-            IsDeleted = SelectedDocente.IsDeleted
-        };
+        var editDocente = SelectedDocente.Clone();
 
         var editViewModel = new DocenteEditViewModel(editDocente, _personasService, _imageService, isNew: false);
         var editWindow = new DocenteEditWindow

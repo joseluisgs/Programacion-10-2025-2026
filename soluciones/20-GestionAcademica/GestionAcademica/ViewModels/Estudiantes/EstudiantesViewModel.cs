@@ -8,6 +8,7 @@ using GestionAcademica.Services.Personas;
 using GestionAcademica.Services.Images;
 using GestionAcademica.Enums;
 using GestionAcademica.Views.Dialog;
+using GestionAcademica.Extensions;
 using Serilog;
 
 namespace GestionAcademica.ViewModels.Estudiantes;
@@ -89,20 +90,7 @@ public partial class EstudiantesViewModel : ObservableObject
     {
         if (SelectedEstudiante == null) return;
 
-        var editEstudiante = new Estudiante
-        {
-            Id = SelectedEstudiante.Id,
-            Nombre = SelectedEstudiante.Nombre,
-            Apellidos = SelectedEstudiante.Apellidos,
-            Dni = SelectedEstudiante.Dni,
-            Email = SelectedEstudiante.Email,
-            FechaNacimiento = SelectedEstudiante.FechaNacimiento,
-            Ciclo = SelectedEstudiante.Ciclo,
-            Curso = SelectedEstudiante.Curso,
-            Calificacion = SelectedEstudiante.Calificacion,
-            Imagen = SelectedEstudiante.Imagen,
-            IsDeleted = SelectedEstudiante.IsDeleted
-        };
+        var editEstudiante = SelectedEstudiante.Clone();
 
         var editViewModel = new EstudianteEditViewModel(editEstudiante, _personasService, _imageService, isNew: false);
         var editWindow = new EstudianteEditWindow
