@@ -1,6 +1,8 @@
 using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using GestionAcademica.Messages;
 using GestionAcademica.Models.Academia;
 using GestionAcademica.Services.Personas;
 using Serilog;
@@ -39,6 +41,12 @@ public partial class DashboardViewModel : ObservableObject
     public DashboardViewModel(IPersonasService personasService)
     {
         _personasService = personasService;
+
+        WeakReferenceMessenger.Default.Register<PersonaCambiadaMessage>(this, (r, m) =>
+        {
+            LoadStatistics();
+        });
+
         LoadStatistics();
     }
 

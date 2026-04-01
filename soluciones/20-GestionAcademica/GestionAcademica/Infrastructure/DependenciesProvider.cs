@@ -13,6 +13,7 @@ using GestionAcademica.Repositories.Personas.Dapper;
 using GestionAcademica.Repositories.Personas.EfCore;
 using GestionAcademica.Services.Personas;
 using GestionAcademica.Services.Backup;
+using GestionAcademica.Services.Dialogs;
 using GestionAcademica.Services.Report;
 using GestionAcademica.Services.Images;
 using GestionAcademica.Services.ImportExport;
@@ -146,7 +147,8 @@ public static class DependenciesProvider
 
     private static void RegisterServices(IServiceCollection services)
     {
-       
+        // Registrar DialogService como Singleton
+        services.AddSingleton<IDialogService, DialogService>();
         
         // Inyectar BackupDirectory en BackupService (por defecto)
         // El directorio puede ser sobrescrito en ejecución con parámetro customBackupDirectory
