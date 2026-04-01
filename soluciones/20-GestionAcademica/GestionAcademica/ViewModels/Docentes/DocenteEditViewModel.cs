@@ -50,7 +50,10 @@ public partial class DocenteEditViewModel(
     {
         if (!FormData.IsValid())
         {
-            _dialogService.ShowWarning("Por favor, corrija los errores del formulario antes de guardar.");
+            var errores = FormData.GetValidationErrors();
+            _dialogService.ShowWarning(
+                $"Se han detectado los siguientes errores de validación:\n\n{errores}",
+                "Errores de validación");
             return;
         }
 
