@@ -19,16 +19,22 @@ namespace GestionAcademica.ViewModels;
 /// ViewModel principal de la aplicación.
 /// Maneja la navegación entre vistas y acciones del menú.
 ///
-public partial class MainViewModel : ObservableObject
+public partial class MainViewModel(
+    IPersonasService personasService,
+    IBackupService backupService,
+    IReportService reportService,
+    IImportExportService importExportService,
+    IDialogService dialogService
+) : ObservableObject
 {
     // ====================================================================
     // DEPENDENCIAS - Servicios inyectados
     // ====================================================================
-    private readonly IPersonasService _personasService;
-    private readonly IBackupService _backupService;
-    private readonly IReportService _reportService;
-    private readonly IImportExportService _importExportService;
-    private readonly IDialogService _dialogService;
+    private readonly IPersonasService _personasService = personasService;
+    private readonly IBackupService _backupService = backupService;
+    private readonly IReportService _reportService = reportService;
+    private readonly IImportExportService _importExportService = importExportService;
+    private readonly IDialogService _dialogService = dialogService;
     private readonly ILogger _logger = Log.ForContext<MainViewModel>();
 
     // ====================================================================
@@ -45,21 +51,14 @@ public partial class MainViewModel : ObservableObject
     private bool _isLoading;
 
     // ====================================================================
-    // CONSTRUCTOR
+    // INICIALIZACIÓN
     // ====================================================================
-    public MainViewModel(
-        IPersonasService personasService,
-        IBackupService backupService,
-        IReportService reportService,
-        IImportExportService importExportService,
-        IDialogService dialogService)
+
+    /// <summary>
+    /// Inicializa el ViewModel. Debe llamarse explícitamente tras la construcción del objeto.
+    /// </summary>
+    public void Initialize()
     {
-        _personasService = personasService;
-        _backupService = backupService;
-        _reportService = reportService;
-        _importExportService = importExportService;
-        _dialogService = dialogService;
-        
         _logger.Information("✅ MainViewModel inicializado");
     }
 

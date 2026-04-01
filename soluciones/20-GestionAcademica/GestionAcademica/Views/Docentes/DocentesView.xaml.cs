@@ -9,6 +9,8 @@ public partial class DocentesView : Page
     public DocentesView()
     {
         InitializeComponent();
-        DataContext = App.ServiceProvider.GetRequiredService<DocentesViewModel>();
+        var vm = App.ServiceProvider.GetRequiredService<DocentesViewModel>();
+        vm.Initialize();
+        DataContext = vm;
     }
 }

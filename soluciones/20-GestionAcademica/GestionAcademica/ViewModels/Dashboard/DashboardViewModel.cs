@@ -9,9 +9,11 @@ using Serilog;
 
 namespace GestionAcademica.ViewModels.Dashboard;
 
-public partial class DashboardViewModel : ObservableObject
+public partial class DashboardViewModel(
+    IPersonasService personasService
+) : ObservableObject
 {
-    private readonly IPersonasService _personasService;
+    private readonly IPersonasService _personasService = personasService;
     private readonly ILogger _logger = Log.ForContext<DashboardViewModel>();
 
     [ObservableProperty]
@@ -38,10 +40,12 @@ public partial class DashboardViewModel : ObservableObject
     [ObservableProperty]
     private string _mensajeEstado = "Cargando...";
 
-    public DashboardViewModel(IPersonasService personasService)
+    /// <summary>
+    /// Inicializa el ViewModel registrando mensajes y cargando estadísticas.
+    /// Debe llamarse explícitamente tras la construcción del objeto.
+    /// </summary>
+    public void Initialize()
     {
-        _personasService = personasService;
-
         WeakReferenceMessenger.Default.Register<PersonaCambiadaMessage>(this, (r, m) =>
         {
             LoadStatistics();

@@ -12,11 +12,15 @@ using Serilog;
 
 namespace GestionAcademica.ViewModels.Informes;
 
-public partial class InformesViewModel : ObservableObject
+public partial class InformesViewModel(
+    IPersonasService personasService,
+    IReportService reportService,
+    IDialogService dialogService
+) : ObservableObject
 {
-    private readonly IPersonasService _personasService;
-    private readonly IReportService _reportService;
-    private readonly IDialogService _dialogService;
+    private readonly IPersonasService _personasService = personasService;
+    private readonly IReportService _reportService = reportService;
+    private readonly IDialogService _dialogService = dialogService;
     private readonly ILogger _logger = Log.ForContext<InformesViewModel>();
 
     [ObservableProperty]
@@ -39,13 +43,6 @@ public partial class InformesViewModel : ObservableObject
 
     public IEnumerable<Ciclo> Ciclos => Enum.GetValues<Ciclo>();
     public IEnumerable<Curso> Cursos => Enum.GetValues<Curso>();
-
-    public InformesViewModel(IPersonasService personasService, IReportService reportService, IDialogService dialogService)
-    {
-        _personasService = personasService;
-        _reportService = reportService;
-        _dialogService = dialogService;
-    }
 
     [RelayCommand]
     private void GenerarInformeEstudiantesPdf()
