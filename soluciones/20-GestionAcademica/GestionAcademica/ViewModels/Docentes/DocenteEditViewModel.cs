@@ -101,13 +101,15 @@ public partial class DocenteEditViewModel(
         {
             _logger.Information("Usuario seleccionó imagen: {FilePath}", dialog.FileName);
 
-            if (!_imageService.ValidateImageSize(dialog.FileName, 2 * 1024 * 1024))
+            var sizeCheck = _imageService.ValidateImageSize(dialog.FileName, 2 * 1024 * 1024);
+            if (sizeCheck.IsFailure)
             {
                 _dialogService.ShowWarning("La imagen no puede superar 2MB");
                 return;
             }
 
-            if (!_imageService.ValidateImageDimensions(dialog.FileName, 1920, 1920))
+            var dimensionsCheck = _imageService.ValidateImageDimensions(dialog.FileName, 1920, 1920);
+            if (dimensionsCheck.IsFailure)
             {
                 _dialogService.ShowWarning("La imagen no puede superar 1920x1920 píxeles");
                 return;

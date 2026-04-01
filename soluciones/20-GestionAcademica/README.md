@@ -141,6 +141,91 @@ Los requisitos de información describen los datos que el sistema debe gestionar
 
 ---
 
+## 🖼️ Validación de Imágenes
+
+El sistema implementa validación robusta para las imágenes de estudiantes y docentes:
+
+### 📋 Restricciones de Imágenes
+
+| Aspecto | Restricción | Mensaje de Error |
+|---------|-------------|------------------|
+| **Extensión** | `.png`, `.jpg`, `.jpeg`, `.bmp`, `.gif` | "Formato de imagen no permitido: {extensión}" |
+| **Tamaño máximo** | 5 MB | "El archivo excede el tamaño máximo permitido (5 MB)" |
+| **Dimensiones máximas** | 4096 x 4096 px | "La imagen excede las dimensiones máximas permitidas (4096x4096 px)" |
+
+### 🔄 Flujo de Validación
+
+```mermaid
+graph TD
+    A[Usuario selecciona imagen] --> B{¿Archivo existe?}
+    B -->|No| Z1[Error: Archivo no encontrado]
+    B -->|Sí| C{¿Extensión válida?}
+    C -->|No| Z2[Error: Formato no permitido]
+    C -->|Sí| D{¿Tamaño <= 5MB?}
+    D -->|No| Z3[Error: Archivo muy grande]
+    D -->|Sí| E{¿Dimensiones <= 4096x4096?}
+    E -->|No| Z4[Error: Imagen muy grande]
+    E -->|Sí| F[Copiar a data/images/UUID.ext]
+    F --> G[✅ Imagen guardada]
+
+    style Z1 fill:#f44336,color:#fff
+    style Z2 fill:#f44336,color:#fff
+    style Z3 fill:#f44336,color:#fff
+    style Z4 fill:#f44336,color:#fff
+    style G fill:#4CAF50,color:#fff
+```
+
+### 💻 Ejemplo de Uso en ViewModel
+
+```csharp
+[RelayCommand]
+private void SelectImage()
+{
+    var dialog = new OpenFileDialog
+    {
+        Filter = "Imágenes (*.png;*.jpg;*.jpeg;*.bmp;*.gif)|*.png;*.jpg;*.jpeg;*.bmp;*.gif",
+        Title = "Seleccionar imagen de perfil"
+    };
+
+    if (dialog.ShowDialog() == true)
+    {
+        var result = _imageService.SaveImage(dialog.FileName);
+
+        if (result.IsSuccess)
+        {
+            FormData.Imagen = result.Value;
+            StatusMessage = "Imagen cargada correctamente";
+        }
+        else
+        {
+            _dialogService.ShowError(result.Error.Message);
+        }
+    }
+}
+```
+
+### 🧪 Validación Programática
+
+```csharp
+// Validar tamaño
+var sizeResult = _imageService.ValidateImageSize("foto.jpg", maxSizeInBytes: 5_242_880);
+if (sizeResult.IsFailure)
+{
+    Console.WriteLine(sizeResult.Error.Message);
+    // "El archivo 'foto.jpg' (8MB) excede el tamaño máximo permitido (5MB)"
+}
+
+// Validar dimensiones
+var dimensionsResult = _imageService.ValidateImageDimensions("foto.jpg", maxWidth: 4096, maxHeight: 4096);
+if (dimensionsResult.IsFailure)
+{
+    Console.WriteLine(dimensionsResult.Error.Message);
+    // "La imagen 'foto.jpg' (5000x3000) excede las dimensiones máximas permitidas (4096x4096)"
+}
+```
+
+---
+
 ### 1.8 Diagrama de Casos de Uso UML
 
 A continuación se presenta el diagrama de casos de uso que modela las interacciones entre los actores y el sistema:

@@ -37,19 +37,13 @@ public class ImageService : IImageService
         if (!IsValidImage(sourcePath))
             return Result.Failure<string, DomainError>(ImageErrors.InvalidFormat(Path.GetExtension(sourcePath)));
 
-        if (!ValidateImageSize(sourcePath))
-        {
-            var fileInfo = new FileInfo(sourcePath);
-            return Result.Failure<string, DomainError>(
-                ImageErrors.FileSizeTooLarge(Path.GetFileName(sourcePath), fileInfo.Length, DefaultMaxSizeInBytes));
-        }
+        var sizeValidation = ValidateImageSize(sourcePath);
+        if (sizeValidation.IsFailure)
+            return Result.Failure<string, DomainError>(sizeValidation.Error);
 
-        var dims = GetImageDimensions(sourcePath);
-        if (dims.Width > 0 && dims.Height > 0 && (dims.Width > DefaultMaxWidth || dims.Height > DefaultMaxHeight))
-        {
-            return Result.Failure<string, DomainError>(
-                ImageErrors.DimensionsTooLarge(Path.GetFileName(sourcePath), dims.Width, dims.Height, DefaultMaxWidth, DefaultMaxHeight));
-        }
+        var dimensionsValidation = ValidateImageDimensions(sourcePath);
+        if (dimensionsValidation.IsFailure)
+            return Result.Failure<string, DomainError>(dimensionsValidation.Error);
 
         try
         {
@@ -105,19 +99,13 @@ public class ImageService : IImageService
         if (!IsValidImage(sourcePath))
             return Result.Failure<bool, DomainError>(ImageErrors.InvalidFormat(Path.GetExtension(sourcePath)));
 
-        if (!ValidateImageSize(sourcePath))
-        {
-            var fileInfo = new FileInfo(sourcePath);
-            return Result.Failure<bool, DomainError>(
-                ImageErrors.FileSizeTooLarge(Path.GetFileName(sourcePath), fileInfo.Length, DefaultMaxSizeInBytes));
-        }
+        var sizeValidation = ValidateImageSize(sourcePath);
+        if (sizeValidation.IsFailure)
+            return Result.Failure<bool, DomainError>(sizeValidation.Error);
 
-        var dims = GetImageDimensions(sourcePath);
-        if (dims.Width > 0 && dims.Height > 0 && (dims.Width > DefaultMaxWidth || dims.Height > DefaultMaxHeight))
-        {
-            return Result.Failure<bool, DomainError>(
-                ImageErrors.DimensionsTooLarge(Path.GetFileName(sourcePath), dims.Width, dims.Height, DefaultMaxWidth, DefaultMaxHeight));
-        }
+        var dimensionsValidation = ValidateImageDimensions(sourcePath);
+        if (dimensionsValidation.IsFailure)
+            return Result.Failure<bool, DomainError>(dimensionsValidation.Error);
 
         try
         {
@@ -138,35 +126,67 @@ public class ImageService : IImageService
         return _allowedExtensions.Contains(extension);
     }
 
-    public bool ValidateImageSize(string sourcePath, long maxSizeInBytes = DefaultMaxSizeInBytes)
+    public Result<bool, DomainError> ValidateImageSize(string sourcePath, long maxSizeInBytes = DefaultMaxSizeInBytes)
     {
-        if (!File.Exists(sourcePath))
-            return false;
+        _logger.Debug("Validando tamaño de imagen: {Path}", sourcePath);
 
-        return new FileInfo(sourcePath).Length <= maxSizeInBytes;
+        if (!File.Exists(sourcePath))
+            return Result.Failure<bool, DomainError>(ImageErrors.NotFound(sourcePath));
+
+        try
+        {
+            var fileInfo = new FileInfo(sourcePath);
+
+            if (fileInfo.Length > maxSizeInBytes)
+            {
+                return Result.Failure<bool, DomainError>(
+                    ImageErrors.FileSizeTooLarge(Path.GetFileName(sourcePath), fileInfo.Length, maxSizeInBytes));
+            }
+
+            _logger.Debug("Tamaño válido: {Size} bytes", fileInfo.Length);
+            return Result.Success<bool, DomainError>(true);
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex, "Error al validar tamaño de imagen");
+            return Result.Failure<bool, DomainError>(ImageErrors.ValidationError(ex.Message));
+        }
     }
 
-    public bool ValidateImageDimensions(string sourcePath, int maxWidth = DefaultMaxWidth, int maxHeight = DefaultMaxHeight)
+    public Result<bool, DomainError> ValidateImageDimensions(string sourcePath, int maxWidth = DefaultMaxWidth, int maxHeight = DefaultMaxHeight)
     {
+        _logger.Debug("Validando dimensiones de imagen: {Path}", sourcePath);
+
         if (!File.Exists(sourcePath))
-            return false;
+            return Result.Failure<bool, DomainError>(ImageErrors.NotFound(sourcePath));
 
         try
         {
             var dims = GetImageDimensions(sourcePath);
-            // If dimensions cannot be determined (file too small, unknown format, etc.), 
-            // allow the image (lenient validation). The caller must decide whether to 
-            // proceed with an image whose dimensions could not be verified.
+            // If dimensions cannot be determined (file too small, unknown format, etc.),
+            // allow the image (lenient validation).
             if (dims.Width <= 0 || dims.Height <= 0)
-                return true;
+            {
+                _logger.Debug("Dimensiones no determinadas para {SourcePath}; se asumen válidas", sourcePath);
+                return Result.Success<bool, DomainError>(true);
+            }
 
-            return dims.Width <= maxWidth && dims.Height <= maxHeight;
+            if (dims.Width > maxWidth || dims.Height > maxHeight)
+            {
+                return Result.Failure<bool, DomainError>(
+                    ImageErrors.DimensionsTooLarge(
+                        Path.GetFileName(sourcePath),
+                        dims.Width, dims.Height,
+                        maxWidth, maxHeight));
+            }
+
+            _logger.Debug("Dimensiones válidas: {Width}x{Height}", dims.Width, dims.Height);
+            return Result.Success<bool, DomainError>(true);
         }
         catch (Exception ex)
         {
-            // If the header cannot be read, log the issue and allow the image (lenient)
-            _logger.Warning(ex, "No se pudieron leer las dimensiones de {SourcePath}; se asume que son válidas", sourcePath);
-            return true;
+            _logger.Error(ex, "Error al validar dimensiones de imagen");
+            return Result.Failure<bool, DomainError>(ImageErrors.ValidationError(ex.Message));
         }
     }
 
