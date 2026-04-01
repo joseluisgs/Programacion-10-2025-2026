@@ -17,10 +17,10 @@
 
         <!-- Actions -->
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,20">
-            <Button Content="Crear Backup" Command="{Binding RealizarBackupCommand}" 
-                    Style="{DynamicResource PrimaryButton}" Margin="0,0,10,0"/>
-            <Button Content="Refrescar" Command="{Binding RefreshCommand}" 
-                    Style="{DynamicResource SecondaryButton}" Margin="0,0,10,0"/>
+            <Button Content="💾 Crear Backup" Command="{Binding RealizarBackupCommand}" 
+                    Style="{StaticResource PrimaryButton}" Margin="0,0,10,0"/>
+            <Button Content="🔄 Refrescar" Command="{Binding RefreshCommand}" 
+                    Style="{StaticResource SecondaryButton}" Margin="0,0,10,0"/>
         </StackPanel>
 
         <!-- Backup List -->
@@ -41,10 +41,10 @@
             </ListBox>
 
             <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                <Button Content="Restaurar" Command="{Binding RestaurarBackupCommand}" 
-                        Style="{DynamicResource PrimaryButton}" Margin="0,0,0,10"/>
-                <Button Content="Eliminar" Command="{Binding EliminarBackupCommand}" 
-                        Style="{DynamicResource DangerButton}"/>
+                <Button Content="♻️ Restaurar" Command="{Binding RestaurarBackupCommand}" 
+                        Style="{StaticResource PrimaryButton}" Margin="0,0,0,10"/>
+                <Button Content="🗑️ Eliminar" Command="{Binding EliminarBackupCommand}" 
+                        Style="{StaticResource DangerButton}"/>
             </StackPanel>
         </Grid>
 

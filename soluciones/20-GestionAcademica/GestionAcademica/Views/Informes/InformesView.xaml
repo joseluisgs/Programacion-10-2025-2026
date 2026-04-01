@@ -32,10 +32,10 @@
             <GroupBox Grid.Column="0" Header="Informes de Estudiantes" 
                       Style="{DynamicResource GroupBoxStyle}" Margin="0,0,10,0">
                 <StackPanel Margin="10">
-                    <Button Content="Generar PDF" Command="{Binding GenerarInformeEstudiantesPdfCommand}" 
-                            Style="{DynamicResource PrimaryButton}" Margin="0,0,0,10"/>
-                    <Button Content="Generar HTML" Command="{Binding GenerarInformeEstudiantesHtmlCommand}" 
-                            Style="{DynamicResource SecondaryButton}"/>
+                    <Button Content="📄 Generar PDF" Command="{Binding GenerarInformeEstudiantesPdfCommand}" 
+                            Style="{StaticResource PrimaryButton}" Margin="0,0,0,10"/>
+                    <Button Content="🌐 Generar HTML" Command="{Binding GenerarInformeEstudiantesHtmlCommand}" 
+                            Style="{StaticResource SecondaryButton}"/>
                 </StackPanel>
             </GroupBox>
 
@@ -43,12 +43,12 @@
             <GroupBox Grid.Column="1" Header="Informes de Docentes" 
                       Style="{DynamicResource GroupBoxStyle}" Margin="10,0,0,0">
                 <StackPanel Margin="10">
-                    <Button Content="Generar PDF" Command="{Binding GenerarInformeDocentesPdfCommand}" 
-                            Style="{DynamicResource PrimaryButton}" Margin="0,0,0,10"/>
-                    <Button Content="Generar HTML" Command="{Binding GenerarInformeDocentesHtmlCommand}" 
-                            Style="{DynamicResource SecondaryButton}" Margin="0,0,0,10"/>
+                    <Button Content="📄 Generar PDF" Command="{Binding GenerarInformeDocentesPdfCommand}" 
+                            Style="{StaticResource PrimaryButton}" Margin="0,0,0,10"/>
+                    <Button Content="🌐 Generar HTML" Command="{Binding GenerarInformeDocentesHtmlCommand}" 
+                            Style="{StaticResource SecondaryButton}" Margin="0,0,0,10"/>
                     <Button Content="Listado Completo HTML" Command="{Binding GenerarListadoCompletoHtmlCommand}" 
-                            Style="{DynamicResource SecondaryButton}"/>
+                            Style="{StaticResource SecondaryButton}"/>
                 </StackPanel>
             </GroupBox>
         </Grid>
