@@ -7,10 +7,16 @@ using GestionAcademica.Models.Personas;
 using GestionAcademica.Services.Images;
 using GestionAcademica.Services.Personas;
 using GestionAcademica.Errors.Common;
+using GestionAcademica.ViewModels.Forms;
+using GestionAcademica.Mappers.Personas;
 using Serilog;
 
 namespace GestionAcademica.ViewModels.Docentes;
 
+/// <summary>
+///     ViewModel especializado para la ventana modal de creación y edición de Docente.
+///     Trabaja con DocenteFormData (IDataErrorInfo) y mapea al modelo de dominio para persistir.
+/// </summary>
 public partial class DocenteEditViewModel : ObservableObject
 {
     private readonly IPersonasService _personasService;
@@ -18,8 +24,9 @@ public partial class DocenteEditViewModel : ObservableObject
     private readonly bool _isNew;
     private readonly ILogger _logger = Log.ForContext<DocenteEditViewModel>();
 
+    /// <summary>FormData con validación IDataErrorInfo para el binding WPF.</summary>
     [ObservableProperty]
-    private Docente _docente;
+    private DocenteFormData _formData;
 
     [ObservableProperty]
     private string _windowTitle = "";
@@ -28,33 +35,44 @@ public partial class DocenteEditViewModel : ObservableObject
 
     public Action<bool>? CloseAction { get; set; }
 
+    /// <summary>
+    ///     Inicializa el ViewModel convirtiendo el modelo de dominio a FormData.
+    /// </summary>
+    /// <param name="docente">Modelo de dominio de origen (puede ser vacío para creación).</param>
+    /// <param name="personasService">Servicio de persistencia de personas.</param>
+    /// <param name="imageService">Servicio de gestión de imágenes.</param>
+    /// <param name="isNew">True si se está creando un nuevo registro; False si se edita uno existente.</param>
     public DocenteEditViewModel(Docente docente, IPersonasService personasService, IImageService imageService, bool isNew)
     {
-        _docente = docente;
         _personasService = personasService;
         _imageService = imageService;
         _isNew = isNew;
+        _formData = docente.ToFormData();
         WindowTitle = isNew ? "Nuevo Docente" : "Editar Docente";
     }
 
+    /// <summary>
+    ///     Guarda el docente si el FormData es válido, mapeando de vuelta al modelo de dominio.
+    /// </summary>
     [RelayCommand]
     private void Save()
     {
+        if (!FormData.IsValid())
+        {
+            MessageBox.Show("Por favor, corrija los errores del formulario antes de guardar.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
         try
         {
-            Result<Persona, DomainError> result;
-
-            if (_isNew)
-            {
-                result = _personasService.Save(Docente);
-            }
-            else
-            {
-                result = _personasService.Update(Docente.Id, Docente);
-            }
+            var modelo = FormData.ToModel();
+            Result<Persona, DomainError> result = _isNew
+                ? _personasService.Save(modelo)
+                : _personasService.Update(modelo.Id, modelo);
 
             if (result.IsSuccess)
             {
+                _logger.Information("Docente {Dni} guardado correctamente", modelo.Dni);
                 CloseAction?.Invoke(true);
             }
             else
@@ -69,12 +87,14 @@ public partial class DocenteEditViewModel : ObservableObject
         }
     }
 
+    /// <summary>Cancela la edición y cierra la ventana modal.</summary>
     [RelayCommand]
     private void Cancel()
     {
         CloseAction?.Invoke(false);
     }
 
+    /// <summary>Abre el selector de archivo y actualiza la imagen del FormData.</summary>
     [RelayCommand]
     private void ChangeImage()
     {
@@ -89,7 +109,7 @@ public partial class DocenteEditViewModel : ObservableObject
             var imageResult = _imageService.SaveImage(dialog.FileName);
             if (imageResult.IsSuccess)
             {
-                Docente = Docente with { Imagen = imageResult.Value };
+                FormData.Imagen = imageResult.Value;
             }
         }
     }
