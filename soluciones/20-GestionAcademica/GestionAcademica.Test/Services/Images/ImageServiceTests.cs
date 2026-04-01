@@ -39,9 +39,9 @@ public class ImageServiceTests
         [Test]
         public void SaveImage_ConArchivoValido_DeberiaGuardarYRetornarNombre()
         {
-            // Arrange
+            // Arrange: PNG con magic numbers válidos
             var testImagePath = Path.Combine(_tempDir, "test.png");
-            File.WriteAllBytes(testImagePath, new byte[] { 0, 1, 2 });
+            File.WriteAllBytes(testImagePath, new byte[] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A });
 
             // Act
             var resultado = _service.SaveImage(testImagePath);
@@ -116,9 +116,9 @@ public class ImageServiceTests
         [Test]
         public void SaveImage_ConExtensionJpeg_DeberiaGuardar()
         {
-            // Arrange
+            // Arrange: JPEG con magic numbers válidos
             var testPath = Path.Combine(_tempDir, "test.jpeg");
-            File.WriteAllBytes(testPath, new byte[] { 0 });
+            File.WriteAllBytes(testPath, new byte[] { 0xFF, 0xD8, 0xFF, 0xE0 });
 
             // Act
             var resultado = _service.SaveImage(testPath);
@@ -147,9 +147,9 @@ public class ImageServiceTests
         [Test]
         public void SaveImage_ConBmp_DeberiaGuardarCorrectamente()
         {
-            // Arrange
+            // Arrange: BMP con magic numbers válidos
             var testPath = Path.Combine(_tempDir, "test.bmp");
-            File.WriteAllBytes(testPath, new byte[] { 0 });
+            File.WriteAllBytes(testPath, new byte[] { 0x42, 0x4D, 0x00, 0x00 });
 
             // Act
             var resultado = _service.SaveImage(testPath);
@@ -162,9 +162,9 @@ public class ImageServiceTests
         [Test]
         public void SaveImage_ConGif_DeberiaGuardar()
         {
-            // Arrange
+            // Arrange: GIF con magic numbers válidos
             var testPath = Path.Combine(_tempDir, "test.gif");
-            File.WriteAllBytes(testPath, new byte[] { 0 });
+            File.WriteAllBytes(testPath, new byte[] { 0x47, 0x49, 0x46, 0x38, 0x39, 0x61 });
 
             // Act
             var resultado = _service.SaveImage(testPath);
@@ -337,9 +337,9 @@ public class ImageServiceTests
         [Test]
         public void SaveImage_ConImagenValidaSinExcederTamanio_DeberiaGuardar()
         {
-            // Arrange
+            // Arrange: PNG con magic numbers válidos
             var testPath = Path.Combine(_tempDir, "test.png");
-            File.WriteAllBytes(testPath, new byte[] { 0 });
+            File.WriteAllBytes(testPath, new byte[] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A });
 
             // Act
             var result = _service.SaveImage(testPath);
@@ -351,9 +351,9 @@ public class ImageServiceTests
         [Test]
         public void SaveImage_ConImagenValidaSinExcederDimensiones_DeberiaGuardar()
         {
-            // Arrange
+            // Arrange: PNG con magic numbers válidos
             var testPath = Path.Combine(_tempDir, "test.png");
-            File.WriteAllBytes(testPath, new byte[] { 0 });
+            File.WriteAllBytes(testPath, new byte[] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A });
 
             // Act
             var result = _service.SaveImage(testPath);

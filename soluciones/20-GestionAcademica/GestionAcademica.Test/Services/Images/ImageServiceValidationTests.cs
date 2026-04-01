@@ -293,8 +293,179 @@ public class ImageServiceValidationTests
     }
 
     // ===================================================================
+    // MIME type validation tests
+    // ===================================================================
+
+    [TestFixture]
+    public class ValidateMimeTypeTests : ImageServiceValidationTests
+    {
+        [Test]
+        public void SaveImage_ConArchivoJpgConContenidoNoImagen_DeberiaFallarPorMimeType()
+        {
+            // Arrange: un archivo .jpg cuyo contenido no tiene magic numbers de imagen
+            var fakePath = Path.Combine(_tempDir, "fake_executable.jpg");
+            // MZ header - Windows executable, no es una imagen
+            File.WriteAllBytes(fakePath, new byte[] { 0x4D, 0x5A, 0x90, 0x00, 0x03, 0x00 });
+
+            // Act
+            var resultado = _service.SaveImage(fakePath);
+
+            // Assert: falla porque el contenido no coincide con el formato de imagen esperado
+            resultado.IsFailure.Should().BeTrue();
+            resultado.Error.Should().BeOfType<ImageError.InvalidFormat>();
+        }
+
+        [Test]
+        public void ValidateMimeType_ConArchivoJpegRenombrado_DeberiaDetectarCorrectamente()
+        {
+            // Arrange: crear JPEG pero con extensión .txt (no es extensión de imagen válida)
+            var fakePath = Path.Combine(_tempDir, "fake.txt");
+            var jpegBytes = new byte[] { 0xFF, 0xD8, 0xFF, 0xE0 }; // JPEG magic number
+            File.WriteAllBytes(fakePath, jpegBytes);
+
+            // Act
+            var resultado = _service.SaveImage(fakePath);
+
+            // Assert: falla porque .txt no es una extensión de imagen válida
+            resultado.IsFailure.Should().BeTrue();
+        }
+
+        [Test]
+        public void SaveImage_ConPngValido_DeberiaGuardarCorrectamente()
+        {
+            // Arrange: PNG con magic numbers válidos
+            var validPng = Path.Combine(_tempDir, "valid.png");
+            File.WriteAllBytes(validPng, CreatePngHeader(100, 100));
+
+            // Act
+            var resultado = _service.SaveImage(validPng);
+
+            // Assert
+            resultado.IsSuccess.Should().BeTrue();
+        }
+
+        [Test]
+        public void SaveImage_ConBmpValido_DeberiaGuardarCorrectamente()
+        {
+            // Arrange: BMP con magic numbers válidos
+            var validBmp = Path.Combine(_tempDir, "valid.bmp");
+            File.WriteAllBytes(validBmp, CreateBmpHeader(100, 100));
+
+            // Act
+            var resultado = _service.SaveImage(validBmp);
+
+            // Assert
+            resultado.IsSuccess.Should().BeTrue();
+        }
+
+        [Test]
+        public void SaveImage_ConGifValido_DeberiaGuardarCorrectamente()
+        {
+            // Arrange: GIF con magic numbers válidos
+            var validGif = Path.Combine(_tempDir, "valid.gif");
+            File.WriteAllBytes(validGif, CreateGifHeader(100, 100));
+
+            // Act
+            var resultado = _service.SaveImage(validGif);
+
+            // Assert
+            resultado.IsSuccess.Should().BeTrue();
+        }
+
+        [Test]
+        public void SaveImage_ConJpegValido_DeberiaGuardarCorrectamente()
+        {
+            // Arrange: JPEG con magic numbers válidos
+            var validJpeg = Path.Combine(_tempDir, "valid.jpg");
+            File.WriteAllBytes(validJpeg, CreateJpegHeader());
+
+            // Act
+            var resultado = _service.SaveImage(validJpeg);
+
+            // Assert
+            resultado.IsSuccess.Should().BeTrue();
+        }
+    }
+
+    // ===================================================================
+    // SanitizeFileName tests
+    // ===================================================================
+
+    [TestFixture]
+    public class SanitizeFileNameTests : ImageServiceValidationTests
+    {
+        [Test]
+        public void SanitizeFileName_ConNombreValido_DeberiaRetornarSinCambios()
+        {
+            // Arrange
+            var name = "imagen.jpg";
+
+            // Act
+            var resultado = _service.SanitizeFileName(name);
+
+            // Assert
+            resultado.Should().Be("imagen.jpg");
+        }
+
+        [Test]
+        public void SanitizeFileName_ConCaracteresInvalidos_DeberiaSanitizar()
+        {
+            // Arrange: nombres con caracteres no permitidos en nombres de archivo
+            var dirtyName = "archivo<>:\"/|?*.jpg";
+
+            // Act
+            var resultado = _service.SanitizeFileName(dirtyName);
+
+            // Assert
+            resultado.Should().NotContain('<');
+            resultado.Should().NotContain('>');
+            resultado.Should().NotContain('*');
+            resultado.Should().NotContain('?');
+            resultado.Should().NotContain('|');
+            resultado.Should().EndWith(".jpg");
+        }
+
+        [Test]
+        public void SanitizeFileName_ConEspacios_DeberiaReemplazarConGuionBajo()
+        {
+            // Arrange
+            var name = "mi imagen.jpg";
+
+            // Act
+            var resultado = _service.SanitizeFileName(name);
+
+            // Assert
+            resultado.Should().NotContain(' ');
+            resultado.Should().Contain("_");
+            resultado.Should().EndWith(".jpg");
+        }
+
+        [Test]
+        public void SanitizeFileName_ConNombreMuyLargo_DeberiaLimitarA200Caracteres()
+        {
+            // Arrange: nombre con más de 200 caracteres
+            var longName = new string('a', 250) + ".jpg";
+
+            // Act
+            var resultado = _service.SanitizeFileName(longName);
+
+            // Assert
+            resultado.Length.Should().BeLessThanOrEqualTo(200);
+        }
+    }
+
+    // ===================================================================
     // Helper methods for creating minimal image headers in tests
     // ===================================================================
+
+    /// <summary>
+    /// Creates a minimal JPEG header with valid magic numbers.
+    /// </summary>
+    private static byte[] CreateJpegHeader()
+    {
+        // JPEG magic: FF D8 FF E0 (SOI + APP0 marker)
+        return new byte[] { 0xFF, 0xD8, 0xFF, 0xE0, 0x00, 0x10 };
+    }
 
     /// <summary>
     /// Creates the minimal PNG header bytes (signature + IHDR chunk) with the specified dimensions.
