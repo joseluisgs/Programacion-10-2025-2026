@@ -1,15 +1,13 @@
 using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CSharpFunctionalExtensions;
 using GestionAcademica.Models.Academia;
 using GestionAcademica.Models.Personas;
 using GestionAcademica.Services.Personas;
 using GestionAcademica.Services.Images;
 using GestionAcademica.Enums;
-using GestionAcademica.Errors.Common;
+using GestionAcademica.Views.Dialog;
 using Serilog;
 
 namespace GestionAcademica.ViewModels.Estudiantes;
@@ -27,15 +25,6 @@ public partial class EstudiantesViewModel : ObservableObject
     private Estudiante? _selectedEstudiante;
 
     [ObservableProperty]
-    private Estudiante _editingEstudiante = new();
-
-    [ObservableProperty]
-    private bool _isEditing;
-
-    [ObservableProperty]
-    private bool _isNewItem;
-
-    [ObservableProperty]
     private string _searchText = "";
 
     [ObservableProperty]
@@ -43,9 +32,6 @@ public partial class EstudiantesViewModel : ObservableObject
 
     [ObservableProperty]
     private string _statusMessage = "";
-
-    public IEnumerable<Ciclo> Ciclos => Enum.GetValues<Ciclo>();
-    public IEnumerable<Curso> Cursos => Enum.GetValues<Curso>();
 
     public EstudiantesViewModel(IPersonasService personasService, IImageService imageService)
     {
@@ -72,7 +58,7 @@ public partial class EstudiantesViewModel : ObservableObject
     [RelayCommand]
     private void New()
     {
-        EditingEstudiante = new Estudiante
+        var newEstudiante = new Estudiante
         {
             Nombre = "",
             Apellidos = "",
@@ -83,16 +69,27 @@ public partial class EstudiantesViewModel : ObservableObject
             Curso = Curso.Primero,
             Calificacion = 5.0
         };
-        IsNewItem = true;
-        IsEditing = true;
+
+        var editViewModel = new EstudianteEditViewModel(newEstudiante, _personasService, _imageService, isNew: true);
+        var editWindow = new EstudianteEditWindow
+        {
+            DataContext = editViewModel,
+            Owner = Application.Current.MainWindow
+        };
+
+        if (editWindow.ShowDialog() == true)
+        {
+            LoadEstudiantes();
+            StatusMessage = "Estudiante creado";
+        }
     }
 
     [RelayCommand]
     private void Edit()
     {
         if (SelectedEstudiante == null) return;
-        
-        EditingEstudiante = new Estudiante
+
+        var editEstudiante = new Estudiante
         {
             Id = SelectedEstudiante.Id,
             Nombre = SelectedEstudiante.Nombre,
@@ -106,48 +103,19 @@ public partial class EstudiantesViewModel : ObservableObject
             Imagen = SelectedEstudiante.Imagen,
             IsDeleted = SelectedEstudiante.IsDeleted
         };
-        IsNewItem = false;
-        IsEditing = true;
-    }
 
-    [RelayCommand]
-    private void Save()
-    {
-        try
+        var editViewModel = new EstudianteEditViewModel(editEstudiante, _personasService, _imageService, isNew: false);
+        var editWindow = new EstudianteEditWindow
         {
-            Result<Persona, DomainError> result;
-            
-            if (IsNewItem)
-            {
-                result = _personasService.Save(EditingEstudiante);
-            }
-            else
-            {
-                result = _personasService.Update(EditingEstudiante.Id, EditingEstudiante);
-            }
+            DataContext = editViewModel,
+            Owner = Application.Current.MainWindow
+        };
 
-            if (result.IsSuccess)
-            {
-                IsEditing = false;
-                LoadEstudiantes();
-                StatusMessage = IsNewItem ? "Estudiante creado" : "Estudiante actualizado";
-            }
-            else
-            {
-                MessageBox.Show(result.Error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-        catch (Exception ex)
+        if (editWindow.ShowDialog() == true)
         {
-            _logger.Error(ex, "Error al guardar estudiante");
-            StatusMessage = "Error al guardar";
+            LoadEstudiantes();
+            StatusMessage = "Estudiante actualizado";
         }
-    }
-
-    [RelayCommand]
-    private void Cancel()
-    {
-        IsEditing = false;
     }
 
     [RelayCommand]
@@ -206,25 +174,5 @@ public partial class EstudiantesViewModel : ObservableObject
     {
         OrdenActual = orden;
         LoadEstudiantes();
-    }
-
-    [RelayCommand]
-    private void SelectImage()
-    {
-        var dialog = new Microsoft.Win32.OpenFileDialog
-        {
-            Filter = "Imágenes|*.jpg;*.jpeg;*.png;*.bmp;*.gif",
-            Title = "Seleccionar imagen"
-        };
-
-        if (dialog.ShowDialog() == true)
-        {
-            var imageResult = _imageService.SaveImage(dialog.FileName);
-            if (imageResult.IsSuccess)
-            {
-                EditingEstudiante = EditingEstudiante with { Imagen = imageResult.Value };
-                OnPropertyChanged(nameof(EditingEstudiante));
-            }
-        }
     }
 }
