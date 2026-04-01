@@ -37,14 +37,14 @@
                                HorizontalAlignment="Center" VerticalAlignment="Center"
                                Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
                                FontSize="11"
-                               Visibility="{Binding FormData.Imagen, Converter={StaticResource InverseStringToVisibilityConverter}}"/>
+                               Visibility="{Binding FormData.Imagen, Converter={StaticResource NullToVisibilityConverter}}"/>
                 </Grid>
             </Border>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,8,0,0">
                 <Button Content="Limpiar imagen"
                         Command="{Binding LimpiarImagenCommand}"
                         Style="{StaticResource SecondaryButton}"
-                        IsEnabled="{Binding FormData.Imagen, Converter={StaticResource StringToBooleanConverter}}"
+                        IsEnabled="{Binding FormData.Imagen, Converter={StaticResource NullToBoolConverter}}"
                         FontSize="12" MinWidth="120"/>
             </StackPanel>
             <TextBlock Text="Formatos: JPG, PNG, GIF, BMP · Máx. 2 MB"

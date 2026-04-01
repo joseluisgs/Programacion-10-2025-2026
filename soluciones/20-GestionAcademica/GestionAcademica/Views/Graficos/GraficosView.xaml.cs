@@ -67,19 +67,23 @@ public partial class GraficosView : Page
 
             NotasChart.Plot.Clear();
 
-            var bars = NotasChart.Plot.Add.Bars(calificaciones);
-            foreach (var bar in bars.Bars)
+            var barData = calificaciones.Select((v, i) => new ScottPlot.Bar
             {
-                bar.FillColor = ScottPlot.Color.FromHex("#667EEA");
-                bar.LineWidth = 0;
-            }
+                Position = i,
+                Value = v,
+                FillColor = ScottPlot.Color.FromHex("#667EEA"),
+                LineWidth = 0
+            }).ToArray();
+
+            NotasChart.Plot.Add.Bars(barData);
 
             NotasChart.Plot.YLabel("Nota Media");
             NotasChart.Plot.XLabel("Ciclos");
             NotasChart.Plot.Title("Notas medias por ciclo");
             NotasChart.Plot.Axes.Bottom.TickGenerator = new ScottPlot.TickGenerators.NumericManual(
-                Enumerable.Range(0, ciclosLabels.Length).Select(i => (double)i).ToArray(),
-                ciclosLabels
+                Enumerable.Range(0, ciclosLabels.Length)
+                    .Select(i => new ScottPlot.Tick((double)i, ciclosLabels[i]))
+                    .ToArray()
             );
             NotasChart.Plot.Axes.Bottom.MajorTickStyle.Length = 0;
             NotasChart.Plot.Axes.Title.Label.FontSize = 16;
@@ -150,44 +154,47 @@ public partial class GraficosView : Page
     {
         try
         {
-            var calificaciones = _viewModel.GetCalificacionesData();
-            var (docentesValues, _) = _viewModel.GetDocentesPorCiclo();
+            var (estudiantesValues, estudiantesLabels) = _viewModel.GetEstudiantesCantidadPorCiclo();
+            var (docentesValues, docentesLabels) = _viewModel.GetDocentesPorCiclo();
 
             CiclosChart.Plot.Clear();
 
-            // Crear barras agrupadas (estudiantes y docentes por ciclo)
-            var positions = Enumerable.Range(0, calificaciones.Length).Select(i => (double)i).ToArray();
+            var positions = Enumerable.Range(0, estudiantesLabels.Length).Select(i => (double)i).ToArray();
+
             var estudiantesBars = positions.Select((pos, i) => new ScottPlot.Bar
             {
                 Position = pos - 0.2,
-                Value = calificaciones[i],
+                Value = estudiantesValues[i],
                 FillColor = ScottPlot.Color.FromHex("#667EEA"),
                 Label = "Estudiantes"
-            }).ToList();
+            }).ToArray();
 
-            var docentesBars = positions.Select((pos, i) => new ScottPlot.Bar
+            var docentesBars = positions.Select((pos, i) =>
             {
-                Position = pos + 0.2,
-                Value = i < docentesValues.Length ? docentesValues[i] : 0,
-                FillColor = ScottPlot.Color.FromHex("#764BA2"),
-                Label = "Docentes"
-            }).ToList();
+                var ciclo = estudiantesLabels[i];
+                var idx = Array.IndexOf(docentesLabels, ciclo);
+                return new ScottPlot.Bar
+                {
+                    Position = pos + 0.2,
+                    Value = idx >= 0 ? docentesValues[idx] : 0,
+                    FillColor = ScottPlot.Color.FromHex("#764BA2"),
+                    Label = "Docentes"
+                };
+            }).ToArray();
 
-            CiclosChart.Plot.Add.Bars(estudiantesBars.ToArray());
-            CiclosChart.Plot.Add.Bars(docentesBars.ToArray());
+            CiclosChart.Plot.Add.Bars(estudiantesBars);
+            CiclosChart.Plot.Add.Bars(docentesBars);
 
             CiclosChart.Plot.YLabel("Cantidad");
             CiclosChart.Plot.XLabel("Ciclos");
             CiclosChart.Plot.Title("Personas por ciclo");
 
-            // Leyenda fuera del gráfico
             CiclosChart.Plot.Legend.IsVisible = true;
             CiclosChart.Plot.Legend.Alignment = ScottPlot.Alignment.UpperRight;
             CiclosChart.Plot.Legend.FontSize = 11;
 
             CiclosChart.Plot.Axes.Bottom.TickGenerator = new ScottPlot.TickGenerators.NumericManual(
-                positions,
-                _viewModel.GetCicloLabels()
+                positions.Select((pos, i) => new ScottPlot.Tick(pos, estudiantesLabels[i])).ToArray()
             );
             CiclosChart.Plot.Axes.Bottom.MajorTickStyle.Length = 0;
             CiclosChart.Plot.Axes.Title.Label.FontSize = 16;
@@ -217,18 +224,22 @@ public partial class GraficosView : Page
 
             EdadChart.Plot.Clear();
 
-            var bars = EdadChart.Plot.Add.Bars(edadValues);
-            foreach (var bar in bars.Bars)
+            var barData = edadValues.Select((v, i) => new ScottPlot.Bar
             {
-                bar.FillColor = ScottPlot.Color.FromHex("#28A745");
-                bar.LineWidth = 0;
-            }
+                Position = i,
+                Value = v,
+                FillColor = ScottPlot.Color.FromHex("#28A745"),
+                LineWidth = 0
+            }).ToArray();
+
+            EdadChart.Plot.Add.Bars(barData);
 
             EdadChart.Plot.YLabel("Cantidad de estudiantes");
             EdadChart.Plot.Title("Distribución por edad");
             EdadChart.Plot.Axes.Bottom.TickGenerator = new ScottPlot.TickGenerators.NumericManual(
-                Enumerable.Range(0, edadLabels.Length).Select(i => (double)i).ToArray(),
-                edadLabels
+                Enumerable.Range(0, edadLabels.Length)
+                    .Select(i => new ScottPlot.Tick((double)i, edadLabels[i]))
+                    .ToArray()
             );
             EdadChart.Plot.Axes.Bottom.MajorTickStyle.Length = 0;
             EdadChart.Plot.Axes.Title.Label.FontSize = 16;
