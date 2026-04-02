@@ -1,0 +1,208 @@
+<!-- ============================================================ -->
+<!-- MainWindow.xaml - Gestion de Productos con Material Design -->
+<!-- ============================================================ -->
+
+<Window x:Class="GestionProductos.Views.Main.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Gestion de Productos" Height="650" Width="1000"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize"
+        Background="{DynamicResource MaterialDesign.Brush.Background}"
+        TextElement.Foreground="{DynamicResource MaterialDesign.Brush.Foreground}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="14"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        FontFamily="{DynamicResource MaterialDesignFont}">
+
+    <Grid>
+        <DockPanel>
+            <!-- Barra de titulo con color -->
+            <materialDesign:ColorZone Mode="PrimaryMid" DockPanel.Dock="Top" Padding="10">
+                <DockPanel>
+                    <TextBlock Text="Gestion de Productos" 
+                               Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                               VerticalAlignment="Center"/>
+                    
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <!-- Toggle para cambiar tema claro/oscuro -->
+                        <ToggleButton x:Name="ThemeToggle"
+                                      Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                      ToolTip="Cambiar tema"
+                                      Checked="ThemeToggle_Changed"
+                                      Unchecked="ThemeToggle_Changed"
+                                      Margin="0,0,15,0"/>
+                        <materialDesign:PackIcon Kind="WeatherSunny" 
+                                                 VerticalAlignment="Center" 
+                                                 Margin="0,0,5,0"
+                                                 x:Name="ThemeIcon"/>
+                    </StackPanel>
+                </DockPanel>
+            </materialDesign:ColorZone>
+
+            <!-- Menu -->
+            <Menu Background="Transparent" DockPanel.Dock="Top">
+                <MenuItem Header="Archivo">
+                    <MenuItem Header="Actualizar" Click="MenuActualizar_Click">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Refresh"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator/>
+                    <MenuItem Header="Salir" Click="MenuSalir_Click">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="ExitToApp"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="Productos">
+                    <MenuItem Header="Anadir" Click="BtnAñadir_Click">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Plus"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Editar" Click="BtnEditar_Click">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Pencil"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Eliminar" Click="BtnEliminar_Click">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Delete"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="Ayuda">
+                    <MenuItem Header="Acerca de" Click="MenuAcercaDe_Click">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Information"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+            </Menu>
+
+            <!-- Contenido principal -->
+            <Grid Margin="15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Panel de busqueda -->
+                <Grid Grid.Row="0" Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBox x:Name="TxtBuscar" Grid.Column="0" 
+                             materialDesign:HintAssist.Hint="Buscar..."
+                             materialDesign:TextFieldAssist.HasClearButton="True"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             TextChanged="TxtBuscar_TextChanged"/>
+                    
+                    <ComboBox x:Name="CmbCategoria" Grid.Column="1" Width="150" 
+                              materialDesign:HintAssist.Hint="Categoria"
+                              Style="{StaticResource MaterialDesignOutlinedComboBox}" 
+                              Margin="10,0,0,0"
+                              SelectionChanged="CmbCategoria_SelectionChanged">
+                        <ComboBoxItem Content="Todas" IsSelected="True"/>
+                    </ComboBox>
+                    
+                    <Button Grid.Column="2" Content="Actualizar" 
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            Margin="10,0,0,0"
+                            Click="BtnActualizar_Click"/>
+                </Grid>
+
+                <!-- DataGrid -->
+                <DataGrid x:Name="GridProductos" Grid.Row="1" 
+                          Style="{StaticResource MaterialDesignDataGrid}"
+                          SelectionChanged="GridProductos_SelectionChanged">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                        <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="180"/>
+                        <DataGridTextColumn Header="Descripcion" Binding="{Binding Descripcion}" Width="200"/>
+                        <DataGridTextColumn Header="Categoria" Binding="{Binding Categoria}" Width="100"/>
+                        <DataGridTextColumn Header="Precio" Binding="{Binding Precio, StringFormat='{}{0:C2}'}" Width="80"/>
+                        <DataGridTextColumn Header="Stock" Binding="{Binding Stock}" Width="60"/>
+                        <DataGridTextColumn Header="Total" Binding="{Binding ValorTotal, StringFormat='{}{0:C2}'}" Width="90"/>
+                        <DataGridCheckBoxColumn Header="Activo" Binding="{Binding Activo}" Width="60"/>
+                        <DataGridTextColumn Header="Fecha" Binding="{Binding FechaCreacion, StringFormat='{}{0:dd/MM/yyyy}'}" Width="80"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- Botones CRUD -->
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15,0,10">
+                    <Button x:Name="BtnAñadir" Content="Anadir" 
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            Click="BtnAñadir_Click">
+                        <Button.Background>
+                            <SolidColorBrush Color="#4CAF50"/>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="BtnEditar" Content="Editar" 
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            IsEnabled="False" Click="BtnEditar_Click">
+                        <Button.Background>
+                            <SolidColorBrush Color="#2196F3"/>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="BtnEliminar" Content="Eliminar" 
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            IsEnabled="False" Click="BtnEliminar_Click">
+                        <Button.Background>
+                            <SolidColorBrush Color="#D32F2F"/>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="BtnActivar" Content="Activar" 
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            IsEnabled="False" Click="BtnActivar_Click">
+                        <Button.Background>
+                            <SolidColorBrush Color="#FF9800"/>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="BtnDesactivar" Content="Desactivar" 
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            IsEnabled="False" Click="BtnDesactivar_Click">
+                        <Button.Background>
+                            <SolidColorBrush Color="#9E9E9E"/>
+                        </Button.Background>
+                    </Button>
+                </StackPanel>
+
+                <!-- Panel de estadisticas -->
+                <materialDesign:Card Grid.Row="3" UniformCornerRadius="8" Padding="15">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock x:Name="TxtTotalProductos" 
+                                   Text="Total: 0" 
+                                   Style="{StaticResource MaterialDesignSubtitle1TextBlock}" 
+                                   Margin="0,0,30,0"/>
+                        <TextBlock x:Name="TxtProductosActivos" 
+                                   Text="Activos: 0" 
+                                   Style="{StaticResource MaterialDesignSubtitle1TextBlock}" 
+                                   Margin="0,0,30,0"/>
+                        <TextBlock x:Name="TxtTotalStock" 
+                                   Text="Stock: 0" 
+                                   Style="{StaticResource MaterialDesignSubtitle1TextBlock}" 
+                                   Margin="0,0,30,0"/>
+                        <TextBlock x:Name="TxtCategorias" 
+                                   Text="Categorias: 0" 
+                                   Style="{StaticResource MaterialDesignSubtitle1TextBlock}"/>
+                    </StackPanel>
+                </materialDesign:Card>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,47 @@
+<Window x:Class="LayoutsComponentes.Views.Main.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Layouts y Componentes WPF" Height="500" Width="450"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    
+    <!-- Grid principal para centrar contenido -->
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Título -->
+        <TextBlock Text="📐 Layouts y Componentes WPF" 
+                   FontSize="22" 
+                   FontWeight="Bold" 
+                   HorizontalAlignment="Center" 
+                   Margin="0,0,0,20"/>
+        
+        <!-- Panel de botones con StackPanel -->
+        <StackPanel Grid.Row="1" VerticalAlignment="Top">
+            
+            <!-- Sección: Layouts -->
+            <TextBlock Text="📐 LAYOUTS" FontWeight="SemiBold" Margin="0,5,0,10"/>
+            
+            <Button Content="1. Grid (Filas y Columnas)" Height="35" Margin="0,3" Click="BtnGrid_Click"/>
+            <Button Content="2. StackPanel y DockPanel" Height="35" Margin="0,3" Click="BtnStackDock_Click"/>
+            <Button Content="3. WrapPanel y Canvas" Height="35" Margin="0,3" Click="BtnWrapCanvas_Click"/>
+            
+            <!-- Sección: Componentes -->
+            <TextBlock Text="🔧 COMPONENTES" FontWeight="SemiBold" Margin="0,15,0,10"/>
+            
+            <Button Content="4. Componentes de Formulario" Height="35" Margin="0,3" Click="BtnFormComponents_Click"/>
+            <Button Content="5. Componentes de Selección" Height="35" Margin="0,3" Click="BtnSelection_Click"/>
+            <Button Content="6. DataGrid y ListView" Height="35" Margin="0,3" Click="BtnDataGrid_Click"/>
+            
+            <!-- Sección: Avanzados -->
+            <TextBlock Text="🔶 AVANZADOS" FontWeight="SemiBold" Margin="0,15,0,10"/>
+            
+            <Button Content="7. Tabs y Expander" Height="35" Margin="0,3" Click="BtnTabsExpander_Click"/>
+            <Button Content="8. Recursos (Static/Dynamic)" Height="35" Margin="0,3" Click="BtnResources_Click"/>
+            
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,62 @@
+<Page x:Class="GestionAcademica.Views.ImportExport.ImportExportView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Gestión Académica - Importar/Exportar"
+      Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Grid.Row="0" Text="📥 Importar / Exportar Datos" 
+                   Style="{DynamicResource HeaderLabel}" Margin="0,0,0,20"/>
+
+        <!-- Options -->
+        <StackPanel Grid.Row="1" Margin="0,0,0,20">
+            <CheckBox Content="Sustituir datos existentes al importar" IsChecked="{Binding SustituirDatos}" 
+                      Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+        </StackPanel>
+
+        <!-- Actions -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Export -->
+            <GroupBox Grid.Column="0" Header="Exportar" 
+                      Style="{DynamicResource GroupBoxStyle}" Margin="0,0,10,0">
+                <StackPanel Margin="10">
+                    <Button Content="📤 Exportar CSV" Command="{Binding ExportarCsvCommand}" 
+                            Style="{StaticResource PrimaryButton}" Margin="0,0,0,10"
+                            ToolTip="Exportar datos en formato CSV"/>
+                    <Button Content="📤 Exportar JSON" Command="{Binding ExportarJsonCommand}" 
+                            Style="{StaticResource SecondaryButton}"
+                            ToolTip="Exportar datos en formato JSON"/>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Import -->
+            <GroupBox Grid.Column="1" Header="Importar" 
+                      Style="{DynamicResource GroupBoxStyle}" Margin="10,0,0,0">
+                <StackPanel Margin="10">
+                    <Button Content="📥 Importar CSV" Command="{Binding ImportarCsvCommand}" 
+                            Style="{StaticResource PrimaryButton}" Margin="0,0,0,10"
+                            ToolTip="Importar datos desde un archivo CSV"/>
+                    <Button Content="📥 Importar JSON" Command="{Binding ImportarJsonCommand}" 
+                            Style="{StaticResource SecondaryButton}"
+                            ToolTip="Importar datos desde un archivo JSON"/>
+                </StackPanel>
+            </GroupBox>
+        </Grid>
+
+        <!-- Status Bar -->
+        <TextBlock Grid.Row="3" Text="{Binding StatusMessage}" 
+                   Style="{DynamicResource StatusLabel}" Margin="0,10,0,0"/>
+    </Grid>
+</Page>

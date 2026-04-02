@@ -1,0 +1,150 @@
+<Page x:Class="GestionAcademica.Views.Docentes.DocentesView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Docentes"
+      Background="#1E1E1E">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Gestión de Docentes" 
+                   Foreground="White" FontSize="28" FontWeight="Bold" Margin="0,0,0,20"/>
+
+        <!-- Toolbar -->
+        <Border Grid.Row="1" Background="#252525" CornerRadius="8" Padding="15" Margin="0,0,0,20">
+            <WrapPanel>
+                <Button Content="+ Nuevo" Command="{Binding NewCommand}" 
+                        Background="#667EEA" Foreground="White" BorderThickness="0" 
+                        Padding="20,10" Cursor="Hand" Margin="0,0,10,0" FontWeight="Bold"
+                        MinWidth="120">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" CornerRadius="6" 
+                                    Padding="{TemplateBinding Padding}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button Content="Editar" Command="{Binding EditCommand}" 
+                        Background="#3C3C3C" Foreground="White" BorderThickness="0" 
+                        Padding="20,10" Cursor="Hand" Margin="0,0,10,0"
+                        IsEnabled="{Binding SelectedDocente, Converter={StaticResource NullToBoolConverter}}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" CornerRadius="6" 
+                                    Padding="{TemplateBinding Padding}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button Content="Eliminar" Command="{Binding DeleteCommand}" 
+                        Background="#DC3545" Foreground="White" BorderThickness="0" 
+                        Padding="20,10" Cursor="Hand" Margin="0,0,30,0"
+                        IsEnabled="{Binding SelectedDocente, Converter={StaticResource NullToBoolConverter}}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" CornerRadius="6" 
+                                    Padding="{TemplateBinding Padding}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                
+                <TextBlock Text="Buscar:" VerticalAlignment="Center" Foreground="#CCCCCC" Margin="0,0,10,0" FontSize="14"/>
+                <TextBox Width="300" 
+                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" 
+                         Background="#1E1E1E" Foreground="White" BorderBrush="#555555" BorderThickness="1" 
+                         Padding="10,8" FontSize="14">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Enter" Command="{Binding SearchCommand}"/>
+                    </TextBox.InputBindings>
+                </TextBox>
+            </WrapPanel>
+        </Border>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- DataGrid -->
+            <DataGrid Grid.Column="0" ItemsSource="{Binding Docentes}" 
+                      SelectedItem="{Binding SelectedDocente}"
+                      AutoGenerateColumns="False" IsReadOnly="True"
+                      Background="#252525" Foreground="White" BorderBrush="#3C3C3C"
+                      GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#3C3C3C"
+                      RowBackground="#252525" AlternatingRowBackground="#2A2A2A"
+                      SelectionUnit="FullRow" Margin="0,0,20,0">
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="#4A4A6A"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Padding" Value="12"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Foto" Width="60">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border Width="40" Height="40" CornerRadius="20" Margin="5" ClipToBounds="True">
+                                    <Image Source="{Binding Imagen, Converter={StaticResource ImagePathConverter}}" Stretch="UniformToFill"/>
+                                </Border>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="DNI" Binding="{Binding Dni}" Width="100"/>
+                    <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="*"/>
+                    <DataGridTextColumn Header="Apellidos" Binding="{Binding Apellidos}" Width="*"/>
+                    <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
+                    <DataGridTextColumn Header="Ciclo" Binding="{Binding Ciclo}" Width="100"/>
+                    <DataGridTextColumn Header="Especialidad" Binding="{Binding Especialidad}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <!-- Panel de Edición -->
+            <Border Grid.Column="1" Width="450" 
+                    Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}"
+                    Background="#252525" BorderBrush="#667EEA" BorderThickness="2" CornerRadius="10" Padding="25">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock Text="Datos del Docente" Foreground="White" FontSize="22" FontWeight="Bold" Margin="0,0,0,25"/>
+
+                        <Border Width="120" Height="120" CornerRadius="60" Background="#3C3C3C" HorizontalAlignment="Center" Margin="0,0,0,25" Cursor="Hand" MouseLeftButtonDown="OnPhotoClick">
+                            <Grid>
+                                <Image Source="{Binding EditingDocente.Imagen, Converter={StaticResource ImagePathConverter}}" Stretch="UniformToFill"/>
+                            </Grid>
+                        </Border>
+
+                        <TextBlock Text="Nombre *" Foreground="#CCCCCC" Margin="0,0,0,5"/>
+                        <TextBox Text="{Binding EditingDocente.Nombre, UpdateSourceTrigger=PropertyChanged}" Background="#1E1E1E" Foreground="White" Margin="0,0,0,15" Padding="10"/>
+                        
+                        <TextBlock Text="Apellidos *" Foreground="#CCCCCC" Margin="0,0,0,5"/>
+                        <TextBox Text="{Binding EditingDocente.Apellidos, UpdateSourceTrigger=PropertyChanged}" Background="#1E1E1E" Foreground="White" Margin="0,0,0,15" Padding="10"/>
+
+                        <TextBlock Text="DNI *" Foreground="#CCCCCC" Margin="0,0,0,5"/>
+                        <TextBox Text="{Binding EditingDocente.Dni, UpdateSourceTrigger=PropertyChanged}" Background="#1E1E1E" Foreground="White" Margin="0,0,0,15" Padding="10"/>
+
+                        <TextBlock Text="Especialidad" Foreground="#CCCCCC" Margin="0,0,0,5"/>
+                        <TextBox Text="{Binding EditingDocente.Especialidad, UpdateSourceTrigger=PropertyChanged}" Background="#1E1E1E" Foreground="White" Margin="0,0,0,15" Padding="10"/>
+
+                        <Button Content="Guardar" Command="{Binding SaveCommand}" Background="#667EEA" Foreground="White" Padding="15" Margin="0,20,0,10" FontWeight="Bold"/>
+                        <Button Content="Cancelar" Command="{Binding CancelCommand}" Background="#3C3C3C" Foreground="White" Padding="10"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+
+        <Border Grid.Row="3" Background="#252525" CornerRadius="5" Padding="15,10" Margin="0,15,0,0">
+            <TextBlock Text="{Binding StatusMessage}" Foreground="#AAAAAA" FontSize="13"/>
+        </Border>
+    </Grid>
+</Page>

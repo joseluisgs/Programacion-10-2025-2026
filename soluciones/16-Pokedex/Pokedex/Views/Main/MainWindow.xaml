@@ -1,0 +1,301 @@
+<Window x:Class="Pokedex.Views.Main.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converters="clr-namespace:Pokedex.Converters"
+        Title="Pokedex" Height="520" Width="850"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize"
+        Background="#d2d2fa"
+        Icon="/Resources/app-icon.ico">
+
+    <Window.Resources>
+        <converters:ListToStringConverter x:Key="ListToStringConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
+
+    <DockPanel>
+        <!-- Menu -->
+        <Menu DockPanel.Dock="Top" Background="#ff7f7f">
+            <MenuItem Header="Archivo" Foreground="White">
+                <MenuItem Header="Importar" Command="{Binding ImportarCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/icons/file-import.png" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Exportar" Command="{Binding ExportarCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/icons/file-import.png" Width="16" Height="16" RenderTransformOrigin="0.5,0.5">
+                            <Image.RenderTransform>
+                                <ScaleTransform ScaleX="-1"/>
+                            </Image.RenderTransform>
+                        </Image>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Salir" Command="{Binding CerrarCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/icons/exit.png" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Ayuda" Foreground="White">
+                <MenuItem Header="Acerca de" Click="AcercaDe_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/icons/about.png" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+
+        <Grid Margin="10" Visibility="{Binding EstaCargando, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Border Background="#80000000"/>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="Cargando..." FontSize="24" Foreground="White" FontWeight="Bold"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="350"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Lista de Pokemons -->
+            <Border Grid.Column="0" Background="White" CornerRadius="5" Margin="0,0,10,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Buscador -->
+                    <Grid Grid.Row="0" Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBox Text="{Binding Busqueda, UpdateSourceTrigger=PropertyChanged}"
+                                 Background="#fff7da" Padding="5"/>
+                        
+                        <ComboBox Grid.Column="1" Margin="10,0,0,0" Padding="5"
+                                  ItemsSource="{Binding OpcionesOrden}"
+                                  SelectedItem="{Binding OrdenSeleccionado}"
+                                  Background="#fff7da" Width="100"/>
+                        
+                        <Button Grid.Column="2" Content="Limpiar" 
+                                Margin="10,0,0,0" Padding="10,5"
+                                Command="{Binding LimpiarBusquedaCommand}"/>
+                    </Grid>
+
+                    <!-- Filtro tipo -->
+                    <ComboBox Grid.Row="1" Margin="10,0,10,10"
+                              ItemsSource="{Binding Types}"
+                              SelectedItem="{Binding TipoSeleccionado}"
+                              Background="#fff7da"/>
+
+                    <!-- Tabla de Pokemons -->
+                    <DataGrid Grid.Row="2" 
+                              ItemsSource="{Binding Pokemons}"
+                              SelectedItem="{Binding PokemonSeleccionado}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              SelectionMode="Single"
+                              Background="#ffffff"
+                              Margin="10,0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Num" Binding="{Binding Id}" Width="60"/>
+                            <DataGridTextColumn Header="Nombre" Binding="{Binding Name}" Width="*"/>
+                            <DataGridTextColumn Header="Tipo" Binding="{Binding Type[0]}" Width="80"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!-- Slider paginación -->
+                    <StackPanel Grid.Row="3" Margin="10,5">
+                        <Slider Minimum="1" Maximum="{Binding TotalPaginas}" 
+                                Value="{Binding PaginaActual}" 
+                                TickFrequency="1" IsSnapToTickEnabled="True"/>
+                    </StackPanel>
+
+                    <!-- Paginación -->
+                    <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                        <Button Content="Anterior" 
+                                Command="{Binding PaginaAnteriorCommand}"
+                                Margin="0,0,10,0" Padding="10,5"/>
+                        <TextBlock VerticalAlignment="Center">
+                            <Run Text="Página "/>
+                            <Run Text="{Binding PaginaActual}"/>
+                            <Run Text=" de "/>
+                            <Run Text="{Binding TotalPaginas}"/>
+                            <Run Text=" | Total: "/>
+                            <Run Text="{Binding TotalPokemons}"/>
+                            <Run Text=" pokemons"/>
+                        </TextBlock>
+                        <Button Content="Siguiente" 
+                                Command="{Binding PaginaSiguienteCommand}"
+                                Margin="10,0,0,0" Padding="10,5"/>
+                    </StackPanel>
+
+                    <!-- Mensaje cuando no hay resultados -->
+                    <TextBlock Grid.Row="2" 
+                               Text="{Binding Mensaje}"
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Center"
+                               Foreground="Gray" FontSize="14"
+                               Visibility="{Binding Mensaje, Converter={StaticResource StringToVisibilityConverter}, FallbackValue=Collapsed}"/>
+                </Grid>
+            </Border>
+
+            <!-- Detalles del Pokemon -->
+            <Border Grid.Column="1" Background="White" CornerRadius="5" Padding="15">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock Text="Ficha Pokemon" 
+                                   FontSize="20" FontWeight="Bold" 
+                                   Foreground="#000d56" Margin="0,0,0,15"/>
+
+                        <!-- Badges Legendario/Mítico -->
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <Border Background="Gold" CornerRadius="5" Padding="5,2" Margin="0,0,5,0"
+                                    Visibility="{Binding EsLegendario, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <TextBlock Text="Legendario" FontSize="10" FontWeight="Bold" Foreground="Black"/>
+                            </Border>
+                            <Border Background="Purple" CornerRadius="5" Padding="5,2"
+                                    Visibility="{Binding EsMitico, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <TextBlock Text="Mítico" FontSize="10" FontWeight="Bold" Foreground="White"/>
+                            </Border>
+                        </StackPanel>
+
+                        <!-- Imagen -->
+                        <Border Background="#f0f0f0" CornerRadius="10" 
+                                Padding="10" HorizontalAlignment="Center" Margin="0,0,0,15">
+                            <Image x:Name="ImgPokemon"
+                                   Width="150" Height="150"
+                                   Stretch="Uniform"/>
+                        </Border>
+
+                        <!-- Datos principales -->
+                        <TextBlock FontSize="16" FontWeight="Bold" Margin="0,0,0,5">
+                            <Run Text="#"/>
+                            <Run Text="{Binding PokemonSeleccionado.Id, FallbackValue='---'}"/>
+                            <Run Text=" "/>
+                            <Run Text="{Binding PokemonSeleccionado.Name, FallbackValue='---'}"/>
+                        </TextBlock>
+                        <TextBlock Text="{Binding PokemonSeleccionado.Genus, FallbackValue='---'}" 
+                                   FontStyle="Italic" Foreground="Gray" Margin="0,0,0,10"/>
+
+                        <!-- Tipo -->
+                        <StackPanel Margin="0,0,0,10">
+                            <TextBlock Text="Tipo:" FontWeight="Bold"/>
+                            <TextBlock Text="{Binding PokemonSeleccionado.Type, Converter={StaticResource ListToStringConverter}, FallbackValue='---'}"/>
+                        </StackPanel>
+
+                        <!-- Información física -->
+                        <StackPanel Margin="0,0,0,10">
+                            <TextBlock Text="Información Física:" FontWeight="Bold"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Grid.Column="0">
+                                    <Run Text="Altura: " FontWeight="Bold"/>
+                                    <Run Text="{Binding PokemonSeleccionado.Height, StringFormat={}{0} m, FallbackValue='---'}"/>
+                                </TextBlock>
+                                <TextBlock Grid.Row="0" Grid.Column="1">
+                                    <Run Text="Peso: " FontWeight="Bold"/>
+                                    <Run Text="{Binding PokemonSeleccionado.Weight, StringFormat={}{0} kg, FallbackValue='---'}"/>
+                                </TextBlock>
+                                <TextBlock Grid.Row="1" Grid.Column="0">
+                                    <Run Text="Generación: " FontWeight="Bold"/>
+                                    <Run Text="{Binding Generacion, FallbackValue='---'}"/>
+                                </TextBlock>
+                                <TextBlock Grid.Row="1" Grid.Column="1">
+                                    <Run Text="Habitat: " FontWeight="Bold"/>
+                                    <Run Text="{Binding Habitat, FallbackValue='---'}"/>
+                                </TextBlock>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Stats base -->
+                        <StackPanel Margin="0,0,0,10">
+                            <TextBlock Text="Stats Base:" FontWeight="Bold"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="HP"/>
+                                <ProgressBar Grid.Row="0" Grid.Column="1" Value="{Binding Hp}" Maximum="255" Height="10" Margin="5,2"/>
+                                <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Hp}"/>
+                                
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Attack"/>
+                                <ProgressBar Grid.Row="1" Grid.Column="1" Value="{Binding Ataque}" Maximum="255" Height="10" Margin="5,2"/>
+                                <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Ataque}"/>
+                                
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Defense"/>
+                                <ProgressBar Grid.Row="2" Grid.Column="1" Value="{Binding Defensa}" Maximum="255" Height="10" Margin="5,2"/>
+                                <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding Defensa}"/>
+                                
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="Sp. Atk"/>
+                                <ProgressBar Grid.Row="3" Grid.Column="1" Value="{Binding SpAtaque}" Maximum="255" Height="10" Margin="5,2"/>
+                                <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding SpAtaque}"/>
+                                
+                                <TextBlock Grid.Row="4" Grid.Column="0" Text="Sp. Def"/>
+                                <ProgressBar Grid.Row="4" Grid.Column="1" Value="{Binding SpDefensa}" Maximum="255" Height="10" Margin="5,2"/>
+                                <TextBlock Grid.Row="4" Grid.Column="2" Text="{Binding SpDefensa}"/>
+                                
+                                <TextBlock Grid.Row="5" Grid.Column="0" Text="Speed"/>
+                                <ProgressBar Grid.Row="5" Grid.Column="1" Value="{Binding Velocidad}" Maximum="255" Height="10" Margin="5,2"/>
+                                <TextBlock Grid.Row="5" Grid.Column="2" Text="{Binding Velocidad}"/>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Habilidades -->
+                        <StackPanel Margin="0,0,0,10">
+                            <TextBlock Text="Habilidades:" FontWeight="Bold"/>
+                            <TextBlock Text="{Binding PokemonSeleccionado.Abilities[0].Name, FallbackValue='---'}" TextWrapping="Wrap"/>
+                        </StackPanel>
+
+                        <!-- Evoluciones -->
+                        <StackPanel Margin="0,0,0,10">
+                            <TextBlock Text="Evolución:" FontWeight="Bold"/>
+                            <TextBlock>
+                                <Run Text="← " FontWeight="Bold"/>
+                                <Run Text="{Binding EvolucionPrevia, FallbackValue='Ninguna'}"/>
+                            </TextBlock>
+                            <TextBlock>
+                                <Run Text="→ " FontWeight="Bold"/>
+                                <Run Text="{Binding EvolucionSiguiente, FallbackValue='Ninguna'}"/>
+                            </TextBlock>
+                        </StackPanel>
+
+                        <!-- Descripción -->
+                        <StackPanel>
+                            <TextBlock Text="Descripción:" FontWeight="Bold"/>
+                            <TextBlock Text="{Binding PokemonSeleccionado.Description, FallbackValue='---'}" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </DockPanel>
+</Window>

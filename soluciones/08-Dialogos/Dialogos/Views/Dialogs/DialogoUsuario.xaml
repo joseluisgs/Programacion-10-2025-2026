@@ -1,0 +1,47 @@
+<!-- ============================================================ -->
+<!-- DialogoUsuario.xaml - Diálogo para ingresar datos de usuario -->
+<!-- ============================================================ -->
+<!-- Ejemplo de diálogo personalizado que pide nombre y email. -->
+
+<Window x:Class="Dialogos.Views.Dialogs.DialogoUsuario"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Nuevo Usuario" Height="220" Width="350"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        WindowStyle="ToolWindow">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Título -->
+        <TextBlock Grid.Row="0" Text="👤 Nuevo Usuario" FontSize="18" FontWeight="Bold" 
+                   HorizontalAlignment="Center" Margin="0,0,0,15"/>
+
+        <!-- Nombre -->
+        <Label Grid.Row="1" Content="Nombre:" FontWeight="Bold"/>
+        <TextBox x:Name="TxtNombre" Grid.Row="1" Padding="5" Margin="0,25,0,5"/>
+
+        <!-- Email -->
+        <Label Grid.Row="2" Content="Email:" FontWeight="Bold"/>
+        <TextBox x:Name="TxtEmail" Grid.Row="2" Padding="5" Margin="0,25,0,5"/>
+
+        <!-- Botones -->
+        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15,0,0">
+            <Button Content="✅ Aceptar" Padding="20,8" Margin="5" 
+                    Background="#4CAF50" Foreground="White"
+                    Click="BtnAceptar_Click"/>
+            <Button Content="❌ Cancelar" Padding="20,8" Margin="5"
+                    Background="#f44336" Foreground="White"
+                    Click="BtnCancelar_Click"/>
+        </StackPanel>
+
+    </Grid>
+</Window>

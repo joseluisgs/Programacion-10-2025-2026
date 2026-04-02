@@ -1,0 +1,104 @@
+<Window x:Class="GestionAcademica.Views.Main.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        
+        Title="Gestión Académica - DAW"
+        Icon="pack://application:,,,/Resources/icons/app-icon.png"
+        Width="1200"
+        Height="800"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
+        Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Menu Bar -->
+        <Menu Grid.Row="0" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" Padding="5">
+            <MenuItem Header="_Archivo">
+                <MenuItem Header="_Exportar datos..." Click="OnExportarClick"/>
+                <MenuItem Header="_Importar datos..." Click="OnImportarClick"/>
+                <Separator/>
+                <MenuItem Header="_Crear backup..." Click="OnCrearBackupClick"/>
+                <MenuItem Header="_Restaurar backup..." Click="OnRestaurarBackupClick"/>
+                <Separator/>
+                <MenuItem Header="_Salir" Click="OnSalirClick"/>
+            </MenuItem>
+            
+            <MenuItem Header="_Personas">
+                <MenuItem Header="_Estudiantes" Click="OnEstudiantesClick"/>
+                <MenuItem Header="_Docentes" Click="OnDocentesClick"/>
+            </MenuItem>
+            
+            <MenuItem Header="_Informes">
+                <MenuItem Header="_Generar informe..." Click="OnInformesClick"/>
+                <MenuItem Header="_Estadísticas" Click="OnGraficosClick"/>
+            </MenuItem>
+            
+            <MenuItem Header="_Herramientas">
+                <MenuItem Header="_Configuración" Click="OnConfiguracionClick"/>
+            </MenuItem>
+            
+            <MenuItem Header="_Ayuda">
+                <MenuItem Header="_Acerca de" Click="OnAcercaDeClick"/>
+            </MenuItem>
+        </Menu>
+
+        <!-- Main Content -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="220"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Sidebar -->
+            <Border Grid.Column="0" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="0,0,1,0">
+                <StackPanel Margin="10">
+                    <TextBlock Text="NAVEGACIÓN" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" Margin="10,10,0,10"/>
+                    
+                    <Button Content="Dashboard" Click="OnDashboardClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"
+                            ToolTip="Ver panel de control"/>
+                    <Button Content="Estudiantes" Click="OnEstudiantesClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"
+                            ToolTip="Ver gestión de estudiantes"/>
+                    <Button Content="Docentes" Click="OnDocentesClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"
+                            ToolTip="Ver gestión de docentes"/>
+                    
+                    <Separator Margin="10,15" Background="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+                    
+                    <TextBlock Text="HERRAMIENTAS" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" Margin="10,0,0,10"/>
+                    
+                    <Button Content="Informes" Click="OnInformesClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"
+                            ToolTip="Ver generación de informes"/>
+                    <Button Content="Gráficos" Click="OnGraficosClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"
+                            ToolTip="Ver gráficos y estadísticas"/>
+                    <Button Content="Backups" Click="OnBackupClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"
+                            ToolTip="Ver gestión de copias de seguridad"/>
+                    <Button Content="Import/Export" Click="OnImportExportClick" Margin="0,2" Padding="15,10" HorizontalContentAlignment="Left" Background="Transparent" Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" BorderThickness="0"
+                            ToolTip="Ver importación y exportación de datos"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Content Area -->
+            <Frame x:Name="MainFrame" Grid.Column="1" NavigationUIVisibility="Hidden"/>
+        </Grid>
+
+        <!-- Status Bar -->
+        <StatusBar Grid.Row="2" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" Padding="5">
+            <StatusBarItem>
+                <TextBlock x:Name="StatusText" Text="Listo" FontSize="12"/>
+            </StatusBarItem>
+            <Separator Background="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+            <StatusBarItem>
+                <TextBlock Text="{Binding Source={x:Static sys:DateTime.Now}, StringFormat='{}{0:dd/MM/yyyy HH:mm}'}" FontSize="12" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Right">
+                <TextBlock x:Name="DeleteTypeText" FontSize="12" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>

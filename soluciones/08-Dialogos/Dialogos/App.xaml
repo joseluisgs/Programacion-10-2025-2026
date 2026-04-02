@@ -1,0 +1,11 @@
+<!-- ============================================================ -->
+<!-- App.xaml - Configuración de la aplicación -->
+<!-- ============================================================ -->
+
+<Application x:Class="Dialogos.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="Views/Main/MainWindow.xaml">
+    <Application.Resources>
+    </Application.Resources>
+</Application>

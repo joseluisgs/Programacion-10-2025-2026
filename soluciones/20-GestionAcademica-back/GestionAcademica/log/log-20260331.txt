@@ -1,0 +1,813 @@
+2026-03-31 20:23:19.179 [INF] 🚀 Aplicación WPF iniciada
+2026-03-31 20:23:19.227 [INF] ✅ ServiceProvider creado con todos los servicios
+2026-03-31 20:23:19.629 [INF] 📱 SplashWindow cargada
+2026-03-31 20:23:21.196 [INF] ✅ Tema cambiado a Dark
+2026-03-31 20:23:21.287 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:23:21.288 [DBG] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\reports
+2026-03-31 20:23:21.288 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:23:21.289 [INF] ✅ MainViewModel inicializado
+2026-03-31 20:23:21.289 [INF] 🏠 MainWindow inicializada
+2026-03-31 20:23:21.297 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:23:21.339 [INF] 📊 Dashboard cargado
+2026-03-31 20:23:21.339 [DBG] 📊 DashboardView cargado
+2026-03-31 20:23:21.343 [INF] 👋 Aplicación cerrándose
+2026-03-31 20:23:48.130 [INF] 🚀 Aplicación WPF iniciada
+2026-03-31 20:23:48.173 [INF] ✅ ServiceProvider creado con todos los servicios
+2026-03-31 20:23:48.423 [INF] 📱 SplashWindow cargada
+2026-03-31 20:23:49.985 [INF] ✅ Tema cambiado a Dark
+2026-03-31 20:23:50.062 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:23:50.063 [DBG] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\reports
+2026-03-31 20:23:50.063 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:23:50.064 [INF] ✅ MainViewModel inicializado
+2026-03-31 20:23:50.064 [INF] 🏠 MainWindow inicializada
+2026-03-31 20:23:50.071 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:23:50.111 [INF] 📊 Dashboard cargado
+2026-03-31 20:23:50.112 [DBG] 📊 DashboardView cargado
+2026-03-31 20:23:50.113 [INF] 👋 Aplicación cerrándose
+2026-03-31 20:24:04.074 [INF] 🚀 Aplicación WPF iniciada
+2026-03-31 20:24:04.117 [INF] ✅ ServiceProvider creado con todos los servicios
+2026-03-31 20:24:04.385 [INF] 📱 SplashWindow cargada
+2026-03-31 20:24:05.950 [INF] ✅ Tema cambiado a Dark
+2026-03-31 20:24:06.029 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:24:06.030 [DBG] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\reports
+2026-03-31 20:24:06.030 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:24:06.030 [INF] ✅ MainViewModel inicializado
+2026-03-31 20:24:06.031 [INF] 🏠 MainWindow inicializada
+2026-03-31 20:24:06.038 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:24:06.079 [INF] 📊 Dashboard cargado
+2026-03-31 20:24:06.079 [DBG] 📊 DashboardView cargado
+2026-03-31 20:24:06.080 [INF] 👋 Aplicación cerrándose
+2026-03-31 20:24:24.329 [INF] 🚀 Aplicación WPF iniciada
+2026-03-31 20:24:24.374 [INF] ✅ ServiceProvider creado con todos los servicios
+2026-03-31 20:24:24.634 [INF] 📱 SplashWindow cargada
+2026-03-31 20:24:26.197 [INF] ✅ Tema cambiado a Dark
+2026-03-31 20:24:26.275 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:24:26.276 [DBG] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\reports
+2026-03-31 20:24:26.276 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:24:26.277 [INF] ✅ MainViewModel inicializado
+2026-03-31 20:24:26.277 [INF] 🏠 MainWindow inicializada
+2026-03-31 20:24:26.285 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:24:26.326 [INF] 📊 Dashboard cargado
+2026-03-31 20:24:26.327 [DBG] 📊 DashboardView cargado
+2026-03-31 20:24:26.328 [INF] 👋 Aplicación cerrándose
+2026-03-31 20:24:52.017 [INF] 🚀 Aplicación WPF iniciada
+2026-03-31 20:24:52.062 [INF] ✅ ServiceProvider creado con todos los servicios
+2026-03-31 20:24:52.334 [INF] 📱 SplashWindow cargada
+2026-03-31 20:24:54.394 [INF] ✅ Tema cambiado a Dark
+2026-03-31 20:24:54.470 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:24:54.472 [DBG] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\reports
+2026-03-31 20:24:54.472 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:24:54.472 [INF] ✅ MainViewModel inicializado
+2026-03-31 20:24:54.473 [INF] 🏠 MainWindow inicializada
+2026-03-31 20:24:54.479 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:24:54.522 [INF] 📊 Dashboard cargado
+2026-03-31 20:24:54.522 [DBG] 📊 DashboardView cargado
+2026-03-31 20:24:54.523 [INF] 👋 Aplicación cerrándose
+2026-03-31 20:25:16.578 [INF] 🚀 Aplicación WPF iniciada
+2026-03-31 20:25:16.623 [INF] ✅ ServiceProvider creado con todos los servicios
+2026-03-31 20:25:16.882 [INF] 📱 SplashWindow cargada
+2026-03-31 20:25:18.943 [INF] ✅ Tema cambiado a Dark
+2026-03-31 20:25:19.019 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:25:19.020 [DBG] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\reports
+2026-03-31 20:25:19.020 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:25:19.021 [INF] ✅ MainViewModel inicializado
+2026-03-31 20:25:19.021 [INF] 🏠 MainWindow inicializada
+2026-03-31 20:25:19.028 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:25:19.067 [INF] 📊 Dashboard cargado
+2026-03-31 20:25:19.068 [DBG] 📊 DashboardView cargado
+2026-03-31 20:25:19.068 [INF] 🏁 MainWindow cerrada
+2026-03-31 20:25:19.069 [INF] 👋 Aplicación cerrándose
+2026-03-31 20:25:52.496 [INF] 🚀 Aplicación WPF iniciada
+2026-03-31 20:25:52.540 [INF] ✅ ServiceProvider creado con todos los servicios
+2026-03-31 20:25:52.806 [INF] 📱 SplashWindow cargada
+2026-03-31 20:25:54.871 [INF] ✅ Tema cambiado a Dark
+2026-03-31 20:25:54.946 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:25:54.947 [DBG] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\reports
+2026-03-31 20:25:54.947 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:25:54.948 [INF] ✅ MainViewModel inicializado
+2026-03-31 20:25:54.948 [INF] 🏠 MainWindow inicializada
+2026-03-31 20:25:54.955 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:25:54.994 [INF] 📊 Dashboard cargado
+2026-03-31 20:25:54.995 [DBG] 📊 DashboardView cargado
+2026-03-31 20:25:54.995 [INF] ✅ Aplicación iniciada correctamente
+2026-03-31 20:25:54.996 [INF] 🏁 MainWindow cerrada
+2026-03-31 20:25:54.996 [INF] 👋 Aplicación cerrándose
+2026-03-31 20:26:18.965 [INF] 🚀 Aplicación WPF iniciada
+2026-03-31 20:26:19.016 [INF] ✅ ServiceProvider creado con todos los servicios
+2026-03-31 20:26:19.205 [INF] ✅ Tema cambiado a Dark
+2026-03-31 20:26:19.299 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:26:19.300 [DBG] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\reports
+2026-03-31 20:26:19.300 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:26:19.301 [INF] ✅ MainViewModel inicializado
+2026-03-31 20:26:19.301 [INF] 🏠 MainWindow inicializada
+2026-03-31 20:26:19.309 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:26:19.360 [INF] 📊 Dashboard cargado
+2026-03-31 20:26:19.361 [DBG] 📊 DashboardView cargado
+2026-03-31 20:26:19.585 [INF] ✅ Aplicación iniciada correctamente
+2026-03-31 20:26:31.012 [DBG] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\reports
+2026-03-31 20:26:33.248 [INF] ✅ Tema cambiado a Light
+2026-03-31 20:26:34.214 [INF] ✅ Tema cambiado a Dark
+2026-03-31 20:26:35.399 [INF] ✅ Tema cambiado a Light
+2026-03-31 20:26:36.396 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:26:36.396 [INF] 📊 Dashboard cargado
+2026-03-31 20:26:36.397 [DBG] 📊 DashboardView cargado
+2026-03-31 20:26:39.336 [DBG] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\reports
+2026-03-31 20:28:40.917 [INF] 🚀 Aplicación WPF iniciada
+2026-03-31 20:28:40.960 [INF] ✅ ServiceProvider creado con todos los servicios
+2026-03-31 20:28:41.122 [INF] ✅ Tema cambiado a Dark
+2026-03-31 20:28:41.198 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:28:41.199 [DBG] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\reports
+2026-03-31 20:28:41.199 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:28:41.199 [INF] ✅ MainViewModel inicializado
+2026-03-31 20:28:41.200 [INF] 🏠 MainWindow inicializada
+2026-03-31 20:28:41.206 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:28:41.246 [INF] 📊 Dashboard cargado
+2026-03-31 20:28:41.246 [DBG] 📊 DashboardView cargado
+2026-03-31 20:28:41.399 [INF] ✅ Aplicación iniciada correctamente
+2026-03-31 20:41:15.575 [INF] 🚀 Aplicación WPF iniciada
+2026-03-31 20:41:15.616 [INF] ✅ ServiceProvider creado con todos los servicios
+2026-03-31 20:41:15.769 [INF] ✅ Tema cambiado a Dark
+2026-03-31 20:41:15.841 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:41:15.842 [DBG] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\reports
+2026-03-31 20:41:15.843 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:41:15.843 [INF] ✅ MainViewModel inicializado
+2026-03-31 20:41:15.843 [INF] 🏠 MainWindow inicializada
+2026-03-31 20:41:15.850 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:41:15.888 [INF] 📊 Dashboard cargado
+2026-03-31 20:41:15.889 [DBG] 📊 DashboardView cargado
+2026-03-31 20:41:16.043 [INF] ✅ Aplicación iniciada correctamente
+2026-03-31 20:41:19.177 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:41:19.178 [INF] 📊 Dashboard cargado
+2026-03-31 20:41:19.178 [DBG] 📊 DashboardView cargado
+2026-03-31 20:41:42.334 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:41:42.335 [INF] 📊 Dashboard cargado
+2026-03-31 20:41:42.335 [DBG] 📊 DashboardView cargado
+2026-03-31 20:42:02.600 [DBG] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\reports
+2026-03-31 20:42:11.262 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:42:12.296 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:42:18.431 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:42:19.451 [INF] Obteniendo personas con paginación: página 1, tamaño 1000, incluir borrados: true
+2026-03-31 20:42:19.454 [INF] Iniciando proceso de backup en: C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\backup
+2026-03-31 20:42:19.454 [WRN] No hay datos para respaldar.
+2026-03-31 20:42:24.868 [INF] ✅ Tema cambiado a Light
+2026-03-31 20:42:26.703 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:42:26.704 [INF] 📊 Dashboard cargado
+2026-03-31 20:42:26.704 [DBG] 📊 DashboardView cargado
+2026-03-31 20:42:30.807 [INF] ✅ Tema cambiado a Dark
+2026-03-31 20:45:37.237 [INF] 🏁 MainWindow cerrada
+2026-03-31 20:45:37.242 [INF] 👋 Aplicación cerrándose
+2026-03-31 20:49:36.304 [INF] 🚀 Aplicación WPF iniciada
+2026-03-31 20:49:36.358 [INF] ✅ ServiceProvider creado con todos los servicios
+2026-03-31 20:49:36.586 [INF] Cargando datos de semilla...
+2026-03-31 20:49:36.589 [DBG] Creando nueva persona 11111111H
+2026-03-31 20:49:36.595 [INF] Persona creada con ID 1
+2026-03-31 20:49:36.598 [DBG] Creando nueva persona 22222222J
+2026-03-31 20:49:36.598 [INF] Persona creada con ID 2
+2026-03-31 20:49:36.598 [DBG] Creando nueva persona 33333333P
+2026-03-31 20:49:36.598 [INF] Persona creada con ID 3
+2026-03-31 20:49:36.598 [DBG] Creando nueva persona 44444444A
+2026-03-31 20:49:36.598 [INF] Persona creada con ID 4
+2026-03-31 20:49:36.598 [DBG] Creando nueva persona 55555555K
+2026-03-31 20:49:36.598 [INF] Persona creada con ID 5
+2026-03-31 20:49:36.598 [DBG] Creando nueva persona 66666666Q
+2026-03-31 20:49:36.598 [INF] Persona creada con ID 6
+2026-03-31 20:49:36.598 [DBG] Creando nueva persona 77777777V
+2026-03-31 20:49:36.598 [INF] Persona creada con ID 7
+2026-03-31 20:49:36.598 [DBG] Creando nueva persona 88888888E
+2026-03-31 20:49:36.598 [INF] Persona creada con ID 8
+2026-03-31 20:49:36.598 [DBG] Creando nueva persona 99999999X
+2026-03-31 20:49:36.599 [INF] Persona creada con ID 9
+2026-03-31 20:49:36.599 [DBG] Creando nueva persona 00000000M
+2026-03-31 20:49:36.599 [INF] Persona creada con ID 10
+2026-03-31 20:49:36.599 [DBG] Creando nueva persona 12345678Z
+2026-03-31 20:49:36.599 [INF] Persona creada con ID 11
+2026-03-31 20:49:36.599 [DBG] Creando nueva persona 23456789D
+2026-03-31 20:49:36.599 [INF] Persona creada con ID 12
+2026-03-31 20:49:36.599 [DBG] Creando nueva persona 34567890V
+2026-03-31 20:49:36.599 [INF] Persona creada con ID 13
+2026-03-31 20:49:36.599 [DBG] Creando nueva persona 45678901H
+2026-03-31 20:49:36.599 [INF] Persona creada con ID 14
+2026-03-31 20:49:36.599 [DBG] Creando nueva persona 56789012L
+2026-03-31 20:49:36.599 [INF] Persona creada con ID 15
+2026-03-31 20:49:36.599 [INF] SeedData completado.
+2026-03-31 20:49:36.610 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:49:36.611 [DBG] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\reports
+2026-03-31 20:49:36.611 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:49:36.612 [INF] ✅ MainViewModel inicializado
+2026-03-31 20:49:36.612 [INF] 🏠 MainWindow inicializada
+2026-03-31 20:49:36.619 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:49:36.620 [DBG] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:49:36.628 [INF] 📊 Dashboard cargado
+2026-03-31 20:49:36.628 [DBG] 📊 DashboardView cargado
+2026-03-31 20:49:36.815 [INF] ✅ Aplicación iniciada correctamente
+2026-03-31 20:49:43.977 [INF] 🏁 MainWindow cerrada
+2026-03-31 20:49:43.982 [INF] 👋 Aplicación cerrándose
+2026-03-31 20:51:59.035 [INF] 🚀 Aplicación WPF iniciada
+2026-03-31 20:51:59.077 [INF] ✅ ServiceProvider creado con todos los servicios
+2026-03-31 20:51:59.337 [INF] 📱 SplashWindow cargada
+2026-03-31 20:52:00.847 [INF] ✅ Carga completada
+2026-03-31 20:52:00.922 [INF] Cargando datos de semilla...
+2026-03-31 20:52:00.925 [DBG] Creando nueva persona 11111111H
+2026-03-31 20:52:00.929 [INF] Persona creada con ID 1
+2026-03-31 20:52:00.932 [DBG] Creando nueva persona 22222222J
+2026-03-31 20:52:00.932 [INF] Persona creada con ID 2
+2026-03-31 20:52:00.932 [DBG] Creando nueva persona 33333333P
+2026-03-31 20:52:00.932 [INF] Persona creada con ID 3
+2026-03-31 20:52:00.932 [DBG] Creando nueva persona 44444444A
+2026-03-31 20:52:00.932 [INF] Persona creada con ID 4
+2026-03-31 20:52:00.932 [DBG] Creando nueva persona 55555555K
+2026-03-31 20:52:00.932 [INF] Persona creada con ID 5
+2026-03-31 20:52:00.932 [DBG] Creando nueva persona 66666666Q
+2026-03-31 20:52:00.932 [INF] Persona creada con ID 6
+2026-03-31 20:52:00.932 [DBG] Creando nueva persona 77777777V
+2026-03-31 20:52:00.932 [INF] Persona creada con ID 7
+2026-03-31 20:52:00.932 [DBG] Creando nueva persona 88888888E
+2026-03-31 20:52:00.932 [INF] Persona creada con ID 8
+2026-03-31 20:52:00.932 [DBG] Creando nueva persona 99999999X
+2026-03-31 20:52:00.932 [INF] Persona creada con ID 9
+2026-03-31 20:52:00.932 [DBG] Creando nueva persona 00000000M
+2026-03-31 20:52:00.932 [INF] Persona creada con ID 10
+2026-03-31 20:52:00.932 [DBG] Creando nueva persona 12345678Z
+2026-03-31 20:52:00.932 [INF] Persona creada con ID 11
+2026-03-31 20:52:00.933 [DBG] Creando nueva persona 23456789D
+2026-03-31 20:52:00.933 [INF] Persona creada con ID 12
+2026-03-31 20:52:00.933 [DBG] Creando nueva persona 34567890V
+2026-03-31 20:52:00.933 [INF] Persona creada con ID 13
+2026-03-31 20:52:00.933 [DBG] Creando nueva persona 45678901H
+2026-03-31 20:52:00.933 [INF] Persona creada con ID 14
+2026-03-31 20:52:00.933 [DBG] Creando nueva persona 56789012L
+2026-03-31 20:52:00.933 [INF] Persona creada con ID 15
+2026-03-31 20:52:00.933 [INF] SeedData completado.
+2026-03-31 20:52:00.941 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:52:00.942 [DBG] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\reports
+2026-03-31 20:52:00.942 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:52:00.942 [INF] ✅ MainViewModel inicializado
+2026-03-31 20:52:00.942 [INF] 🏠 MainWindow inicializada
+2026-03-31 20:52:00.949 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:52:00.949 [DBG] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:52:00.954 [INF] 📊 Dashboard cargado
+2026-03-31 20:52:00.954 [DBG] 📊 DashboardView cargado
+2026-03-31 20:52:00.954 [INF] ✅ Aplicación iniciada correctamente
+2026-03-31 20:52:00.955 [INF] 🏁 MainWindow cerrada
+2026-03-31 20:52:00.955 [INF] 👋 Aplicación cerrándose
+2026-03-31 20:53:17.352 [INF] 🚀 Aplicación WPF iniciada
+2026-03-31 20:53:17.391 [INF] ✅ ServiceProvider creado con todos los servicios
+2026-03-31 20:53:17.642 [INF] 📱 SplashWindow cargada
+2026-03-31 20:53:19.157 [INF] ✅ Carga completada
+2026-03-31 20:53:19.233 [INF] Cargando datos de semilla...
+2026-03-31 20:53:19.235 [DBG] Creando nueva persona 11111111H
+2026-03-31 20:53:19.239 [INF] Persona creada con ID 1
+2026-03-31 20:53:19.241 [DBG] Creando nueva persona 22222222J
+2026-03-31 20:53:19.241 [INF] Persona creada con ID 2
+2026-03-31 20:53:19.242 [DBG] Creando nueva persona 33333333P
+2026-03-31 20:53:19.242 [INF] Persona creada con ID 3
+2026-03-31 20:53:19.242 [DBG] Creando nueva persona 44444444A
+2026-03-31 20:53:19.242 [INF] Persona creada con ID 4
+2026-03-31 20:53:19.242 [DBG] Creando nueva persona 55555555K
+2026-03-31 20:53:19.242 [INF] Persona creada con ID 5
+2026-03-31 20:53:19.242 [DBG] Creando nueva persona 66666666Q
+2026-03-31 20:53:19.242 [INF] Persona creada con ID 6
+2026-03-31 20:53:19.242 [DBG] Creando nueva persona 77777777V
+2026-03-31 20:53:19.242 [INF] Persona creada con ID 7
+2026-03-31 20:53:19.242 [DBG] Creando nueva persona 88888888E
+2026-03-31 20:53:19.242 [INF] Persona creada con ID 8
+2026-03-31 20:53:19.242 [DBG] Creando nueva persona 99999999X
+2026-03-31 20:53:19.242 [INF] Persona creada con ID 9
+2026-03-31 20:53:19.242 [DBG] Creando nueva persona 00000000M
+2026-03-31 20:53:19.242 [INF] Persona creada con ID 10
+2026-03-31 20:53:19.242 [DBG] Creando nueva persona 12345678Z
+2026-03-31 20:53:19.242 [INF] Persona creada con ID 11
+2026-03-31 20:53:19.242 [DBG] Creando nueva persona 23456789D
+2026-03-31 20:53:19.242 [INF] Persona creada con ID 12
+2026-03-31 20:53:19.242 [DBG] Creando nueva persona 34567890V
+2026-03-31 20:53:19.242 [INF] Persona creada con ID 13
+2026-03-31 20:53:19.242 [DBG] Creando nueva persona 45678901H
+2026-03-31 20:53:19.242 [INF] Persona creada con ID 14
+2026-03-31 20:53:19.242 [DBG] Creando nueva persona 56789012L
+2026-03-31 20:53:19.242 [INF] Persona creada con ID 15
+2026-03-31 20:53:19.242 [INF] SeedData completado.
+2026-03-31 20:53:19.250 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:53:19.251 [DBG] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\reports
+2026-03-31 20:53:19.251 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:53:19.252 [INF] ✅ MainViewModel inicializado
+2026-03-31 20:53:19.252 [INF] 🏠 MainWindow inicializada
+2026-03-31 20:53:19.258 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:53:19.259 [DBG] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:53:19.263 [INF] 📊 Dashboard cargado
+2026-03-31 20:53:19.263 [DBG] 📊 DashboardView cargado
+2026-03-31 20:53:19.263 [INF] ✅ Aplicación iniciada correctamente
+2026-03-31 20:53:19.264 [INF] 🏁 MainWindow cerrada
+2026-03-31 20:53:19.264 [INF] 👋 Aplicación cerrándose
+2026-03-31 20:55:48.954 [INF] 🚀 Aplicación WPF iniciada
+2026-03-31 20:55:48.993 [INF] ✅ ServiceProvider creado con todos los servicios
+2026-03-31 20:55:49.240 [INF] 📱 SplashWindow cargada
+2026-03-31 20:55:52.007 [INF] ✅ Carga completada
+2026-03-31 20:55:52.224 [INF] ✅ Tema cambiado a Dark
+2026-03-31 20:55:52.248 [INF] Cargando datos de semilla...
+2026-03-31 20:55:52.250 [DBG] Creando nueva persona 11111111H
+2026-03-31 20:55:52.252 [INF] Persona creada con ID 1
+2026-03-31 20:55:52.255 [DBG] Creando nueva persona 22222222J
+2026-03-31 20:55:52.255 [INF] Persona creada con ID 2
+2026-03-31 20:55:52.255 [DBG] Creando nueva persona 33333333P
+2026-03-31 20:55:52.255 [INF] Persona creada con ID 3
+2026-03-31 20:55:52.255 [DBG] Creando nueva persona 44444444A
+2026-03-31 20:55:52.255 [INF] Persona creada con ID 4
+2026-03-31 20:55:52.255 [DBG] Creando nueva persona 55555555K
+2026-03-31 20:55:52.255 [INF] Persona creada con ID 5
+2026-03-31 20:55:52.255 [DBG] Creando nueva persona 66666666Q
+2026-03-31 20:55:52.255 [INF] Persona creada con ID 6
+2026-03-31 20:55:52.255 [DBG] Creando nueva persona 77777777V
+2026-03-31 20:55:52.255 [INF] Persona creada con ID 7
+2026-03-31 20:55:52.255 [DBG] Creando nueva persona 88888888E
+2026-03-31 20:55:52.255 [INF] Persona creada con ID 8
+2026-03-31 20:55:52.255 [DBG] Creando nueva persona 99999999X
+2026-03-31 20:55:52.255 [INF] Persona creada con ID 9
+2026-03-31 20:55:52.255 [DBG] Creando nueva persona 00000000M
+2026-03-31 20:55:52.255 [INF] Persona creada con ID 10
+2026-03-31 20:55:52.255 [DBG] Creando nueva persona 12345678Z
+2026-03-31 20:55:52.256 [INF] Persona creada con ID 11
+2026-03-31 20:55:52.256 [DBG] Creando nueva persona 23456789D
+2026-03-31 20:55:52.256 [INF] Persona creada con ID 12
+2026-03-31 20:55:52.256 [DBG] Creando nueva persona 34567890V
+2026-03-31 20:55:52.256 [INF] Persona creada con ID 13
+2026-03-31 20:55:52.256 [DBG] Creando nueva persona 45678901H
+2026-03-31 20:55:52.256 [INF] Persona creada con ID 14
+2026-03-31 20:55:52.256 [DBG] Creando nueva persona 56789012L
+2026-03-31 20:55:52.256 [INF] Persona creada con ID 15
+2026-03-31 20:55:52.256 [INF] SeedData completado.
+2026-03-31 20:55:52.265 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:55:52.265 [DBG] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\reports
+2026-03-31 20:55:52.265 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:55:52.266 [INF] ✅ MainViewModel inicializado
+2026-03-31 20:55:52.266 [INF] 🏠 MainWindow inicializada
+2026-03-31 20:55:52.273 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:55:52.274 [DBG] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:55:52.278 [INF] 📊 Dashboard cargado
+2026-03-31 20:55:52.278 [DBG] 📊 DashboardView cargado
+2026-03-31 20:55:52.278 [INF] ✅ Aplicación iniciada correctamente
+2026-03-31 20:55:52.278 [INF] 🏁 MainWindow cerrada
+2026-03-31 20:55:52.278 [INF] 👋 Aplicación cerrándose
+2026-03-31 20:56:20.411 [INF] 🚀 Aplicación WPF iniciada
+2026-03-31 20:56:20.459 [INF] ✅ ServiceProvider creado con todos los servicios
+2026-03-31 20:56:20.715 [INF] 📱 SplashWindow cargada
+2026-03-31 20:56:23.499 [INF] ✅ Carga completada
+2026-03-31 20:56:23.715 [INF] ✅ Tema cambiado a Dark
+2026-03-31 20:56:23.739 [INF] Cargando datos de semilla...
+2026-03-31 20:56:23.741 [DBG] Creando nueva persona 11111111H
+2026-03-31 20:56:23.743 [INF] Persona creada con ID 1
+2026-03-31 20:56:23.746 [DBG] Creando nueva persona 22222222J
+2026-03-31 20:56:23.746 [INF] Persona creada con ID 2
+2026-03-31 20:56:23.746 [DBG] Creando nueva persona 33333333P
+2026-03-31 20:56:23.746 [INF] Persona creada con ID 3
+2026-03-31 20:56:23.746 [DBG] Creando nueva persona 44444444A
+2026-03-31 20:56:23.746 [INF] Persona creada con ID 4
+2026-03-31 20:56:23.746 [DBG] Creando nueva persona 55555555K
+2026-03-31 20:56:23.746 [INF] Persona creada con ID 5
+2026-03-31 20:56:23.746 [DBG] Creando nueva persona 66666666Q
+2026-03-31 20:56:23.746 [INF] Persona creada con ID 6
+2026-03-31 20:56:23.746 [DBG] Creando nueva persona 77777777V
+2026-03-31 20:56:23.746 [INF] Persona creada con ID 7
+2026-03-31 20:56:23.746 [DBG] Creando nueva persona 88888888E
+2026-03-31 20:56:23.746 [INF] Persona creada con ID 8
+2026-03-31 20:56:23.746 [DBG] Creando nueva persona 99999999X
+2026-03-31 20:56:23.746 [INF] Persona creada con ID 9
+2026-03-31 20:56:23.746 [DBG] Creando nueva persona 00000000M
+2026-03-31 20:56:23.746 [INF] Persona creada con ID 10
+2026-03-31 20:56:23.746 [DBG] Creando nueva persona 12345678Z
+2026-03-31 20:56:23.747 [INF] Persona creada con ID 11
+2026-03-31 20:56:23.747 [DBG] Creando nueva persona 23456789D
+2026-03-31 20:56:23.747 [INF] Persona creada con ID 12
+2026-03-31 20:56:23.747 [DBG] Creando nueva persona 34567890V
+2026-03-31 20:56:23.747 [INF] Persona creada con ID 13
+2026-03-31 20:56:23.747 [DBG] Creando nueva persona 45678901H
+2026-03-31 20:56:23.747 [INF] Persona creada con ID 14
+2026-03-31 20:56:23.747 [DBG] Creando nueva persona 56789012L
+2026-03-31 20:56:23.747 [INF] Persona creada con ID 15
+2026-03-31 20:56:23.747 [INF] SeedData completado.
+2026-03-31 20:56:23.756 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:56:23.757 [DBG] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\reports
+2026-03-31 20:56:23.757 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:56:23.758 [INF] ✅ MainViewModel inicializado
+2026-03-31 20:56:23.758 [INF] 🏠 MainWindow inicializada
+2026-03-31 20:56:23.766 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:56:23.767 [DBG] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:56:23.770 [INF] 📊 Dashboard cargado
+2026-03-31 20:56:23.771 [DBG] 📊 DashboardView cargado
+2026-03-31 20:56:23.771 [INF] ✅ Aplicación iniciada correctamente
+2026-03-31 20:56:23.772 [INF] 🏁 MainWindow cerrada
+2026-03-31 20:56:23.772 [INF] 👋 Aplicación cerrándose
+2026-03-31 20:56:44.304 [INF] 🚀 Aplicación WPF iniciada
+2026-03-31 20:56:44.349 [INF] ✅ ServiceProvider creado con todos los servicios
+2026-03-31 20:56:44.626 [INF] 📱 SplashWindow cargada
+2026-03-31 20:56:46.585 [INF] ✅ Carga completada
+2026-03-31 20:56:46.635 [INF] ✅ Tema cambiado a Dark
+2026-03-31 20:56:46.661 [INF] Cargando datos de semilla...
+2026-03-31 20:56:46.663 [DBG] Creando nueva persona 11111111H
+2026-03-31 20:56:46.666 [INF] Persona creada con ID 1
+2026-03-31 20:56:46.669 [DBG] Creando nueva persona 22222222J
+2026-03-31 20:56:46.669 [INF] Persona creada con ID 2
+2026-03-31 20:56:46.669 [DBG] Creando nueva persona 33333333P
+2026-03-31 20:56:46.669 [INF] Persona creada con ID 3
+2026-03-31 20:56:46.669 [DBG] Creando nueva persona 44444444A
+2026-03-31 20:56:46.669 [INF] Persona creada con ID 4
+2026-03-31 20:56:46.669 [DBG] Creando nueva persona 55555555K
+2026-03-31 20:56:46.669 [INF] Persona creada con ID 5
+2026-03-31 20:56:46.669 [DBG] Creando nueva persona 66666666Q
+2026-03-31 20:56:46.669 [INF] Persona creada con ID 6
+2026-03-31 20:56:46.669 [DBG] Creando nueva persona 77777777V
+2026-03-31 20:56:46.669 [INF] Persona creada con ID 7
+2026-03-31 20:56:46.669 [DBG] Creando nueva persona 88888888E
+2026-03-31 20:56:46.669 [INF] Persona creada con ID 8
+2026-03-31 20:56:46.669 [DBG] Creando nueva persona 99999999X
+2026-03-31 20:56:46.669 [INF] Persona creada con ID 9
+2026-03-31 20:56:46.669 [DBG] Creando nueva persona 00000000M
+2026-03-31 20:56:46.669 [INF] Persona creada con ID 10
+2026-03-31 20:56:46.669 [DBG] Creando nueva persona 12345678Z
+2026-03-31 20:56:46.670 [INF] Persona creada con ID 11
+2026-03-31 20:56:46.670 [DBG] Creando nueva persona 23456789D
+2026-03-31 20:56:46.670 [INF] Persona creada con ID 12
+2026-03-31 20:56:46.670 [DBG] Creando nueva persona 34567890V
+2026-03-31 20:56:46.670 [INF] Persona creada con ID 13
+2026-03-31 20:56:46.670 [DBG] Creando nueva persona 45678901H
+2026-03-31 20:56:46.670 [INF] Persona creada con ID 14
+2026-03-31 20:56:46.670 [DBG] Creando nueva persona 56789012L
+2026-03-31 20:56:46.670 [INF] Persona creada con ID 15
+2026-03-31 20:56:46.670 [INF] SeedData completado.
+2026-03-31 20:56:46.680 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:56:46.681 [DBG] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\reports
+2026-03-31 20:56:46.681 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:56:46.681 [INF] ✅ MainViewModel inicializado
+2026-03-31 20:56:46.681 [INF] 🏠 MainWindow inicializada
+2026-03-31 20:56:46.690 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:56:46.690 [DBG] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:56:46.694 [INF] 📊 Dashboard cargado
+2026-03-31 20:56:46.694 [DBG] 📊 DashboardView cargado
+2026-03-31 20:56:46.695 [INF] ✅ Aplicación iniciada correctamente
+2026-03-31 20:56:46.696 [INF] 🏁 MainWindow cerrada
+2026-03-31 20:56:46.696 [INF] 👋 Aplicación cerrándose
+2026-03-31 20:59:15.863 [INF] 🚀 Aplicación WPF iniciada
+2026-03-31 20:59:15.907 [INF] ✅ ServiceProvider creado con todos los servicios
+2026-03-31 20:59:16.166 [INF] 📱 SplashWindow cargada
+2026-03-31 20:59:18.134 [INF] ✅ Carga completada
+2026-03-31 20:59:18.178 [INF] ✅ Tema cambiado a Dark
+2026-03-31 20:59:18.204 [INF] Cargando datos de semilla...
+2026-03-31 20:59:18.206 [DBG] Creando nueva persona 11111111H
+2026-03-31 20:59:18.209 [INF] Persona creada con ID 1
+2026-03-31 20:59:18.212 [DBG] Creando nueva persona 22222222J
+2026-03-31 20:59:18.213 [INF] Persona creada con ID 2
+2026-03-31 20:59:18.213 [DBG] Creando nueva persona 33333333P
+2026-03-31 20:59:18.213 [INF] Persona creada con ID 3
+2026-03-31 20:59:18.213 [DBG] Creando nueva persona 44444444A
+2026-03-31 20:59:18.213 [INF] Persona creada con ID 4
+2026-03-31 20:59:18.213 [DBG] Creando nueva persona 55555555K
+2026-03-31 20:59:18.213 [INF] Persona creada con ID 5
+2026-03-31 20:59:18.213 [DBG] Creando nueva persona 66666666Q
+2026-03-31 20:59:18.213 [INF] Persona creada con ID 6
+2026-03-31 20:59:18.213 [DBG] Creando nueva persona 77777777V
+2026-03-31 20:59:18.213 [INF] Persona creada con ID 7
+2026-03-31 20:59:18.213 [DBG] Creando nueva persona 88888888E
+2026-03-31 20:59:18.213 [INF] Persona creada con ID 8
+2026-03-31 20:59:18.213 [DBG] Creando nueva persona 99999999X
+2026-03-31 20:59:18.213 [INF] Persona creada con ID 9
+2026-03-31 20:59:18.213 [DBG] Creando nueva persona 00000000M
+2026-03-31 20:59:18.213 [INF] Persona creada con ID 10
+2026-03-31 20:59:18.213 [DBG] Creando nueva persona 12345678Z
+2026-03-31 20:59:18.213 [INF] Persona creada con ID 11
+2026-03-31 20:59:18.213 [DBG] Creando nueva persona 23456789D
+2026-03-31 20:59:18.213 [INF] Persona creada con ID 12
+2026-03-31 20:59:18.213 [DBG] Creando nueva persona 34567890V
+2026-03-31 20:59:18.213 [INF] Persona creada con ID 13
+2026-03-31 20:59:18.213 [DBG] Creando nueva persona 45678901H
+2026-03-31 20:59:18.214 [INF] Persona creada con ID 14
+2026-03-31 20:59:18.214 [DBG] Creando nueva persona 56789012L
+2026-03-31 20:59:18.214 [INF] Persona creada con ID 15
+2026-03-31 20:59:18.214 [INF] SeedData completado.
+2026-03-31 20:59:18.222 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:59:18.223 [DBG] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\reports
+2026-03-31 20:59:18.223 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 20:59:18.223 [INF] ✅ MainViewModel inicializado
+2026-03-31 20:59:18.223 [INF] 🏠 MainWindow inicializada
+2026-03-31 20:59:18.231 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:59:18.232 [DBG] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 20:59:18.235 [INF] 📊 Dashboard cargado
+2026-03-31 20:59:18.236 [DBG] 📊 DashboardView cargado
+2026-03-31 20:59:18.236 [INF] ✅ Aplicación iniciada correctamente
+2026-03-31 20:59:18.236 [INF] 🏁 MainWindow cerrada
+2026-03-31 20:59:18.237 [INF] 👋 Aplicación cerrándose
+2026-03-31 21:00:38.925 [INF] 🚀 Aplicación WPF iniciada
+2026-03-31 21:00:38.968 [INF] ✅ ServiceProvider creado con todos los servicios
+2026-03-31 21:00:39.236 [INF] 📱 SplashWindow cargada
+2026-03-31 21:00:41.192 [INF] ✅ Carga completada
+2026-03-31 21:00:41.240 [INF] ✅ Tema cambiado a Dark
+2026-03-31 21:00:41.264 [INF] Cargando datos de semilla...
+2026-03-31 21:00:41.266 [DBG] Creando nueva persona 11111111H
+2026-03-31 21:00:41.269 [INF] Persona creada con ID 1
+2026-03-31 21:00:41.271 [DBG] Creando nueva persona 22222222J
+2026-03-31 21:00:41.271 [INF] Persona creada con ID 2
+2026-03-31 21:00:41.272 [DBG] Creando nueva persona 33333333P
+2026-03-31 21:00:41.272 [INF] Persona creada con ID 3
+2026-03-31 21:00:41.272 [DBG] Creando nueva persona 44444444A
+2026-03-31 21:00:41.272 [INF] Persona creada con ID 4
+2026-03-31 21:00:41.272 [DBG] Creando nueva persona 55555555K
+2026-03-31 21:00:41.272 [INF] Persona creada con ID 5
+2026-03-31 21:00:41.272 [DBG] Creando nueva persona 66666666Q
+2026-03-31 21:00:41.272 [INF] Persona creada con ID 6
+2026-03-31 21:00:41.272 [DBG] Creando nueva persona 77777777V
+2026-03-31 21:00:41.272 [INF] Persona creada con ID 7
+2026-03-31 21:00:41.272 [DBG] Creando nueva persona 88888888E
+2026-03-31 21:00:41.272 [INF] Persona creada con ID 8
+2026-03-31 21:00:41.272 [DBG] Creando nueva persona 99999999X
+2026-03-31 21:00:41.272 [INF] Persona creada con ID 9
+2026-03-31 21:00:41.272 [DBG] Creando nueva persona 00000000M
+2026-03-31 21:00:41.272 [INF] Persona creada con ID 10
+2026-03-31 21:00:41.272 [DBG] Creando nueva persona 12345678Z
+2026-03-31 21:00:41.272 [INF] Persona creada con ID 11
+2026-03-31 21:00:41.272 [DBG] Creando nueva persona 23456789D
+2026-03-31 21:00:41.272 [INF] Persona creada con ID 12
+2026-03-31 21:00:41.273 [DBG] Creando nueva persona 34567890V
+2026-03-31 21:00:41.273 [INF] Persona creada con ID 13
+2026-03-31 21:00:41.273 [DBG] Creando nueva persona 45678901H
+2026-03-31 21:00:41.273 [INF] Persona creada con ID 14
+2026-03-31 21:00:41.273 [DBG] Creando nueva persona 56789012L
+2026-03-31 21:00:41.273 [INF] Persona creada con ID 15
+2026-03-31 21:00:41.273 [INF] SeedData completado.
+2026-03-31 21:00:41.283 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 21:00:41.283 [DBG] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\reports
+2026-03-31 21:00:41.283 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 21:00:41.284 [INF] ✅ MainViewModel inicializado
+2026-03-31 21:00:41.284 [INF] 🏠 MainWindow inicializada
+2026-03-31 21:00:41.292 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 21:00:41.292 [DBG] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 21:00:41.296 [INF] 📊 Dashboard cargado
+2026-03-31 21:00:41.296 [DBG] 📊 DashboardView cargado
+2026-03-31 21:00:41.296 [INF] ✅ Aplicación iniciada correctamente
+2026-03-31 21:00:41.297 [INF] 🏁 MainWindow cerrada
+2026-03-31 21:00:41.297 [INF] 👋 Aplicación cerrándose
+2026-03-31 21:00:57.543 [INF] 🚀 Aplicación WPF iniciada
+2026-03-31 21:00:57.587 [INF] ✅ ServiceProvider creado con todos los servicios
+2026-03-31 21:00:57.715 [INF] 📱 Mostrando SplashWindow
+2026-03-31 21:00:57.845 [INF] 📱 SplashWindow cargada
+2026-03-31 21:00:59.806 [INF] ✅ Carga completada
+2026-03-31 21:00:59.831 [INF] 📱 SplashWindow cerrado
+2026-03-31 21:00:59.850 [INF] ✅ Tema cambiado a Dark
+2026-03-31 21:00:59.875 [INF] Cargando datos de semilla...
+2026-03-31 21:00:59.877 [DBG] Creando nueva persona 11111111H
+2026-03-31 21:00:59.879 [INF] Persona creada con ID 1
+2026-03-31 21:00:59.882 [DBG] Creando nueva persona 22222222J
+2026-03-31 21:00:59.882 [INF] Persona creada con ID 2
+2026-03-31 21:00:59.882 [DBG] Creando nueva persona 33333333P
+2026-03-31 21:00:59.882 [INF] Persona creada con ID 3
+2026-03-31 21:00:59.882 [DBG] Creando nueva persona 44444444A
+2026-03-31 21:00:59.882 [INF] Persona creada con ID 4
+2026-03-31 21:00:59.882 [DBG] Creando nueva persona 55555555K
+2026-03-31 21:00:59.882 [INF] Persona creada con ID 5
+2026-03-31 21:00:59.882 [DBG] Creando nueva persona 66666666Q
+2026-03-31 21:00:59.882 [INF] Persona creada con ID 6
+2026-03-31 21:00:59.882 [DBG] Creando nueva persona 77777777V
+2026-03-31 21:00:59.882 [INF] Persona creada con ID 7
+2026-03-31 21:00:59.882 [DBG] Creando nueva persona 88888888E
+2026-03-31 21:00:59.882 [INF] Persona creada con ID 8
+2026-03-31 21:00:59.882 [DBG] Creando nueva persona 99999999X
+2026-03-31 21:00:59.882 [INF] Persona creada con ID 9
+2026-03-31 21:00:59.882 [DBG] Creando nueva persona 00000000M
+2026-03-31 21:00:59.882 [INF] Persona creada con ID 10
+2026-03-31 21:00:59.882 [DBG] Creando nueva persona 12345678Z
+2026-03-31 21:00:59.882 [INF] Persona creada con ID 11
+2026-03-31 21:00:59.883 [DBG] Creando nueva persona 23456789D
+2026-03-31 21:00:59.883 [INF] Persona creada con ID 12
+2026-03-31 21:00:59.883 [DBG] Creando nueva persona 34567890V
+2026-03-31 21:00:59.883 [INF] Persona creada con ID 13
+2026-03-31 21:00:59.883 [DBG] Creando nueva persona 45678901H
+2026-03-31 21:00:59.883 [INF] Persona creada con ID 14
+2026-03-31 21:00:59.883 [DBG] Creando nueva persona 56789012L
+2026-03-31 21:00:59.883 [INF] Persona creada con ID 15
+2026-03-31 21:00:59.883 [INF] SeedData completado.
+2026-03-31 21:00:59.892 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 21:00:59.893 [DBG] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\reports
+2026-03-31 21:00:59.893 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 21:00:59.893 [INF] ✅ MainViewModel inicializado
+2026-03-31 21:00:59.893 [INF] 🏠 MainWindow inicializada
+2026-03-31 21:00:59.900 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 21:00:59.901 [DBG] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 21:00:59.905 [INF] 📊 Dashboard cargado
+2026-03-31 21:00:59.905 [DBG] 📊 DashboardView cargado
+2026-03-31 21:00:59.905 [INF] 🏠 Mostrando MainWindow
+2026-03-31 21:00:59.905 [INF] ✅ Aplicación iniciada correctamente
+2026-03-31 21:00:59.906 [INF] 🏁 MainWindow cerrada
+2026-03-31 21:00:59.906 [INF] 👋 Aplicación cerrándose
+2026-03-31 21:02:30.096 [INF] 🚀 Aplicación WPF iniciada
+2026-03-31 21:02:30.146 [INF] ✅ ServiceProvider creado con todos los servicios
+2026-03-31 21:02:30.287 [INF] 📱 Mostrando SplashWindow
+2026-03-31 21:02:30.423 [INF] 📱 SplashWindow cargada
+2026-03-31 21:02:32.381 [INF] ✅ Carga completada
+2026-03-31 21:02:32.401 [INF] 📱 SplashWindow cerrado
+2026-03-31 21:02:32.424 [INF] ✅ Tema cambiado a Dark
+2026-03-31 21:02:32.451 [INF] Cargando datos de semilla...
+2026-03-31 21:02:32.453 [DBG] Creando nueva persona 11111111H
+2026-03-31 21:02:32.455 [INF] Persona creada con ID 1
+2026-03-31 21:02:32.460 [DBG] Creando nueva persona 22222222J
+2026-03-31 21:02:32.460 [INF] Persona creada con ID 2
+2026-03-31 21:02:32.460 [DBG] Creando nueva persona 33333333P
+2026-03-31 21:02:32.460 [INF] Persona creada con ID 3
+2026-03-31 21:02:32.460 [DBG] Creando nueva persona 44444444A
+2026-03-31 21:02:32.460 [INF] Persona creada con ID 4
+2026-03-31 21:02:32.460 [DBG] Creando nueva persona 55555555K
+2026-03-31 21:02:32.460 [INF] Persona creada con ID 5
+2026-03-31 21:02:32.460 [DBG] Creando nueva persona 66666666Q
+2026-03-31 21:02:32.461 [INF] Persona creada con ID 6
+2026-03-31 21:02:32.461 [DBG] Creando nueva persona 77777777V
+2026-03-31 21:02:32.461 [INF] Persona creada con ID 7
+2026-03-31 21:02:32.461 [DBG] Creando nueva persona 88888888E
+2026-03-31 21:02:32.461 [INF] Persona creada con ID 8
+2026-03-31 21:02:32.461 [DBG] Creando nueva persona 99999999X
+2026-03-31 21:02:32.461 [INF] Persona creada con ID 9
+2026-03-31 21:02:32.461 [DBG] Creando nueva persona 00000000M
+2026-03-31 21:02:32.461 [INF] Persona creada con ID 10
+2026-03-31 21:02:32.461 [DBG] Creando nueva persona 12345678Z
+2026-03-31 21:02:32.461 [INF] Persona creada con ID 11
+2026-03-31 21:02:32.461 [DBG] Creando nueva persona 23456789D
+2026-03-31 21:02:32.461 [INF] Persona creada con ID 12
+2026-03-31 21:02:32.461 [DBG] Creando nueva persona 34567890V
+2026-03-31 21:02:32.461 [INF] Persona creada con ID 13
+2026-03-31 21:02:32.461 [DBG] Creando nueva persona 45678901H
+2026-03-31 21:02:32.461 [INF] Persona creada con ID 14
+2026-03-31 21:02:32.461 [DBG] Creando nueva persona 56789012L
+2026-03-31 21:02:32.461 [INF] Persona creada con ID 15
+2026-03-31 21:02:32.461 [INF] SeedData completado.
+2026-03-31 21:02:32.470 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 21:02:32.471 [DBG] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\reports
+2026-03-31 21:02:32.471 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 21:02:32.471 [INF] ✅ MainViewModel inicializado
+2026-03-31 21:02:32.472 [INF] 🏠 MainWindow inicializada
+2026-03-31 21:02:32.481 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 21:02:32.481 [DBG] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 21:02:32.485 [INF] 📊 Dashboard cargado
+2026-03-31 21:02:32.486 [DBG] 📊 DashboardView cargado
+2026-03-31 21:02:32.486 [INF] 🏠 Mostrando MainWindow
+2026-03-31 21:02:32.486 [INF] ✅ MainWindow mostrada
+2026-03-31 21:02:32.486 [INF] 🏁 MainWindow cerrada
+2026-03-31 21:02:32.487 [INF] 👋 Aplicación cerrándose
+2026-03-31 21:03:09.403 [INF] 🚀 Aplicación WPF iniciada
+2026-03-31 21:03:09.445 [INF] ✅ ServiceProvider creado con todos los servicios
+2026-03-31 21:03:09.571 [INF] 📱 Mostrando SplashWindow
+2026-03-31 21:03:09.701 [INF] 📱 SplashWindow cargada
+2026-03-31 21:03:11.660 [INF] ✅ Carga completada
+2026-03-31 21:03:11.685 [INF] 📱 SplashWindow cerrado
+2026-03-31 21:03:11.705 [INF] ✅ Tema cambiado a Dark
+2026-03-31 21:03:11.731 [INF] Cargando datos de semilla...
+2026-03-31 21:03:11.733 [DBG] Creando nueva persona 11111111H
+2026-03-31 21:03:11.735 [INF] Persona creada con ID 1
+2026-03-31 21:03:11.739 [DBG] Creando nueva persona 22222222J
+2026-03-31 21:03:11.739 [INF] Persona creada con ID 2
+2026-03-31 21:03:11.739 [DBG] Creando nueva persona 33333333P
+2026-03-31 21:03:11.739 [INF] Persona creada con ID 3
+2026-03-31 21:03:11.739 [DBG] Creando nueva persona 44444444A
+2026-03-31 21:03:11.739 [INF] Persona creada con ID 4
+2026-03-31 21:03:11.739 [DBG] Creando nueva persona 55555555K
+2026-03-31 21:03:11.739 [INF] Persona creada con ID 5
+2026-03-31 21:03:11.739 [DBG] Creando nueva persona 66666666Q
+2026-03-31 21:03:11.739 [INF] Persona creada con ID 6
+2026-03-31 21:03:11.739 [DBG] Creando nueva persona 77777777V
+2026-03-31 21:03:11.739 [INF] Persona creada con ID 7
+2026-03-31 21:03:11.739 [DBG] Creando nueva persona 88888888E
+2026-03-31 21:03:11.739 [INF] Persona creada con ID 8
+2026-03-31 21:03:11.739 [DBG] Creando nueva persona 99999999X
+2026-03-31 21:03:11.739 [INF] Persona creada con ID 9
+2026-03-31 21:03:11.739 [DBG] Creando nueva persona 00000000M
+2026-03-31 21:03:11.739 [INF] Persona creada con ID 10
+2026-03-31 21:03:11.739 [DBG] Creando nueva persona 12345678Z
+2026-03-31 21:03:11.739 [INF] Persona creada con ID 11
+2026-03-31 21:03:11.740 [DBG] Creando nueva persona 23456789D
+2026-03-31 21:03:11.740 [INF] Persona creada con ID 12
+2026-03-31 21:03:11.740 [DBG] Creando nueva persona 34567890V
+2026-03-31 21:03:11.740 [INF] Persona creada con ID 13
+2026-03-31 21:03:11.740 [DBG] Creando nueva persona 45678901H
+2026-03-31 21:03:11.740 [INF] Persona creada con ID 14
+2026-03-31 21:03:11.740 [DBG] Creando nueva persona 56789012L
+2026-03-31 21:03:11.740 [INF] Persona creada con ID 15
+2026-03-31 21:03:11.740 [INF] SeedData completado.
+2026-03-31 21:03:11.748 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 21:03:11.749 [DBG] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\reports
+2026-03-31 21:03:11.749 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 21:03:11.749 [INF] ✅ MainViewModel inicializado
+2026-03-31 21:03:11.750 [INF] 🏠 MainWindow inicializada
+2026-03-31 21:03:11.757 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 21:03:11.758 [DBG] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 21:03:11.762 [INF] 📊 Dashboard cargado
+2026-03-31 21:03:11.762 [DBG] 📊 DashboardView cargado
+2026-03-31 21:03:11.762 [INF] 🏠 Llamando a mainWindow.Show()
+2026-03-31 21:03:11.762 [INF] ✅ mainWindow.Show() completado
+2026-03-31 21:03:11.763 [INF] 🏁 MainWindow cerrada
+2026-03-31 21:03:11.763 [INF] 👋 Aplicación cerrándose
+2026-03-31 21:04:08.419 [INF] 🚀 Aplicación WPF iniciada
+2026-03-31 21:04:08.462 [INF] ✅ ServiceProvider creado con todos los servicios
+2026-03-31 21:04:08.595 [INF] 📱 Mostrando SplashWindow
+2026-03-31 21:04:08.732 [INF] 📱 SplashWindow cargada
+2026-03-31 21:04:10.687 [INF] ✅ Carga completada
+2026-03-31 21:04:10.709 [INF] 📱 SplashWindow cerrado
+2026-03-31 21:04:10.727 [INF] ✅ Tema cambiado a Dark
+2026-03-31 21:04:10.741 [INF] 🏠 MainWindow() - Antes de crear ViewModel
+2026-03-31 21:04:10.753 [INF] Cargando datos de semilla...
+2026-03-31 21:04:10.756 [DBG] Creando nueva persona 11111111H
+2026-03-31 21:04:10.758 [INF] Persona creada con ID 1
+2026-03-31 21:04:10.761 [DBG] Creando nueva persona 22222222J
+2026-03-31 21:04:10.761 [INF] Persona creada con ID 2
+2026-03-31 21:04:10.761 [DBG] Creando nueva persona 33333333P
+2026-03-31 21:04:10.761 [INF] Persona creada con ID 3
+2026-03-31 21:04:10.761 [DBG] Creando nueva persona 44444444A
+2026-03-31 21:04:10.761 [INF] Persona creada con ID 4
+2026-03-31 21:04:10.761 [DBG] Creando nueva persona 55555555K
+2026-03-31 21:04:10.761 [INF] Persona creada con ID 5
+2026-03-31 21:04:10.761 [DBG] Creando nueva persona 66666666Q
+2026-03-31 21:04:10.761 [INF] Persona creada con ID 6
+2026-03-31 21:04:10.761 [DBG] Creando nueva persona 77777777V
+2026-03-31 21:04:10.761 [INF] Persona creada con ID 7
+2026-03-31 21:04:10.761 [DBG] Creando nueva persona 88888888E
+2026-03-31 21:04:10.761 [INF] Persona creada con ID 8
+2026-03-31 21:04:10.761 [DBG] Creando nueva persona 99999999X
+2026-03-31 21:04:10.761 [INF] Persona creada con ID 9
+2026-03-31 21:04:10.761 [DBG] Creando nueva persona 00000000M
+2026-03-31 21:04:10.761 [INF] Persona creada con ID 10
+2026-03-31 21:04:10.761 [DBG] Creando nueva persona 12345678Z
+2026-03-31 21:04:10.761 [INF] Persona creada con ID 11
+2026-03-31 21:04:10.762 [DBG] Creando nueva persona 23456789D
+2026-03-31 21:04:10.762 [INF] Persona creada con ID 12
+2026-03-31 21:04:10.762 [DBG] Creando nueva persona 34567890V
+2026-03-31 21:04:10.762 [INF] Persona creada con ID 13
+2026-03-31 21:04:10.762 [DBG] Creando nueva persona 45678901H
+2026-03-31 21:04:10.762 [INF] Persona creada con ID 14
+2026-03-31 21:04:10.762 [DBG] Creando nueva persona 56789012L
+2026-03-31 21:04:10.762 [INF] Persona creada con ID 15
+2026-03-31 21:04:10.762 [INF] SeedData completado.
+2026-03-31 21:04:10.772 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 21:04:10.772 [DBG] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\reports
+2026-03-31 21:04:10.772 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 21:04:10.773 [INF] ✅ MainViewModel inicializado
+2026-03-31 21:04:10.773 [INF] 🏠 MainWindow() - ViewModel creado
+2026-03-31 21:04:10.779 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 21:04:10.779 [DBG] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 21:04:10.784 [INF] 📊 Dashboard cargado
+2026-03-31 21:04:10.784 [DBG] 📊 DashboardView cargado
+2026-03-31 21:04:10.784 [INF] 🏠 MainWindow() - Dashboard navegado
+2026-03-31 21:04:10.784 [INF] 🏠 Llamando a mainWindow.Show()
+2026-03-31 21:04:10.784 [INF] 🏠 MainWindow.Show() llamado
+2026-03-31 21:04:10.784 [INF] 🏠 MainWindow.Show() completado
+2026-03-31 21:04:10.784 [INF] ✅ mainWindow.Show() completado
+2026-03-31 21:04:10.785 [INF] 🏁 MainWindow cerrada
+2026-03-31 21:04:10.785 [INF] 👋 Aplicación cerrándose
+2026-03-31 21:04:51.119 [INF] 🚀 Aplicación WPF iniciada
+2026-03-31 21:04:51.161 [INF] ✅ ServiceProvider creado con todos los servicios
+2026-03-31 21:04:51.291 [INF] 📱 Mostrando SplashWindow
+2026-03-31 21:04:51.424 [INF] 📱 SplashWindow cargada
+2026-03-31 21:04:53.385 [INF] ✅ Carga completada
+2026-03-31 21:04:53.406 [INF] 📱 SplashWindow cerrado
+2026-03-31 21:04:53.424 [INF] ✅ Tema cambiado a Dark
+2026-03-31 21:04:53.436 [INF] 🏠 MainWindow() - Antes de crear ViewModel
+2026-03-31 21:04:53.448 [INF] Cargando datos de semilla...
+2026-03-31 21:04:53.451 [DBG] Creando nueva persona 11111111H
+2026-03-31 21:04:53.453 [INF] Persona creada con ID 1
+2026-03-31 21:04:53.456 [DBG] Creando nueva persona 22222222J
+2026-03-31 21:04:53.456 [INF] Persona creada con ID 2
+2026-03-31 21:04:53.456 [DBG] Creando nueva persona 33333333P
+2026-03-31 21:04:53.456 [INF] Persona creada con ID 3
+2026-03-31 21:04:53.456 [DBG] Creando nueva persona 44444444A
+2026-03-31 21:04:53.456 [INF] Persona creada con ID 4
+2026-03-31 21:04:53.456 [DBG] Creando nueva persona 55555555K
+2026-03-31 21:04:53.456 [INF] Persona creada con ID 5
+2026-03-31 21:04:53.456 [DBG] Creando nueva persona 66666666Q
+2026-03-31 21:04:53.456 [INF] Persona creada con ID 6
+2026-03-31 21:04:53.456 [DBG] Creando nueva persona 77777777V
+2026-03-31 21:04:53.456 [INF] Persona creada con ID 7
+2026-03-31 21:04:53.456 [DBG] Creando nueva persona 88888888E
+2026-03-31 21:04:53.456 [INF] Persona creada con ID 8
+2026-03-31 21:04:53.456 [DBG] Creando nueva persona 99999999X
+2026-03-31 21:04:53.456 [INF] Persona creada con ID 9
+2026-03-31 21:04:53.456 [DBG] Creando nueva persona 00000000M
+2026-03-31 21:04:53.456 [INF] Persona creada con ID 10
+2026-03-31 21:04:53.456 [DBG] Creando nueva persona 12345678Z
+2026-03-31 21:04:53.457 [INF] Persona creada con ID 11
+2026-03-31 21:04:53.457 [DBG] Creando nueva persona 23456789D
+2026-03-31 21:04:53.457 [INF] Persona creada con ID 12
+2026-03-31 21:04:53.457 [DBG] Creando nueva persona 34567890V
+2026-03-31 21:04:53.457 [INF] Persona creada con ID 13
+2026-03-31 21:04:53.457 [DBG] Creando nueva persona 45678901H
+2026-03-31 21:04:53.457 [INF] Persona creada con ID 14
+2026-03-31 21:04:53.457 [DBG] Creando nueva persona 56789012L
+2026-03-31 21:04:53.457 [INF] Persona creada con ID 15
+2026-03-31 21:04:53.457 [INF] SeedData completado.
+2026-03-31 21:04:53.467 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 21:04:53.467 [DBG] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\reports
+2026-03-31 21:04:53.468 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 21:04:53.468 [INF] ✅ MainViewModel inicializado
+2026-03-31 21:04:53.468 [INF] 🏠 MainWindow() - ViewModel creado
+2026-03-31 21:04:53.474 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 21:04:53.474 [DBG] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 21:04:53.479 [INF] 📊 Dashboard cargado
+2026-03-31 21:04:53.479 [DBG] 📊 DashboardView cargado
+2026-03-31 21:04:53.479 [INF] 🏠 MainWindow() - Dashboard navegado
+2026-03-31 21:04:53.479 [INF] 🏠 Llamando a mainWindow.Show()
+2026-03-31 21:04:53.479 [INF] 🏠 MainWindow.Show() llamado
+2026-03-31 21:04:53.538 [INF] 🏠 MainWindow.Show() completado
+2026-03-31 21:04:53.538 [INF] ✅ mainWindow.Show() completado
+2026-03-31 21:05:03.562 [DBG] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 21:06:27.203 [INF] 🏁 MainWindow.OnClosed

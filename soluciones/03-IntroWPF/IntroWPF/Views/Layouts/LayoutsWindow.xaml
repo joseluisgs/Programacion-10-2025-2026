@@ -1,0 +1,84 @@
+<Window x:Class="IntroWPF.Views.Layouts.LayoutsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Layouts - Grid y DockPanel" Height="420" Width="520"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="CanResize">
+    
+    <!-- 
+        DockPanel: panel que permite anclar controles a los bordes
+        LastChildFill="True": el último hijo ocupa el espacio restante
+    -->
+    <DockPanel LastChildFill="True">
+        
+        <!-- Panel Superior (Top) -->
+        <!-- DockPanel.Dock="Top": anclar arriba -->
+        <Border DockPanel.Dock="Top" 
+                Background="LightBlue" 
+                Height="50">
+            <TextBlock Text="🎓 Gestión" 
+                       FontSize="18" 
+                       FontWeight="Bold" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center"/>
+        </Border>
+        
+        <!-- Panel Inferior (Bottom) -->
+        <Border DockPanel.Dock="Bottom" 
+                Background="LightGray" 
+                Height="50">
+            <StackPanel Orientation="Horizontal" 
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Center"
+                        Margin="0,0,10,0">
+                <Button Content="Aceptar" 
+                        Width="100" 
+                        Margin="0,0,10,0"/>
+                <Button Content="Cancelar" 
+                        Width="100"/>
+            </StackPanel>
+        </Border>
+        
+        <!-- Panel Izquierdo (Left) -->
+        <Border DockPanel.Dock="Left" 
+                Width="120" 
+                Background="LightYellow" 
+                Padding="10">
+            <!-- StackPanel: apila elementos verticalmente -->
+            <StackPanel>
+                <TextBlock Text="Menú" 
+                           FontWeight="Bold" 
+                           Margin="0,0,0,10"/>
+                <TextBlock Text="📁 Inicio" 
+                           Margin="0,3"/>
+                <TextBlock Text="📁 Datos" 
+                           Margin="0,3"/>
+            </StackPanel>
+        </Border>
+        
+        <!-- Panel Central (ocupa el resto) -->
+        <!-- Grid: sistema de filas y columnas -->
+        <Grid Background="White" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <!-- TextBox con Margin (espacio exterior) -->
+            <TextBox x:Name="TxtBuscar" 
+                     Text="Buscar..." 
+                     Padding="5" 
+                     Margin="0,0,0,10"/>
+            
+            <!-- ListBox: lista de elementos -->
+            <ListBox x:Name="LstElementos" 
+                     Grid.Row="1">
+                <ListBoxItem Content="Juan - DAM1"/>
+                <ListBoxItem Content="María - DAW1"/>
+                <ListBoxItem Content="Luis - ASIR1"/>
+            </ListBox>
+            
+        </Grid>
+        
+    </DockPanel>
+</Window>

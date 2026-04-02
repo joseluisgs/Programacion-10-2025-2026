@@ -1,0 +1,187 @@
+<!-- ============================================================ -->
+<!-- MainWindow.xaml - Interfaz gráfica de la Lista de la Compra -->
+<!-- ============================================================ -->
+<!-- Este archivo define la interfaz gráfica de la aplicación. -->
+<!-- -->
+<!-- CONCEPTOS IMPORTANTES: -->
+<!-- -->
+<!-- 1. WPF Y XAML: -->
+<!--    - XAML (eXtensible Application Markup Language) -->
+<!--    - Lenguaje declarativo para definir interfaces -->
+<!--    - Separa la UI (XAML) del código (C#) -->
+<!-- -->
+<!-- 2. ELEMENTOS PRINCIPALES: -->
+<!--    - Window: Ventana principal -->
+<!--    - Grid: Contenedor de filas y columnas -->
+<!--    - TextBox: Cuadro de texto -->
+<!--    - Button: Botón -->
+<!--    - ListBox: Lista de elementos -->
+<!--    - CheckBox: Casilla de verificación -->
+<!--    - TextBlock: Texto (no editable) -->
+<!--    - Border: Marco con fondo y bordes -->
+<!-- -->
+<!-- 3. ATRIBUTOS IMPORTANTES: -->
+<!--    - x:Name: Nombre para acceder desde C# -->
+<!--    - x:Class: Clase code-behind -->
+<!--    - Grid.Row/Grid.Column: Posición en el grid -->
+<!--    - Binding: Enlazar datos (ObservableCollection) -->
+<!--    - Converter: Transformar datos para el binding -->
+<!-- -->
+<!-- 4. EVENTOS: -->
+<!--    - Click: Se dispara al hacer clic en un botón -->
+<!--    - TextChanged: Se dispara al cambiar el texto -->
+<!--    - SelectionChanged: Se dispara al seleccionar un item -->
+<!--    - Checked/Unchecked: Se dispara al marcar/desmarcar -->
+
+<Window x:Class="ListaCompra.Views.Main.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="🛒 Lista de la Compra" Height="550" Width="600"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize">
+
+    <!-- Recursos locales de la ventana -->
+    <Window.Resources>
+        <!-- Estilo para botones de acción -->
+        <Style x:Key="BotonAccion" TargetType="Button">
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="2"/>
+        </Style>
+    </Window.Resources>
+
+    <!-- Grid principal con margen de 15 -->
+    <Grid Margin="15">
+        <!-- Definición de filas -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>  <!-- Título -->
+            <RowDefinition Height="Auto"/>  <!-- Buscador -->
+            <RowDefinition Height="Auto"/>  <!-- Formulario añadir -->
+            <RowDefinition Height="*"/>     <!-- Lista productos (flexible) -->
+            <RowDefinition Height="Auto"/>  <!-- Total y cerrar -->
+        </Grid.RowDefinitions>
+
+        <!-- TÍTULO: Título de la aplicación -->
+        <TextBlock Text="🛒 Lista de la Compra" FontSize="22" FontWeight="Bold" 
+                   Margin="0,0,0,15"/>
+
+        <!-- BUSCADOR: Fila 1 - Campo de búsqueda y botón limpiar -->
+        <Grid Grid.Row="1" Margin="0,0,0,15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>      <!-- TextBox (ocupa todo el espacio) -->
+                <ColumnDefinition Width="Auto"/>  <!-- Button (ancho automático) -->
+            </Grid.ColumnDefinitions>
+            
+            <!-- TextBox para escribir la búsqueda -->
+            <TextBox x:Name="TxtBuscar" Padding="5" 
+                     TextChanged="TxtBuscar_TextChanged"/>
+            
+            <!-- Placeholder (texto gris que se oculta al escribir) -->
+            <!-- Visibility binding con converter para ocultar al escribir -->
+            <TextBlock Grid.Column="0" Text="🔍 Buscar producto..." 
+                       Foreground="Gray" IsHitTestVisible="False" 
+                       Margin="8,0,0,0" VerticalAlignment="Center"
+                       Visibility="{Binding Text.Length, ElementName=TxtBuscar, Converter={StaticResource IntToVisibilityConverter}}"/>
+            
+            <!-- Botón para limpiar la búsqueda -->
+            <Button Grid.Column="1" Content="Limpiar" Padding="10,5" Margin="5,0,0,0"
+                    Click="BtnLimpiarBusqueda_Click"/>
+        </Grid>
+
+        <!-- FORMULARIO AÑADIR: Fila 2 - Campos para nuevo producto -->
+        <Border Grid.Row="2" Background="#f5f5f5" Padding="10" CornerRadius="5" Margin="0,0,0,15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>     <!-- Nombre (flexible) -->
+                    <ColumnDefinition Width="80"/>   <!-- Cantidad (80px) -->
+                    <ColumnDefinition Width="80"/>   <!-- Precio (80px) -->
+                    <ColumnDefinition Width="Auto"/> <!-- Botón (ancho automático) -->
+                </Grid.ColumnDefinitions>
+                
+                <!-- Campo nombre -->
+                <TextBox x:Name="TxtNombre" Grid.Column="0" Padding="5" Margin="0,0,5,0"
+                         ToolTip="Nombre del producto"/>
+                
+                <!-- Campo cantidad -->
+                <TextBox x:Name="TxtCantidad" Grid.Column="1" Padding="5" Margin="0,0,5,0"
+                         ToolTip="Cantidad" Text="1"/>
+                
+                <!-- Campo precio -->
+                <TextBox x:Name="TxtPrecio" Grid.Column="2" Padding="5" Margin="0,0,5,0"
+                         ToolTip="Precio" Text="0"/>
+                
+                <!-- Botón añadir (verde) -->
+                <Button Grid.Column="3" Content="➕ Añadir" Padding="15,5"
+                        Background="#4CAF50" Foreground="White"
+                        Click="BtnAñadir_Click"/>
+            </Grid>
+        </Border>
+
+        <!-- LISTA PRODUCTOS: Fila 3 - ListBox con DataTemplate -->
+        <!-- ItemsSource se bindea con ObservableCollection en C# -->
+        <ListBox x:Name="ListaProductos" Grid.Row="3"
+                 SelectionMode="Single"
+                 SelectionChanged="ListaProductos_SelectionChanged">
+            <!-- DataTemplate: Plantilla para cada item de la lista -->
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <!-- Grid para organizar cada producto -->
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>   <!-- CheckBox -->
+                            <ColumnDefinition Width="*"/>    <!-- Nombre (flexible) -->
+                            <ColumnDefinition Width="60"/>   <!-- Cantidad -->
+                            <ColumnDefinition Width="80"/>   <!-- Precio -->
+                            <ColumnDefinition Width="Auto"/> <!-- Botón eliminar -->
+                        </Grid.ColumnDefinitions>
+                        
+                        <!-- CheckBox para marcar como comprado -->
+                        <!-- Binding con propiedad EstaComprado del producto -->
+                        <CheckBox Grid.Column="0" IsChecked="{Binding EstaComprado}" 
+                                  VerticalAlignment="Center"
+                                  Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                        
+                        <!-- Nombre del producto -->
+                        <!-- Binding con converter para tachar si está comprado -->
+                        <TextBlock Grid.Column="1" Text="{Binding Nombre}" 
+                                   VerticalAlignment="Center" FontSize="14"
+                                   TextDecorations="{Binding EstaComprado, Converter={StaticResource BoolToTextDecoration}}"/>
+                        
+                        <!-- Cantidad (formato "x5") -->
+                        <TextBlock Grid.Column="2" 
+                                   Text="{Binding StringFormat='x{0}'}" 
+                                   VerticalAlignment="Center" Foreground="Gray"/>
+                        
+                        <!-- Precio total (formato moneda) -->
+                        <TextBlock Grid.Column="3" 
+                                   Text="{Binding Total, StringFormat='{}{0:C2}'}" 
+                                   VerticalAlignment="Center" FontWeight="Bold"/>
+                        
+                        <!-- Botón eliminar (rojo) -->
+                        <!-- Tag binding para pasar el ID al evento Click -->
+                        <Button Grid.Column="4" Content="🗑️" Padding="5,2"
+                                Background="#f44336" Foreground="White"
+                                Tag="{Binding Id}"
+                                Click="BtnEliminar_Click"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <!-- PANEL INFERIOR: Fila 4 - Total y botón cerrar -->
+        <Grid Grid.Row="4" Margin="0,15,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>      <!-- Total (flexible) -->
+                <ColumnDefinition Width="Auto"/>  <!-- Botón cerrar (auto) -->
+            </Grid.ColumnDefinitions>
+            
+            <!-- Total de la compra -->
+            <TextBlock x:Name="TxtTotal" Text="Total: 0.00 €" 
+                       FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
+            
+            <!-- Botón cerrar -->
+            <Button Grid.Column="1" Content="Cerrar" Padding="20,10"
+                    Click="BtnCerrar_Click"/>
+        </Grid>
+
+    </Grid>
+</Window>

@@ -1,0 +1,55 @@
+<Window x:Class="GestionAcademica.Views.AcercaDe.AcercaDeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Acerca de Gestión Académica"
+        Width="450"
+        Height="400"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
+        Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"
+        Icon="pack://application:,,,/Resources/icons/app-icon.png">
+
+    <Grid Margin="30">
+        <StackPanel HorizontalAlignment="Center">
+            <!-- Logo App -->
+            <Image Source="pack://application:,,,/Resources/icons/app-icon.png" Width="64" Height="64" Margin="0,0,0,15"/>
+            
+            <TextBlock Text="Gestión Académica" FontSize="26" FontWeight="Bold" HorizontalAlignment="Center"/>
+            <TextBlock Text="Versión 1.0.0" FontSize="12" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" HorizontalAlignment="Center" Margin="0,0,0,25"/>
+            
+            <TextBlock Text="Desarrollado por:" FontSize="14" HorizontalAlignment="Center" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+            <TextBlock Text="José Luis González Sánchez" FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,5,0,0"/>
+            
+            <!-- GitHub Section -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+                <Image Source="pack://application:,,,/Resources/icons/github.png" Width="20" Height="20" Margin="0,0,10,0"/>
+                <TextBlock Text="Repositorio en GitHub:" FontSize="13" VerticalAlignment="Center" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+            </StackPanel>
+            
+            <TextBlock x:Name="RepoLink" 
+                       Text="github.com/joseluisgs" 
+                       FontSize="14" Foreground="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}" FontWeight="SemiBold"
+                       TextDecorations="Underline" Cursor="Hand" 
+                       HorizontalAlignment="Center" Margin="0,8,0,0"
+                       MouseLeftButtonDown="OnGitHubClick"/>
+            
+            <Button Content="Cerrar" Click="OnCerrarClick" Margin="0,35,0,0" Width="120" Padding="8" 
+                    Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+                    Foreground="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+                    BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+                    BorderThickness="1">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>

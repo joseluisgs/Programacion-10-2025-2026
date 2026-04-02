@@ -1,0 +1,161 @@
+<Window x:Class="LayoutsComponentes.Views.Ejercicio8_Resources.ResourcesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Recursos - StaticResource y DynamicResource" Height="550" Width="600"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="CanResize">
+
+    <!-- 
+        ============================================================
+        DEFINICIÓN DE RECURSOS EN Window.Resources
+        ============================================================
+        Los recursos se definen en el diccionario Resources.
+        Se pueden referenciar con StaticResource o DynamicResource.
+    -->
+    <Window.Resources>
+        <!-- Recurso de color -->
+        <Color x:Key="ColorPrimario">#1976D2</Color>
+        <Color x:Key="ColorSecundario">#388E3C</Color>
+        <Color x:Key="ColorPeligro">#D32F2F</Color>
+        
+        <!-- Recurso de pincel (Brush) que usa el color -->
+        <SolidColorBrush x:Key="PincelPrimario" Color="{StaticResource ColorPrimario}"/>
+        <SolidColorBrush x:Key="PincelSecundario" Color="{StaticResource ColorSecundario}"/>
+        <SolidColorBrush x:Key="PincelPeligro" Color="{StaticResource ColorPeligro}"/>
+        
+        <!-- Recurso de grosor reutilizable -->
+        <Thickness x:Key="MargenEstandar">10,5,10,5</Thickness>
+        
+        <!-- Recurso de estilo para Button -->
+        <Style x:Key="BotonPrimario" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource PincelPrimario}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        
+        <!-- Estilo para botón secundario -->
+        <Style x:Key="BotonSecundario" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource PincelSecundario}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        
+        <!-- Estilo para botón de peligro -->
+        <Style x:Key="BotonPeligro" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource PincelPeligro}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        
+        <!-- Estilo para TextBlock -->
+        <Style x:Key="Titulo" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{StaticResource PincelPrimario}"/>
+        </Style>
+        
+        <!-- Recurso de tema dinámico (para demostrar DynamicResource) -->
+        <SolidColorBrush x:Key="ColorFondo" Color="White"/>
+    </Window.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="20">
+            
+            <!-- Título -->
+            <TextBlock Text="💎 Recursos en WPF" FontSize="22" 
+                       FontWeight="Bold" Margin="0,0,0,20"/>
+
+            <!-- ============================================================ -->
+            <!-- StaticResource: Referencia estática -->
+            <!-- ============================================================ -->
+            <TextBlock Text="📌 StaticResource" FontSize="18" 
+                       FontWeight="Bold" Margin="0,0,0,10"/>
+            
+            <TextBlock TextWrapping="Wrap" Margin="0,0,0,15">
+                <Run FontWeight="Bold">StaticResource</Run>
+                <Run> se resuelve en tiempo de carga (una sola vez). Es más rápido.</Run>
+                <LineBreak/>
+                <Run>Usa cuando el valor NO va a cambiar en runtime.</Run>
+            </TextBlock>
+            
+            <!-- Botones con estilos definidos -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                <Button Content="Botón primario" Style="{StaticResource BotonPrimario}" Margin="0,0,10,0"/>
+                <Button Content="Botón secundario" Style="{StaticResource BotonSecundario}" Margin="0,0,10,0"/>
+                <Button Content="Botón peligro" Style="{StaticResource BotonPeligro}"/>
+            </StackPanel>
+            
+            <!-- Uso de recursos de color directamente -->
+            <Border Background="{StaticResource PincelPrimario}" 
+                    Height="50" CornerRadius="5" Margin="0,0,0,5">
+                <TextBlock Text="Fondo con PincelPrimario (StaticResource)" 
+                           Foreground="White" VerticalAlignment="Center" Margin="10"/>
+            </Border>
+            <Border Background="{StaticResource PincelSecundario}" 
+                    Height="50" CornerRadius="5" Margin="0,0,0,20">
+                <TextBlock Text="Fondo con PincelSecundario (StaticResource)" 
+                           Foreground="White" VerticalAlignment="Center" Margin="10"/>
+            </Border>
+
+            <!-- ============================================================ -->
+            <!-- DynamicResource: Referencia dinámica -->
+            <!-- ============================================================ -->
+            <TextBlock Text="🔄 DynamicResource" FontSize="18" 
+                       FontWeight="Bold" Margin="0,0,0,10"/>
+            
+            <TextBlock TextWrapping="Wrap" Margin="0,0,0,15">
+                <Run FontWeight="Bold">DynamicResource</Run>
+                <Run> se resuelve en tiempo de ejecución (cada vez que cambia).</Run>
+                <LineBreak/>
+                <Run>Usa cuando el valor PUEDE cambiar en runtime (temas dinámicos).</Run>
+            </TextBlock>
+            
+            <!-- Panel que usa DynamicResource para el fondo -->
+            <!-- Al cambiar el recurso, el fondo se actualiza automáticamente -->
+            <Border x:Name="panelDinamico" 
+                    Background="{DynamicResource ColorFondo}"
+                    BorderBrush="Gray" BorderThickness="1" 
+                    CornerRadius="5" Padding="15" Margin="0,0,0,20">
+                <StackPanel>
+                    <TextBlock Text="Este panel usa DynamicResource" FontWeight="SemiBold"/>
+                    <TextBlock Text="Al cambiar el recurso, el fondo se actualiza automáticamente."
+                               TextWrapping="Wrap" Margin="0,5,0,10"/>
+                    
+                    <!-- Botones para cambiar el tema -->
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="🌙 Tema oscuro" Click="BtnTemaOscuro_Click" 
+                                Margin="0,0,10,0" Padding="10,5"/>
+                        <Button Content="☀️ Tema claro" Click="BtnTemaClaro_Click" 
+                                Padding="10,5"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- ============================================================ -->
+            <!-- Recursos con propiedades -->
+            <!-- ============================================================ -->
+            <TextBlock Text="📐 Recursos reutilizables" FontSize="18" 
+                       FontWeight="Bold" Margin="0,0,0,10"/>
+            
+            <TextBlock Text="Usa recursos para valores que se repiten:" 
+                       Margin="0,0,0,10"/>
+            
+            <!-- Uso de Thickness como recurso -->
+            <StackPanel>
+                <TextBox Text="Campo 1" Margin="{StaticResource MargenEstandar}" Padding="5"/>
+                <TextBox Text="Campo 2" Margin="{StaticResource MargenEstandar}" Padding="5"/>
+                <TextBox Text="Campo 3" Margin="{StaticResource MargenEstandar}" Padding="5"/>
+            </StackPanel>
+
+            <!-- Estilo con TargetType aplicado a todos los TextBlock de tipo título -->
+            <TextBlock Text="Ejemplo de estilo Titulo" Style="{StaticResource Titulo}" Margin="0,20,0,5"/>
+            <TextBlock Text="Este TextBlock usa el estilo 'Titulo' definido en recursos." 
+                       TextWrapping="Wrap"/>
+
+        </StackPanel>
+    </ScrollViewer>
+</Window>

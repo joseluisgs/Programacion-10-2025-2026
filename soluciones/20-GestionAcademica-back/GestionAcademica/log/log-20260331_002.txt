@@ -1,0 +1,114 @@
+2026-03-31 23:42:21.671 [INF] 🚀 Aplicación WPF iniciada
+2026-03-31 23:42:21.714 [INF] ✅ ServiceProvider creado con todos los servicios
+2026-03-31 23:42:21.833 [INF] 📱 Mostrando SplashWindow
+2026-03-31 23:42:21.967 [INF] 📱 SplashWindow cargada
+2026-03-31 23:42:23.922 [INF] ✅ Carga completada
+2026-03-31 23:42:23.946 [INF] 📱 SplashWindow cerrado
+2026-03-31 23:42:23.952 [FTL] ❌ Excepción no manejada
+System.Windows.Markup.XamlParseException: 'Se produjo una excepción al proporcionar un valor en 'System.Windows.Baml2006.TypeConverterMarkupExtension'.' (número de línea: '11'; posición de línea: '9').
+ ---> System.IO.IOException: No se encuentra el recurso 'resources/app-icon.ico'.
+   at MS.Internal.AppModel.ResourcePart.GetStreamCore(FileMode mode, FileAccess access)
+   at System.IO.Packaging.PackagePart.GetStream(FileMode mode, FileAccess access)
+   at MS.Internal.IO.Packaging.PackagePartExtensions.GetSeekableStream(PackagePart packPart, FileMode mode, FileAccess access)
+   at System.IO.Packaging.PackWebResponse.CachedResponse.GetResponseStream()
+   at System.Windows.Media.Imaging.BitmapDecoder.SetupDecoderFromUriOrStream(Uri uri, Stream stream, BitmapCacheOption cacheOption, Guid& clsId, Boolean& isOriginalWritable, Stream& uriStream, UnmanagedMemoryStream& unmanagedMemoryStream, SafeFileHandle& safeFilehandle)
+   at System.Windows.Media.Imaging.BitmapDecoder.CreateFromUriOrStream(Uri baseUri, Uri uri, Stream stream, BitmapCreateOptions createOptions, BitmapCacheOption cacheOption, RequestCachePolicy uriCachePolicy, Boolean insertInDecoderCache)
+   at System.Windows.Media.Imaging.BitmapFrame.CreateFromUriOrStream(Uri baseUri, Uri uri, Stream stream, BitmapCreateOptions createOptions, BitmapCacheOption cacheOption, RequestCachePolicy uriCachePolicy)
+   at System.Windows.Media.ImageSourceConverter.ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, Object value)
+   at MS.Internal.Xaml.Runtime.ClrObjectRuntime.CallProvideValue(MarkupExtension me, IServiceProvider serviceProvider)
+   --- End of inner exception stack trace ---
+   at System.Windows.Markup.XamlReader.RewrapException(Exception e, IXamlLineInfo lineInfo, Uri baseUri)
+   at System.Windows.Markup.WpfXamlLoader.Load(XamlReader xamlReader, IXamlObjectWriterFactory writerFactory, Boolean skipJournaledProperties, Object rootObject, XamlObjectWriterSettings settings, Uri baseUri)
+   at System.Windows.Markup.WpfXamlLoader.LoadBaml(XamlReader xamlReader, Boolean skipJournaledProperties, Object rootObject, XamlAccessLevel accessLevel, Uri baseUri)
+   at System.Windows.Markup.XamlReader.LoadBaml(Stream stream, ParserContext parserContext, Object parent, Boolean closeStream)
+   at System.Windows.Application.LoadComponent(Object component, Uri resourceLocator)
+   at GestionAcademica.Views.Main.MainWindow.InitializeComponent() in C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\Views\Main\MainWindow.xaml:line 1
+   at GestionAcademica.Views.Main.MainWindow..ctor() in C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\Views\Main\MainWindow.xaml.cs:line 14
+   at GestionAcademica.App.OnStartup(StartupEventArgs e) in C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\App.xaml.cs:line 54
+   at System.Windows.Application.<.ctor>b__1_0(Object unused)
+   at System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   at System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler)
+2026-03-31 23:43:54.747 [INF] 🚀 Aplicación WPF iniciada
+2026-03-31 23:43:54.789 [INF] ✅ ServiceProvider creado con todos los servicios
+2026-03-31 23:43:54.913 [INF] 📱 Mostrando SplashWindow
+2026-03-31 23:43:55.033 [INF] 📱 SplashWindow cargada
+2026-03-31 23:43:56.995 [INF] ✅ Carga completada
+2026-03-31 23:43:57.015 [INF] 📱 SplashWindow cerrado
+2026-03-31 23:43:57.019 [FTL] ❌ Excepción no manejada
+System.Windows.Markup.XamlParseException: 'Se produjo una excepción al proporcionar un valor en 'System.Windows.Baml2006.TypeConverterMarkupExtension'.' (número de línea: '11'; posición de línea: '9').
+ ---> System.IO.IOException: No se encuentra el recurso 'resources/app-icon.ico'.
+   at MS.Internal.AppModel.ResourcePart.GetStreamCore(FileMode mode, FileAccess access)
+   at System.IO.Packaging.PackagePart.GetStream(FileMode mode, FileAccess access)
+   at MS.Internal.IO.Packaging.PackagePartExtensions.GetSeekableStream(PackagePart packPart, FileMode mode, FileAccess access)
+   at System.IO.Packaging.PackWebResponse.CachedResponse.GetResponseStream()
+   at System.Windows.Media.Imaging.BitmapDecoder.SetupDecoderFromUriOrStream(Uri uri, Stream stream, BitmapCacheOption cacheOption, Guid& clsId, Boolean& isOriginalWritable, Stream& uriStream, UnmanagedMemoryStream& unmanagedMemoryStream, SafeFileHandle& safeFilehandle)
+   at System.Windows.Media.Imaging.BitmapDecoder.CreateFromUriOrStream(Uri baseUri, Uri uri, Stream stream, BitmapCreateOptions createOptions, BitmapCacheOption cacheOption, RequestCachePolicy uriCachePolicy, Boolean insertInDecoderCache)
+   at System.Windows.Media.Imaging.BitmapFrame.CreateFromUriOrStream(Uri baseUri, Uri uri, Stream stream, BitmapCreateOptions createOptions, BitmapCacheOption cacheOption, RequestCachePolicy uriCachePolicy)
+   at System.Windows.Media.ImageSourceConverter.ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, Object value)
+   at MS.Internal.Xaml.Runtime.ClrObjectRuntime.CallProvideValue(MarkupExtension me, IServiceProvider serviceProvider)
+   --- End of inner exception stack trace ---
+   at System.Windows.Markup.XamlReader.RewrapException(Exception e, IXamlLineInfo lineInfo, Uri baseUri)
+   at System.Windows.Markup.WpfXamlLoader.Load(XamlReader xamlReader, IXamlObjectWriterFactory writerFactory, Boolean skipJournaledProperties, Object rootObject, XamlObjectWriterSettings settings, Uri baseUri)
+   at System.Windows.Markup.WpfXamlLoader.LoadBaml(XamlReader xamlReader, Boolean skipJournaledProperties, Object rootObject, XamlAccessLevel accessLevel, Uri baseUri)
+   at System.Windows.Markup.XamlReader.LoadBaml(Stream stream, ParserContext parserContext, Object parent, Boolean closeStream)
+   at System.Windows.Application.LoadComponent(Object component, Uri resourceLocator)
+   at GestionAcademica.Views.Main.MainWindow.InitializeComponent() in C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\Views\Main\MainWindow.xaml:line 1
+   at GestionAcademica.Views.Main.MainWindow..ctor() in C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\Views\Main\MainWindow.xaml.cs:line 14
+   at GestionAcademica.App.OnStartup(StartupEventArgs e) in C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\App.xaml.cs:line 54
+   at System.Windows.Application.<.ctor>b__1_0(Object unused)
+   at System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
+   at System.Windows.Threading.ExceptionWrapper.TryCatchWhen(Object source, Delegate callback, Object args, Int32 numArgs, Delegate catchHandler)
+2026-03-31 23:44:36.074 [INF] 🚀 Aplicación WPF iniciada
+2026-03-31 23:44:36.118 [INF] ✅ ServiceProvider creado con todos los servicios
+2026-03-31 23:44:36.242 [INF] 📱 Mostrando SplashWindow
+2026-03-31 23:44:36.362 [INF] 📱 SplashWindow cargada
+2026-03-31 23:44:38.323 [INF] ✅ Carga completada
+2026-03-31 23:44:38.343 [INF] 📱 SplashWindow cerrado
+2026-03-31 23:44:38.373 [INF] ✅ Tema cambiado a Dark
+2026-03-31 23:44:38.375 [ERR] ❌ Error al aplicar el tema
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at GestionAcademica.Views.Main.MainWindow.ApplyTheme(String themeName) in C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\Views\Main\MainWindow.xaml.cs:line 179
+2026-03-31 23:44:38.405 [INF] Cargando datos de semilla...
+2026-03-31 23:44:38.407 [DBG] Creando nueva persona 11111111H
+2026-03-31 23:44:38.410 [INF] Persona creada con ID 1
+2026-03-31 23:44:38.412 [DBG] Creando nueva persona 22222222J
+2026-03-31 23:44:38.412 [INF] Persona creada con ID 2
+2026-03-31 23:44:38.412 [DBG] Creando nueva persona 33333333P
+2026-03-31 23:44:38.412 [INF] Persona creada con ID 3
+2026-03-31 23:44:38.412 [DBG] Creando nueva persona 44444444A
+2026-03-31 23:44:38.412 [INF] Persona creada con ID 4
+2026-03-31 23:44:38.413 [DBG] Creando nueva persona 55555555K
+2026-03-31 23:44:38.413 [INF] Persona creada con ID 5
+2026-03-31 23:44:38.413 [DBG] Creando nueva persona 66666666Q
+2026-03-31 23:44:38.413 [INF] Persona creada con ID 6
+2026-03-31 23:44:38.413 [DBG] Creando nueva persona 77777777V
+2026-03-31 23:44:38.413 [INF] Persona creada con ID 7
+2026-03-31 23:44:38.413 [DBG] Creando nueva persona 88888888E
+2026-03-31 23:44:38.413 [INF] Persona creada con ID 8
+2026-03-31 23:44:38.413 [DBG] Creando nueva persona 99999999X
+2026-03-31 23:44:38.413 [INF] Persona creada con ID 9
+2026-03-31 23:44:38.413 [DBG] Creando nueva persona 00000000M
+2026-03-31 23:44:38.413 [INF] Persona creada con ID 10
+2026-03-31 23:44:38.413 [DBG] Creando nueva persona 12345678Z
+2026-03-31 23:44:38.413 [INF] Persona creada con ID 11
+2026-03-31 23:44:38.413 [DBG] Creando nueva persona 23456789D
+2026-03-31 23:44:38.413 [INF] Persona creada con ID 12
+2026-03-31 23:44:38.413 [DBG] Creando nueva persona 34567890V
+2026-03-31 23:44:38.413 [INF] Persona creada con ID 13
+2026-03-31 23:44:38.413 [DBG] Creando nueva persona 45678901H
+2026-03-31 23:44:38.413 [INF] Persona creada con ID 14
+2026-03-31 23:44:38.413 [DBG] Creando nueva persona 56789012L
+2026-03-31 23:44:38.413 [INF] Persona creada con ID 15
+2026-03-31 23:44:38.413 [INF] SeedData completado.
+2026-03-31 23:44:38.422 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 23:44:38.423 [DBG] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\20-GestionAcademica\GestionAcademica\bin\Debug\net10.0-windows\reports
+2026-03-31 23:44:38.423 [DBG] Inicializando la clase AcademiaJsonStorage
+2026-03-31 23:44:38.423 [INF] ✅ MainViewModel inicializado
+2026-03-31 23:44:38.424 [INF] 🏠 MainWindow inicializada
+2026-03-31 23:44:38.430 [INF] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 23:44:38.430 [DBG] Obteniendo personas con paginación: página 1, tamaño 10, incluir borrados: true
+2026-03-31 23:44:38.435 [INF] 📊 Dashboard cargado
+2026-03-31 23:44:38.435 [DBG] 📊 DashboardView cargado
+2026-03-31 23:44:38.435 [INF] 🏠 Llamando a mainWindow.Show()
+2026-03-31 23:44:38.492 [INF] ✅ mainWindow.Show() completado
+2026-03-31 23:45:02.074 [INF] 🏁 MainWindow cerrada

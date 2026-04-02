@@ -1,0 +1,120 @@
+<Window x:Class="JuegoMosca.Views.Main.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="La Mosca" Height="400" Width="700"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize"
+        Background="#f5f5f5"
+        Icon="/Resources/icons/app.png">
+
+    <DockPanel>
+        <!-- Menu -->
+        <Menu DockPanel.Dock="Top" Background="#4a90d9">
+            <MenuItem Header="Archivo" Foreground="White">
+                <MenuItem Header="Salir" Click="MenuSalir_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/icons/exit.png" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Ayuda" Foreground="White">
+                <MenuItem Header="Acerca de" Click="MenuAcercaDe_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/icons/about.png" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+
+        <!-- Contenido principal con SplitPane (Grid代替) -->
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Panel izquierdo: Controles -->
+            <Border Grid.Column="0" Background="White" CornerRadius="10" Padding="20" Margin="0,0,5,0">
+                <StackPanel VerticalAlignment="Center">
+                    <!-- Título -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,30">
+                        <Image Source="/Resources/icons/app.png" Width="50" Height="50" Stretch="Uniform"/>
+                        <TextBlock Text="La Mosca" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                    </StackPanel>
+
+                    <!-- Spinners para fila y columna -->
+                    <Grid Margin="0,0,0,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Fila:" HorizontalAlignment="Right" Margin="0,0,10,10"/>
+                        <Slider Grid.Row="0" Grid.Column="1" Minimum="1" Maximum="{Binding Dimension}" 
+                                Value="{Binding FilaSeleccionada}" TickFrequency="1" IsSnapToTickEnabled="True"
+                                Margin="0,0,0,10"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Columna:" HorizontalAlignment="Right" Margin="0,0,10,0"/>
+                        <Slider Grid.Row="1" Grid.Column="1" Minimum="1" Maximum="{Binding Dimension}" 
+                                Value="{Binding ColumnaSeleccionada}" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                    </Grid>
+
+                    <!-- Valores seleccionados -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+                        <TextBlock>
+                            <Run Text="Fila: "/>
+                            <Run Text="{Binding FilaSeleccionada}" FontWeight="Bold"/>
+                            <Run Text=" | Columna: "/>
+                            <Run Text="{Binding ColumnaSeleccionada}" FontWeight="Bold"/>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <!-- Botones -->
+                    <Button Content="Golpear" Padding="30,10" HorizontalAlignment="Center"
+                            Background="#4a90d9" Foreground="White" FontWeight="Bold"
+                            Command="{Binding GolpearCommand}"
+                            IsEnabled="{Binding IsTerminado, Converter={StaticResource InverseBooleanConverter}}"/>
+                    
+                    <Button Content="Otra partida" Padding="30,10" HorizontalAlignment="Center" Margin="0,10,0,0"
+                            Visibility="{Binding MostrarBotonComenzar, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            Command="{Binding IniciarJuegoCommand}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Panel derecho: Cuadrante -->
+            <Border Grid.Column="1" Background="White" CornerRadius="10" Padding="15" Margin="5,0,0,0">
+                <StackPanel>
+                    <TextBlock Text="Cuadrante:" FontWeight="Bold" Margin="0,0,0,10"/>
+                    
+                    <TextBox x:Name="TextCuadrante" 
+                             Text="{Binding Cuadrante, Mode=OneWay}"
+                             FontFamily="Consolas" FontSize="14"
+                             IsReadOnly="True"
+                             VerticalScrollBarVisibility="Auto"
+                             HorizontalScrollBarVisibility="Auto"
+                             TextWrapping="NoWrap"
+                             Background="White"
+                             BorderThickness="0"/>
+                    
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+                        <TextBlock>
+                            <Run Text="Intentos: "/>
+                            <Run Text="{Binding Golpes}" FontWeight="Bold"/>
+                            <Run Text=" / "/>
+                            <Run Text="{Binding Intentos}"/>
+                        </TextBlock>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </DockPanel>
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:InverseBooleanConverter x:Key="InverseBooleanConverter" xmlns:local="clr-namespace:JuegoMosca.Converters"/>
+    </Window.Resources>
+</Window>

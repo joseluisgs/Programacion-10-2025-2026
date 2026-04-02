@@ -1,0 +1,154 @@
+@* ============================================================
+     COMPONENTE HIJO - TAREA ITEM
+     ============================================================
+     
+     Este componente representa UNA SOLA tarea en la lista.
+     Es un componente reutilizable que puede ser usado por cualquier
+     página o componente padre.
+     
+     CONCEPTOS IMPORTANTES:
+     1. PARAMETERS - Datos que recibe del padre
+     2. EVENTCALLBACKS - Eventos que envía al padre
+     
+     PARAMETERS (datos que recibe):
+     - Tarea Tarea -> La tarea a mostrar (objecto completo)
+     - EventCallback<Guid> OnToggle -> Se ejecuta cuando se togglea el checkbox
+     - EventCallback<Guid> OnDelete -> Se ejecuta cuando se presiona eliminar
+     
+     EVENTCALLBACKS (comunicación con el padre):
+     - OnToggle.InvokeAsync(id) -> Notifica al padre que se quiere togglear
+     - OnDelete.InvokeAsync(id) -> Notifica al padre que se quiere eliminar
+     
+     El padre define qué hacer con estos eventos.
+     Este componente solo knowing dispara los eventos, no decide qué hacer.
+     
+     ESTE ES EL PATRÓN DE COMUNICACIÓN EN BLAZOR:
+     - El padre pasa datos al hijo mediante [Parameter]
+     - El hijo pasa eventos al padre mediante EventCallback
+     - Esto mantiene el flujo de datos unidireccional (como MVVM)
+*@
+
+@* Binding de clase CSS condicional según el estado de la tarea *@
+<div class="list-group-item @(Tarea.Completada ? "list-group-item-success" : "")">
+    <div class="d-flex justify-content-between align-items-center">
+        
+        @* ============================================================
+             CHECKBOX PARA COMPLETAR
+             ============================================================
+             
+             Binding OneWay del checked al estado de la tarea.
+             onchange llama a OnToggle para notificar al padre.
+             
+             Cuando el usuario hace click:
+             1. Se ejecuta ToggleTarea()
+             2. ToggleTarea() llama a OnToggle.InvokeAsync(Tarea.Id)
+             3. El padre recibe el evento y actualiza el modelo
+             4. Blazor re-renderiza este componente con los nuevos datos
+        *@
+        <div class="form-check">
+            <input 
+                type="checkbox" 
+                class="form-check-input" 
+                id="tarea-@Tarea.Id"
+                checked="@Tarea.Completada"
+                @onchange="ToggleTarea" />
+            <label 
+                class="form-check-label @(Tarea.Completada ? "text-decoration-line-through" : "")" 
+                for="tarea-@Tarea.Id">
+                @Tarea.Titulo
+            </label>
+        </div>
+
+        @* ============================================================
+             BOTÓN DE ELIMINAR
+             ============================================================
+             
+             onlick llama a OnDelete para notificar al padre.
+             
+             Cuando el usuario hace clic:
+             1. Se ejecuta Eliminar()
+             2. Eliminar() llama a OnDelete.InvokeAsync(Tarea.Id)
+             3. El padre recibe el evento y elimina del modelo
+             4. Blazor re-renderiza la lista (esta tarea ya no aparece)
+        *@
+        <button 
+            class="btn btn-sm btn-danger" 
+            @onclick="Eliminar"
+            title="Eliminar tarea">
+            🗑️
+        </button>
+    </div>
+    
+    @* Fecha de creación en tamaño pequeño *@
+    <small class="text-muted">
+        Creada: @Tarea.FechaCreacion.ToString("dd/MM/yyyy HH:mm")
+    </small>
+</div>
+
+@* ============================================================
+     BLOQUE DE CÓDIGO C#
+     ============================================================
+     
+     Aquí definimos:
+     - [Parameter] attributes: datos que RECIBE del padre
+     - Métodos: lógica del componente
+     
+     NOTA: No necesitamos @code { } cuando solo hay parámetros.
+     Se puede poner directamente en el archivo, pero usamos @code
+     para mejor organización.
+*@
+@code {
+    /// <summary>
+    /// Datos de la tarea a mostrar.
+    /// </summary>
+    /// <remarks>
+    /// [Parameter] indica que este valor viene del componente padre.
+    /// Blazor automáticamente re-renderiza cuando este valor cambia.
+    /// </remarks>
+    [Parameter]
+    public Tarea Tarea { get; set; } = new();
+
+    /// <summary>
+    /// Callback para notificar al padre cuando se togglea el estado.
+    /// </summary>
+    /// <remarks>
+    /// [Parameter] + EventCallback permite que el padre defina qué hacer.
+    /// Usamos InvokeAsync para dispara el evento de forma segura.
+    /// </remarks>
+    [Parameter]
+    public EventCallback<Guid> OnToggle { get; set; }
+
+    /// <summary>
+    /// Callback para notificar al padre cuando se elimina la tarea.
+    /// </summary>
+    /// <remarks>
+    /// El padre recibe el ID para saber qué tarea eliminar.
+    /// </remarks>
+    [Parameter]
+    public EventCallback<Guid> OnDelete { get; set; }
+
+    /// <summary>
+    /// Maneja el cambio del checkbox de completado.
+    /// </summary>
+    /// <remarks>
+    /// Delegates el evento al padre mediante el callback.
+    /// Esto permite que el padre maneje la lógica de negocio.
+    /// </remarks>
+    private async Task ToggleTarea()
+    {
+        // Llamar al callback del padre con el ID de esta tarea
+        await OnToggle.InvokeAsync(Tarea.Id);
+    }
+
+    /// <summary>
+    /// Maneja el clic del botón de eliminar.
+    /// </summary>
+    /// <remarks>
+    /// Delegates el evento al padre mediante el callback.
+    /// </remarks>
+    private async Task Eliminar()
+    {
+        // Llamar al callback del padre con el ID de esta tarea
+        await OnDelete.InvokeAsync(Tarea.Id);
+    }
+}

@@ -1,0 +1,98 @@
+<Window x:Class="IntroWPF.Views.Formulario.FormularioRegistroWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Registro de Alumnos" Height="340" Width="420"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+    
+    <!-- Grid principal con margen -->
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="90"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- Campo: Nombre -->
+        <TextBlock Text="Nombre:" 
+                   VerticalAlignment="Center" 
+                   Margin="0,8"/>
+        <TextBox x:Name="TxtNombre" 
+                 Grid.Column="1" 
+                 Margin="0,8" 
+                 Padding="5"/>
+        
+        <!-- Campo: Email -->
+        <TextBlock Text="Email:" 
+                   Grid.Row="1" 
+                   VerticalAlignment="Center" 
+                   Margin="0,8"/>
+        <TextBox x:Name="TxtEmail" 
+                 Grid.Row="1" 
+                 Grid.Column="1" 
+                 Margin="0,8" 
+                 Padding="5"/>
+        
+        <!-- Campo: Curso -->
+        <TextBlock Text="Curso:" 
+                   Grid.Row="2" 
+                   VerticalAlignment="Center" 
+                   Margin="0,8"/>
+        
+        <!-- ComboBox con elementos -->
+        <ComboBox x:Name="CmbCurso" 
+                  Grid.Row="2" 
+                  Grid.Column="1" 
+                  Margin="0,8"
+                  SelectedIndex="0">
+            <ComboBoxItem Content="DAM1"/>
+            <ComboBoxItem Content="DAM2"/>
+            <ComboBoxItem Content="DAW1"/>
+            <ComboBoxItem Content="DAW2"/>
+            <ComboBoxItem Content="ASIR1"/>
+            <ComboBoxItem Content="ASIR2"/>
+        </ComboBox>
+        
+        <!-- Botones: Grid para ponerlos en fila -->
+        <StackPanel Grid.Row="3" 
+                    Grid.ColumnSpan="2" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Center" 
+                    Margin="0,15">
+            
+            <Button x:Name="BtnGuardar" 
+                    Content="Guardar" 
+                    Width="120" 
+                    Height="35" 
+                    Margin="0,0,10,0" 
+                    Background="LightGreen" 
+                    Click="BtnGuardar_Click"/>
+            
+            <Button x:Name="BtnLimpiar" 
+                    Content="Limpiar" 
+                    Width="120" 
+                    Height="35" 
+                    Background="LightCoral" 
+                    Click="BtnLimpiar_Click"/>
+            
+        </StackPanel>
+        
+        <!-- Etiqueta de estado -->
+        <Border Grid.Row="4" 
+                Grid.ColumnSpan="2" 
+                BorderBrush="Gray" 
+                BorderThickness="1" 
+                Padding="10">
+            <TextBlock x:Name="LblEstado" 
+                       Text="Estado: Listo"/>
+        </Border>
+        
+    </Grid>
+</Window>
