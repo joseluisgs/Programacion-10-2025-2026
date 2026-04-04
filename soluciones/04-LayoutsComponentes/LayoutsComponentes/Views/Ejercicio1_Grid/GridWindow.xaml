@@ -1,0 +1,86 @@
+<Window x:Class="LayoutsComponentes.Views.Ejercicio1_Grid.GridWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Grid - Filas y Columnas" Height="400" Width="500"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="CanResize">
+
+    <!-- 
+        ============================================================
+        Grid: El contenedor más importante de WPF
+        ============================================================
+        Divide el espacio en filas y columnas.
+        
+        Unidades de medida:
+        - Auto: se ajusta al contenido
+        - * (Star): ocupa el espacio restante proporcionalmente
+        - Número (ej: 100): tamaño fijo en píxeles
+    -->
+    <Grid Margin="10">
+        <!-- Definir 3 filas -->
+        <Grid.RowDefinitions>
+            <!-- Fila 0: altura automática según contenido -->
+            <RowDefinition Height="Auto"/>
+            <!-- Fila 1: ocupa el espacio restante -->
+            <RowDefinition Height="*"/>
+            <!-- Fila 2: altura fija de 60 píxeles -->
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Definir 3 columnas -->
+        <Grid.ColumnDefinitions>
+            <!-- Columna 0: 1 parte del espacio -->
+            <ColumnDefinition Width="*"/>
+            <!-- Columna 1: 2 partes del espacio (el doble) -->
+            <ColumnDefinition Width="2*"/>
+            <!-- Columna 2: tamaño fijo -->
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- 
+            Fila 0: Encabezado
+            Grid.Row y Grid.Column posicionan el control en la celda
+        -->
+        <Border Grid.Row="0" Grid.ColumnSpan="3" 
+                Background="#1976D2" Padding="15" Margin="0,0,0,10">
+            <TextBlock Text="📊 Ejemplo de Grid" Foreground="White" 
+                       FontSize="18" FontWeight="Bold"/>
+        </Border>
+
+        <!-- 
+            Fila 1, Columna 0: Panel lateral izquierdo
+            Background establece el color de fondo
+        -->
+        <Border Grid.Row="1" Grid.Column="0" Background="LightBlue" 
+                Margin="0,0,5,0" Padding="10">
+            <StackPanel>
+                <TextBlock Text="Panel Izquierdo" FontWeight="Bold"/>
+                <TextBlock Text="Ocupa 1/3 del ancho" TextWrapping="Wrap" Margin="0,5,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- 
+            Fila 1, Columna 1: Panel central (más ancho)
+            Grid.ColumnSpan ocupa 2 columnas
+        -->
+        <Border Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" 
+                Background="LightGreen" Padding="10">
+            <StackPanel>
+                <TextBlock Text="Panel Central" FontWeight="Bold"/>
+                <TextBlock Text="Ocupa 2/3 del ancho (ColumnSpan=2)" 
+                           TextWrapping="Wrap" Margin="0,5,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- 
+            Fila 2, Columna 0-2: Pie de página
+            Grid.ColumnSpan ocupa todas las columnas
+        -->
+        <Border Grid.Row="2" Grid.ColumnSpan="3" 
+                Background="LightGray" Padding="10">
+            <TextBlock Text="Pie de página - Fijo a 60px de altura" 
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+
+    </Grid>
+</Window>

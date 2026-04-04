@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <LangVersion>14</LangVersion>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <!-- Paquete NuGet de CommunityToolkit.Mvvm -->
+  <!-- Este paquete proporciona: -->
+  <!-- - ObservableObject: Clase base con INotifyPropertyChanged -->
+  <!-- - ObservableProperty: Generador de propiedades con notificacion -->
+  <!-- - RelayCommand: Generador de comandos -->
+  <!-- - source generators: Genera codigo en tiempo de compilacion -->
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.1" />
+  </ItemGroup>
+
+</Project>

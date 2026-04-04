@@ -1,0 +1,146 @@
+<!-- ============================================================ -->
+<!-- MainWindow.xaml - Ejemplos de diálogos en WPF -->
+<!-- ============================================================ -->
+<!-- Esta ventana muestra ejemplos de los distintos diálogos disponibles -->
+<!-- en WPF y cómo usarlos. -->
+
+<Window x:Class="Dialogos.Views.Main.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="📣 Ejemplos de Diálogos en WPF" Height="600" Width="700"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize">
+
+    <!-- Estilos -->
+    <Window.Resources>
+        <Style x:Key="BotonDemo" TargetType="Button">
+            <Setter Property="Padding" Value="15,10"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>   <!-- Título -->
+            <RowDefinition Height="Auto"/>   <!-- MessageBox -->
+            <RowDefinition Height="Auto"/>   <!-- OpenFileDialog -->
+            <RowDefinition Height="Auto"/>   <!-- SaveFileDialog -->
+            <RowDefinition Height="Auto"/>   <!-- FolderBrowserDialog -->
+            <RowDefinition Height="Auto"/>   <!-- Diálogos personalizados -->
+            <RowDefinition Height="Auto"/>   <!-- Resultado -->
+            <RowDefinition Height="*"/>     <!-- Espacio -->
+        </Grid.RowDefinitions>
+
+        <!-- TÍTULO -->
+        <TextBlock Grid.Row="0" Text="📣 Ejemplos de Diálogos en WPF" 
+                   FontSize="24" FontWeight="Bold" 
+                   HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+        <!-- SECTION 1: MESSAGEBOX -->
+        <Border Grid.Row="1" Background="#f5f5f5" Padding="15" Margin="0,0,0,10" CornerRadius="5">
+            <StackPanel>
+                <TextBlock Text="1️⃣ MessageBox" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+                <TextBlock Text="Diálogos simples para mostrar información al usuario." 
+                           Foreground="Gray" Margin="0,0,0,10"/>
+                <WrapPanel>
+                    <Button Content="✅ Información" Style="{StaticResource BotonDemo}" 
+                            Background="#4CAF50" Foreground="White"
+                            Click="BtnMessageBoxInfo_Click"/>
+                    <Button Content="⚠️ Advertencia" Style="{StaticResource BotonDemo}"
+                            Background="#FF9800" Foreground="White"
+                            Click="BtnMessageBoxWarning_Click"/>
+                    <Button Content="❌ Error" Style="{StaticResource BotonDemo}"
+                            Background="#f44336" Foreground="White"
+                            Click="BtnMessageBoxError_Click"/>
+                    <Button Content="❓ Pregunta" Style="{StaticResource BotonDemo}"
+                            Background="#2196F3" Foreground="White"
+                            Click="BtnMessageBoxQuestion_Click"/>
+                </WrapPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- SECTION 2: OPENFILEDIALOG -->
+        <Border Grid.Row="2" Background="#e3f2fd" Padding="15" Margin="0,0,0,10" CornerRadius="5">
+            <StackPanel>
+                <TextBlock Text="2️⃣ OpenFileDialog" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+                <TextBlock Text="Permite al usuario seleccionar archivos para abrir." 
+                           Foreground="Gray" Margin="0,0,0,10"/>
+                <WrapPanel>
+                    <Button Content="📂 Abrir archivo (uno)" Style="{StaticResource BotonDemo}"
+                            Background="#1976D2" Foreground="White"
+                            Click="BtnOpenFile_Click"/>
+                    <Button Content="📂 Abrir múltiples archivos" Style="{StaticResource BotonDemo}"
+                            Background="#1976D2" Foreground="White"
+                            Click="BtnOpenMultipleFiles_Click"/>
+                    <Button Content="🖼️ Abrir imagen" Style="{StaticResource BotonDemo}"
+                            Background="#1976D2" Foreground="White"
+                            Click="BtnOpenImage_Click"/>
+                </WrapPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- SECTION 3: SAVEFILEDIALOG -->
+        <Border Grid.Row="3" Background="#e8f5e9" Padding="15" Margin="0,0,0,10" CornerRadius="5">
+            <StackPanel>
+                <TextBlock Text="3️⃣ SaveFileDialog" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+                <TextBlock Text="Permite al usuario elegir dónde guardar un archivo." 
+                           Foreground="Gray" Margin="0,0,0,10"/>
+                <WrapPanel>
+                    <Button Content="💾 Guardar archivo" Style="{StaticResource BotonDemo}"
+                            Background="#388E3C" Foreground="White"
+                            Click="BtnSaveFile_Click"/>
+                    <Button Content="💾 Guardar como..." Style="{StaticResource BotonDemo}"
+                            Background="#388E3C" Foreground="White"
+                            Click="BtnSaveFileAs_Click"/>
+                </WrapPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- SECTION 4: FOLDERBROWSERDIALOG -->
+        <Border Grid.Row="4" Background="#fff3e0" Padding="15" Margin="0,0,0,10" CornerRadius="5">
+            <StackPanel>
+                <TextBlock Text="4️⃣ FolderBrowserDialog" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+                <TextBlock Text="Permite al usuario seleccionar una carpeta." 
+                           Foreground="Gray" Margin="0,0,0,10"/>
+                <WrapPanel>
+                    <Button Content="📁 Seleccionar carpeta" Style="{StaticResource BotonDemo}"
+                            Background="#F57C00" Foreground="White"
+                            Click="BtnSelectFolder_Click"/>
+                </WrapPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- SECTION 5: DIÁLOGOS PERSONALIZADOS -->
+        <Border Grid.Row="5" Background="#fce4ec" Padding="15" Margin="0,0,0,10" CornerRadius="5">
+            <StackPanel>
+                <TextBlock Text="5️⃣ Diálogos Personalizados" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+                <TextBlock Text="Crear tus propios diálogos modales." 
+                           Foreground="Gray" Margin="0,0,0,10"/>
+                <WrapPanel>
+                    <Button Content="👤 Diálogo de usuario" Style="{StaticResource BotonDemo}"
+                            Background="#E91E63" Foreground="White"
+                            Click="BtnDialogoUsuario_Click"/>
+                    <Button Content="🔢 Diálogo de número" Style="{StaticResource BotonDemo}"
+                            Background="#E91E63" Foreground="White"
+                            Click="BtnDialogoNumero_Click"/>
+                    <Button Content="📝 Diálogo personalizado" Style="{StaticResource BotonDemo}"
+                            Background="#E91E63" Foreground="White"
+                            Click="BtnDialogoPersonalizado_Click"/>
+                </WrapPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- RESULTADO -->
+        <Border Grid.Row="6" Background="#263238" Padding="15" Margin="0,10,0,0" CornerRadius="5">
+            <StackPanel>
+                <TextBlock Text="📋 Resultado:" FontWeight="Bold" Foreground="White" Margin="0,0,0,5"/>
+                <TextBlock x:Name="TxtResultado" Text="Sin acciones todavía..." 
+                           Foreground="#B0BEC5" TextWrapping="Wrap"/>
+            </StackPanel>
+        </Border>
+
+    </Grid>
+</Window>

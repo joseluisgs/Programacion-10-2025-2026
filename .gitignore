@@ -1,0 +1,13 @@
+*.pptx
+UD08.pdf
+.DS_Store
+/Ejercicios/*.docx
+upload.sh
+/Ejemplos/2021-2022
+/Ejemplos/2022-2023
+/Ejemplos/2023-2024
+/Ejemplos
+/docs
+/Soluciones/2024-2025
+/multimedia
+/otros

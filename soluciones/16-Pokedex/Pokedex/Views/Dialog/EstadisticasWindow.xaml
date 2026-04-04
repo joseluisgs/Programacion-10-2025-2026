@@ -1,0 +1,53 @@
+<Window x:Class="Pokedex.Views.Dialog.EstadisticasWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ScottPlot="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
+        Title="Estadísticas Pokedex" Height="780" Width="1100"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="CanResize"
+        Background="#1a1a2e"
+        Icon="/Resources/app-icon.ico">
+
+    <DockPanel>
+        <!-- Cabecera -->
+        <Border DockPanel.Dock="Top" Background="#cc0000" Padding="15,10">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/Resources/icons/about.png" Width="28" Height="28" Margin="0,0,12,0"/>
+                <TextBlock Text="ESTADÍSTICAS POKÉDEX" FontSize="20" FontWeight="Bold"
+                           Foreground="#FFCB05" VerticalAlignment="Center" FontFamily="Consolas"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Grid de gráficas 3x2 -->
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" Grid.Column="0" Background="#16213e" BorderBrush="#3B82C4" BorderThickness="2" CornerRadius="8" Margin="4">
+                <ScottPlot:WpfPlot x:Name="PlotTipos"/>
+            </Border>
+            <Border Grid.Row="0" Grid.Column="1" Background="#16213e" BorderBrush="#3B82C4" BorderThickness="2" CornerRadius="8" Margin="4">
+                <ScottPlot:WpfPlot x:Name="PlotStatsTipo"/>
+            </Border>
+            <Border Grid.Row="0" Grid.Column="2" Background="#16213e" BorderBrush="#3B82C4" BorderThickness="2" CornerRadius="8" Margin="4">
+                <ScottPlot:WpfPlot x:Name="PlotAlturaPeso"/>
+            </Border>
+            <Border Grid.Row="1" Grid.Column="0" Background="#16213e" BorderBrush="#3B82C4" BorderThickness="2" CornerRadius="8" Margin="4">
+                <ScottPlot:WpfPlot x:Name="PlotGeneraciones"/>
+            </Border>
+            <Border Grid.Row="1" Grid.Column="1" Background="#16213e" BorderBrush="#3B82C4" BorderThickness="2" CornerRadius="8" Margin="4">
+                <ScottPlot:WpfPlot x:Name="PlotPokemonStats"/>
+            </Border>
+            <Border Grid.Row="1" Grid.Column="2" Background="#16213e" BorderBrush="#3B82C4" BorderThickness="2" CornerRadius="8" Margin="4">
+                <ScottPlot:WpfPlot x:Name="PlotLegendarios"/>
+            </Border>
+        </Grid>
+    </DockPanel>
+</Window>

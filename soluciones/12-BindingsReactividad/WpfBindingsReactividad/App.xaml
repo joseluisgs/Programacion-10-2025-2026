@@ -1,0 +1,12 @@
+<!-- ============================================================ -->
+<!-- App.xaml - Punto de entrada de la aplicacion -->
+<!-- ============================================================ -->
+<!-- 
+     StartupUri indica cual ventana se abre al iniciar la aplicacion.
+     WPF buscara Views/Main/MainWindow.xaml y lo abrira.
+-->
+<Application x:Class="WpfBindingsReactividad.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="Views/Main/MainWindow.xaml">
+</Application>

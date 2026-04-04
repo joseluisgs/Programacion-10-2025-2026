@@ -1,0 +1,231 @@
+<Window x:Class="ListasMenusTablas.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:ListasMenusTablas.ViewModels"
+        xmlns:local="clr-namespace:ListasMenusTablas.Views"
+        mc:Ignorable="d"
+        Title="Listas, Menús y Tablas - WPF"
+        Height="600" Width="1200"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.DataContext>
+        <vm:ListasViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <local:StringToBoolConverter x:Key="StringToBoolConverter"/>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Menu Principal -->
+        <Menu Grid.Row="0">
+            <MenuItem Header="_Archivo">
+                <MenuItem Header="_Nuevo" Command="{Binding NuevoCommand}" InputGestureText="Ctrl+N"/>
+                <MenuItem Header="_Abrir" Command="{Binding AbrirCommand}" InputGestureText="Ctrl+O"/>
+                <MenuItem Header="_Guardar" Command="{Binding GuardarCommand}" InputGestureText="Ctrl+S"/>
+                <Separator/>
+                <MenuItem Header="_Salir" Command="{Binding SalirCommand}" InputGestureText="Alt+F4"/>
+            </MenuItem>
+            <MenuItem Header="_Ver">
+                <MenuItem Header="Actualizar" Click="Actualizar_Click"/>
+            </MenuItem>
+            <MenuItem Header="_Ayuda">
+                <MenuItem Header="Acerca de" Click="AcercaDe_Click"/>
+                <MenuItem Header="Ayuda" Command="{Binding VerAyudaCommand}"/>
+            </MenuItem>
+        </Menu>
+
+        <!-- Contenido Principal -->
+        <Grid Grid.Row="1" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Panel Izquierdo: Productos -->
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Título y Filtro -->
+                <TextBlock Grid.Row="0" Text="Productos" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+                
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
+                    <TextBlock Text="Categoría:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <ComboBox ItemsSource="{Binding Categorias}"
+                              SelectedItem="{Binding CategoriaSeleccionada}"
+                              Width="150"/>
+                </StackPanel>
+
+                <!-- ListView de Productos -->
+                <ListView Grid.Row="2" 
+                          ItemsSource="{Binding ProductosFiltrados}"
+                          SelectedItem="{Binding ProductoSeleccionado}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Nombre" Width="150" DisplayMemberBinding="{Binding Nombre}"/>
+                            <GridViewColumn Header="Precio" Width="80" DisplayMemberBinding="{Binding Precio, StringFormat=C}"/>
+                            <GridViewColumn Header="Categoría" Width="100" DisplayMemberBinding="{Binding Categoria}"/>
+                        </GridView>
+                    </ListView.View>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="ContextMenu">
+                                <Setter.Value>
+                                    <ContextMenu>
+                                        <MenuItem Header="Editar" 
+                                                  Command="{Binding DataContext.EditarProductoCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                  CommandParameter="{Binding}"/>
+                                        <MenuItem Header="Eliminar" 
+                                                  Command="{Binding DataContext.EliminarProductoCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                  CommandParameter="{Binding}"/>
+                                    </ContextMenu>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+            </Grid>
+
+            <!-- Panel Central: Estudiantes DataGrid -->
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Estudiantes" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                <DataGrid Grid.Row="1" 
+                          ItemsSource="{Binding Estudiantes}"
+                          SelectedItem="{Binding EstudianteSeleccionado}"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="100"/>
+                        <DataGridTextColumn Header="Apellidos" Binding="{Binding Apellidos}" Width="150"/>
+                        <DataGridTextColumn Header="Edad" Binding="{Binding Edad}" Width="60"/>
+                        <DataGridCheckBoxColumn Header="Activo" Binding="{Binding Activo}" Width="70"/>
+                        <DataGridTextColumn Header="Nota" Binding="{Binding NotaMedia, StringFormat=F1}" Width="60"/>
+                        <DataGridTemplateColumn Header="Acciones" Width="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Content="Ver" 
+                                                Command="{Binding DataContext.VerEstudianteCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                CommandParameter="{Binding}"
+                                                Padding="5,2" Margin="2"/>
+                                        <Button Content="Editar" 
+                                                Command="{Binding DataContext.EditarEstudianteCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                CommandParameter="{Binding}"
+                                                Padding="5,2" Margin="2"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+
+            <!-- Panel Derecho: CheckBox, RadioButton y Calendario -->
+            <Grid Grid.Column="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Controles" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                <!-- CheckBox: Multiple selection -->
+                <GroupBox Grid.Row="1" Header="CheckBox (Selección múltiple)" Margin="0,0,0,10" Padding="10">
+                    <StackPanel>
+                        <TextBlock TextWrapping="Wrap" Margin="0,0,0,10" Foreground="Gray">
+                            Allows multiple selections. Check several options below.
+                        </TextBlock>
+                        <CheckBox Content="Opción A" IsChecked="{Binding OpcionA}" Margin="0,5"/>
+                        <CheckBox Content="Opción B" IsChecked="{Binding OpcionB}" Margin="0,5"/>
+                        <CheckBox Content="Opción C" IsChecked="{Binding OpcionC}" Margin="0,5"/>
+                        <TextBlock Margin="0,10,0,0">
+                            <Run Text="Seleccionadas: "/>
+                            <Run Text="{Binding OpcionesSeleccionadas}" FontWeight="Bold"/>
+                        </TextBlock>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- RadioButton: Exclusive selection -->
+                <GroupBox Grid.Row="2" Header="RadioButton (Selección única)" Margin="0,0,0,10" Padding="10">
+                    <StackPanel>
+                        <TextBlock TextWrapping="Wrap" Margin="0,0,0,10" Foreground="Gray">
+                            Only one option can be selected. Selecting one deselects the others.
+                        </TextBlock>
+                        <RadioButton Content="Prioridad Baja" 
+                                     GroupName="Prioridad" 
+                                     IsChecked="{Binding PrioridadSeleccionada, Converter={StaticResource StringToBoolConverter}, ConverterParameter=Baja}"
+                                     Margin="0,5"/>
+                        <RadioButton Content="Prioridad Media" 
+                                     GroupName="Prioridad" 
+                                     IsChecked="{Binding PrioridadSeleccionada, Converter={StaticResource StringToBoolConverter}, ConverterParameter=Media}"
+                                     Margin="0,5"/>
+                        <RadioButton Content="Prioridad Alta" 
+                                     GroupName="Prioridad" 
+                                     IsChecked="{Binding PrioridadSeleccionada, Converter={StaticResource StringToBoolConverter}, ConverterParameter=Alta}"
+                                     Margin="0,5"/>
+                        <TextBlock Margin="0,10,0,0">
+                            <Run Text="Prioridad: "/>
+                            <Run Text="{Binding PrioridadSeleccionada}" FontWeight="Bold"/>
+                        </TextBlock>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- Calendar -->
+                <GroupBox Grid.Row="3" Header="Calendario" Padding="10">
+                    <StackPanel>
+                        <TextBlock TextWrapping="Wrap" Margin="0,0,0,10" Foreground="Gray">
+                            Selecciona una fecha. La fecha actual se muestra automáticamente.
+                        </TextBlock>
+                        <Calendar SelectedDate="{Binding FechaSeleccionada}"
+                                  DisplayDate="{Binding FechaActualDelSistema}"
+                                  HorizontalAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,15,0,0" HorizontalAlignment="Center">
+                            <Button Content="Fecha Actual" Command="{Binding EstablecerFechaActualCommand}" Padding="10,5" Margin="5"/>
+                            <Button Content="Procesar Fecha" Command="{Binding ProcesarFechaCommand}" Padding="10,5" Margin="5"/>
+                        </StackPanel>
+                        <TextBlock Margin="0,10,0,0" HorizontalAlignment="Center">
+                            <Run Text="Fecha seleccionada: "/>
+                            <Run Text="{Binding FechaSeleccionada, StringFormat=d, TargetNullValue=No seleccionada}" FontWeight="Bold"/>
+                        </TextBlock>
+                    </StackPanel>
+                </GroupBox>
+            </Grid>
+        </Grid>
+
+        <!-- Barra de Estado -->
+        <StatusBar Grid.Row="2">
+            <StatusBarItem>
+                <TextBlock>
+                    <Run Text="Elementos mostrados: "/>
+                    <Run Text="{Binding TotalElementos}" FontWeight="Bold"/>
+                </TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>

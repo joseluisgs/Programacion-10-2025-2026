@@ -1,0 +1,4 @@
+<Solution>
+    <Project Path="ListaCompra/ListaCompra.csproj"/>
+    <Project Path="ListaCompra.Forms/ListaCompra.csproj"/>
+</Solution>

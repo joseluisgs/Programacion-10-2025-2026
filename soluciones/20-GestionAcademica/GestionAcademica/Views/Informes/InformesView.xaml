@@ -1,0 +1,78 @@
+<Page x:Class="GestionAcademica.Views.Informes.InformesView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Gestión Académica - Informes"
+      Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Grid.Row="0" Text="📈 Informes" 
+                   Style="{DynamicResource HeaderLabel}" Margin="0,0,0,20"/>
+
+        <!-- Options -->
+        <StackPanel Grid.Row="1" Margin="0,0,0,20">
+            <CheckBox Content="🚫 Mostrar eliminados" IsChecked="{Binding MostrarEliminados}" 
+                      Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" Margin="0,0,0,10"/>
+            <CheckBox Content="👶 Mostrar menores de edad" IsChecked="{Binding MostrarMenoresEdad}" 
+                      Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+        </StackPanel>
+
+        <!-- Reports Grid -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Estudiantes Report -->
+            <GroupBox Grid.Column="0" Header="Informes de Estudiantes" 
+                      Style="{DynamicResource GroupBoxStyle}" Margin="0,0,10,0">
+                <StackPanel Margin="10">
+                    <Button Content="📄 Generar PDF" Command="{Binding GenerarInformeEstudiantesPdfCommand}" 
+                            Style="{StaticResource PrimaryButton}" Margin="0,0,0,10"
+                            ToolTip="Generar informe de estudiantes en PDF"/>
+                    <Button Content="🌐 Generar HTML" Command="{Binding GenerarInformeEstudiantesHtmlCommand}" 
+                            Style="{StaticResource SecondaryButton}"
+                            ToolTip="Generar informe de estudiantes en HTML"/>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Docentes Report -->
+            <GroupBox Grid.Column="1" Header="Informes de Docentes" 
+                      Style="{DynamicResource GroupBoxStyle}" Margin="10,0,0,0">
+                <StackPanel Margin="10">
+                    <Button Content="📄 Generar PDF" Command="{Binding GenerarInformeDocentesPdfCommand}" 
+                            Style="{StaticResource PrimaryButton}" Margin="0,0,0,10"
+                            ToolTip="Generar informe de docentes en PDF"/>
+                    <Button Content="🌐 Generar HTML" Command="{Binding GenerarInformeDocentesHtmlCommand}" 
+                            Style="{StaticResource SecondaryButton}" Margin="0,0,0,10"
+                            ToolTip="Generar informe de docentes en HTML"/>
+                </StackPanel>
+            </GroupBox>
+
+            <!-- Listados Generales -->
+            <GroupBox Grid.Column="2" Header="Listados Generales" 
+                      Style="{DynamicResource GroupBoxStyle}" Margin="10,0,0,0">
+                <StackPanel Margin="10">
+                    <Button Content="📄 Generar PDF" Command="{Binding GenerarListadoCompletoPdfCommand}" 
+                            Style="{StaticResource PrimaryButton}" Margin="0,0,0,10"
+                            ToolTip="Generar listado completo de todo el personal en PDF"/>
+                    <Button Content="🌐 Generar HTML" Command="{Binding GenerarListadoCompletoHtmlCommand}" 
+                            Style="{StaticResource SecondaryButton}"
+                            ToolTip="Generar listado completo de todo el personal en HTML"/>
+                </StackPanel>
+            </GroupBox>
+        </Grid>
+
+        <!-- Status Bar -->
+        <TextBlock Grid.Row="3" Text="{Binding StatusMessage}" 
+                   Style="{DynamicResource StatusLabel}" Margin="0,10,0,0"/>
+    </Grid>
+</Page>

@@ -1,0 +1,854 @@
+<Window x:Class="WpfBindingsReactividad.Views.Main.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        
+        xmlns:converters="clr-namespace:WpfBindingsReactividad.Converters"
+        
+        mc:Ignorable="d"
+        Title="{Binding TituloAplicacion}"
+        Height="800" Width="1000"
+        WindowStartupLocation="CenterScreen">
+    
+    <!-- ================================================================= -->
+    <!-- RECURSOS: Aqui definimos los converters que usaremos -->
+    <!-- ================================================================= -->
+    <!-- 
+         POR QUE NECESITAMOS RECURSOS?
+         
+         Los converters son clases que transforman datos.
+         Para usarlos en XAML, primero debemos declararlos como recursos.
+         
+         Asi le decimos a WPF: "Existe un converter llamado BoolToVisibility
+         que puedes usar en los bindings"
+    -->
+    <Window.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
+        <converters:NumberToColorConverter x:Key="NumberToColor"/>
+    </Window.Resources>
+
+    <!-- Grid principal con Scroll para ver todo -->
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="20">
+            
+            <!-- ================================================================= -->
+            <!-- TITULO PRINCIPAL -->
+            <!-- ================================================================= -->
+            <TextBlock Text="Demo: Bindings y Reactividad en WPF" 
+                       FontSize="24" FontWeight="Bold" 
+                       Foreground="#1565C0" Margin="0,0,0,20"/>
+
+            <!-- ================================================================= -->
+            <!-- DEMO 1: ONEWAY - Solo lectura desde ViewModel -->
+            <!-- ================================================================= -->
+            <!-- 
+                 ONEWAY: El flujo de datos va del ViewModel a la UI.
+                 
+                 - Si cambiamos el valor en el ViewModel, la UI se actualiza.
+                 - Si el usuario intenta cambiarlo en la UI, NO se refleja en el ViewModel.
+                 
+                 ES EL MODO PREDETERMINADO para la mayoria de propiedades.
+                 
+                 CUANDO USARLO:
+                 - Titulos de ventana
+                 - Labels informativos
+                 - Datos que solo se cambian desde codigo
+                 - Propiedades de solo lectura
+                 
+                 PROS:
+                 + Seguro: el usuario no puede modificar datos protegidos
+                 + Eficiente: no necesita monitorear cambios de la UI
+                 + Simple: solo fluye en una direccion
+                 
+                 CONTRAS:
+                 - No permite interactividad
+                 - Si necesitas editar, no sirve
+            -->
+            <Border BorderBrush="#1565C0" BorderThickness="2" CornerRadius="5" Padding="15" Margin="0,0,0,15">
+                <StackPanel>
+                    <TextBlock Text="1. Binding OneWay (Solo Lectura)" FontSize="18" FontWeight="Bold" Foreground="#1565C0"/>
+                    <TextBlock Text="El valor fluye SOLO del ViewModel a la UI. El usuario NO puede modificarlo." 
+                               Margin="0,5,0,10" TextWrapping="Wrap"/>
+                    
+                    <!-- Binding OneWay (es el modo por defecto) -->
+                    <TextBlock Text="{Binding TituloAplicacion}" 
+                               FontSize="16" FontStyle="Italic" Foreground="#666"/>
+                    
+                    <TextBlock Margin="0,10,0,0">
+                        <Run Text="Valor actual: " FontWeight="Bold"/>
+                        <Run Text="{Binding TituloAplicacion}" Foreground="#1565C0"/>
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+
+            <!-- ================================================================= -->
+            <!-- DEMO 2: TWOWAY - Edicion bidireccional -->
+            <!-- ================================================================= -->
+            <!-- 
+                 TWOWAY: El flujo de datos va en ambos sentidos.
+                 
+                 - Si cambiamos el valor en el ViewModel, la UI se actualiza.
+                 - Si el usuario cambia el valor en la UI, el ViewModel se actualiza.
+                 
+                 CUANDO USARLO:
+                 - TextBox para entrada de datos
+                 - ComboBox de seleccion
+                 - CheckBox y RadioButton
+                 - Cualquier control donde el usuario deba editar
+                 
+                 PROS:
+                 + Permite interactividad total
+                 + Sincronizacion bidireccional
+                 + Ideal para formularios
+                 
+                 CONTRAS:
+                 - Puede causar bucles si no se usa cuidado
+                 - Mayor procesamiento que OneWay
+            -->
+            <Border BorderBrush="#EF6C00" BorderThickness="2" CornerRadius="5" Padding="15" Margin="0,0,0,15">
+                <StackPanel>
+                    <TextBlock Text="2. Binding TwoWay (Bidireccional)" FontSize="18" FontWeight="Bold" Foreground="#EF6C00"/>
+                    <TextBlock Text="El valor fluye en AMBAS direcciones. El usuario PUEDE modificarlo." 
+                               Margin="0,5,0,10" TextWrapping="Wrap"/>
+                    
+                    <!-- Binding TwoWay con modo explicito -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Nombre:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" 
+                                 Text="{Binding NombreUsuario, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="0,5"/>
+                        
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Email:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" 
+                                 Text="{Binding EmailUsuario, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="0,5"/>
+                    </Grid>
+                    
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <TextBlock Text="Nombre: " FontWeight="Bold"/>
+                        <TextBlock Text="{Binding NombreUsuario}" Foreground="#EF6C00"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Email: " FontWeight="Bold"/>
+                        <TextBlock Text="{Binding EmailUsuario}" Foreground="#EF6C00"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- ================================================================= -->
+            <!-- DEMO 3: SLIDER + TEXTBOX - Mismo valor, dos controles -->
+            <!-- ================================================================= -->
+            <!-- 
+                 Aqui demostramos que TwoWay puede sincronizar dos controles
+                 que manipulan el mismo valor del ViewModel.
+            -->
+            <Border BorderBrush="#2E7D32" BorderThickness="2" CornerRadius="5" Padding="15" Margin="0,0,0,15">
+                <StackPanel>
+                    <TextBlock Text="3. Slider + TextBox Sincronizados (TwoWay)" FontSize="18" FontWeight="Bold" Foreground="#2E7D32"/>
+                    <TextBlock Text="Mover el Slider cambia el TextBox. Escribir en el TextBox cambia el Slider." 
+                               Margin="0,5,0,10" TextWrapping="Wrap"/>
+                    
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Slider Grid.Column="0" 
+                                Value="{Binding ValorSlider, Mode=TwoWay}"
+                                Minimum="0" Maximum="100" 
+                                VerticalAlignment="Center"/>
+                        
+                        <TextBox Grid.Column="1" 
+                                 Text="{Binding ValorSlider, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 VerticalAlignment="Center" Margin="10,0,0,0"
+                                 TextAlignment="Center"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- ================================================================= -->
+            <!-- DEMO 4: UPDATESOURCETRIGGER - Cuando se actualiza -->
+            <!-- ================================================================= -->
+            <!-- 
+                 UPDATESOURCETRIGGER controla CUANDO se envia el cambio de la UI al ViewModel.
+                 
+                 PropertyChanged (predeterminado en TwoWay):
+                 - Se actualiza con cada caracter que escribes
+                 - Veras los cambios inmediatamente
+                 
+                 LostFocus:
+                 - Se actualiza cuando el usuario sale del campo (pierde el foco)
+                 - Veras los cambios solo al presionar Tab o hacer clic fuera
+                 
+                 Explicit:
+                 - Solo se actualiza cuando nosotros lo decidamos desde codigo
+                 - Requiere llamar a BindingExpression.UpdateSource()
+                 
+                 PROS/CONTRAS:
+                 
+                 PropertyChanged:
+                 + Feedback inmediato
+                 + Ideal para validacion en tiempo real
+                 - Puede ser costoso si hay muchas validaciones
+                 - Puede causar actualizaciones excesivas
+                 
+                 LostFocus:
+                 + Mejor rendimiento
+                 + Ideal para campos con validacion pesada
+                 - Menor feedback inmediato
+                 
+                 Explicit:
+                 + Total control
+                 + Útil para botones "Guardar"
+                 - Requiere mas codigo
+            -->
+            <Border BorderBrush="#7B1FA2" BorderThickness="2" CornerRadius="5" Padding="15" Margin="0,0,0,15">
+                <StackPanel>
+                    <TextBlock Text="4. UpdateSourceTrigger - Cuando se actualiza el ViewModel" FontSize="18" FontWeight="Bold" Foreground="#7B1FA2"/>
+                    <TextBlock Text="Observa la diferencia: PropertyChanged vs LostFocus" 
+                               Margin="0,5,0,10" TextWrapping="Wrap"/>
+                    
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <!-- PropertyChanged: se actualiza inmediatamente -->
+                        <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                            <TextBlock Text="PropertyChanged (inmediato)" FontWeight="Bold"/>
+                            <TextBox Text="{Binding TextoPropertyChanged, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     Margin="0,5"/>
+                            <TextBlock Text="{Binding TextoPropertyChanged}" Foreground="#7B1FA2"/>
+                        </StackPanel>
+                        
+                        <!-- LostFocus: se actualiza al perder foco -->
+                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                            <TextBlock Text="LostFocus (al salir)" FontWeight="Bold"/>
+                            <TextBox Text="{Binding TextoLostFocus, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                     Margin="0,5"/>
+                            <TextBlock Text="{Binding TextoLostFocus}" Foreground="#7B1FA2"/>
+                        </StackPanel>
+                    </Grid>
+                    
+                    <TextBlock Text="Escribe en ambos campos y observa cuando aparece el texto abajo:" 
+                               Margin="0,10,0,5" FontStyle="Italic"/>
+                </StackPanel>
+            </Border>
+
+            <!-- ================================================================= -->
+            <!-- DEMO 5: STRINGFORMAT - Formatear valores -->
+            <!-- ================================================================= -->
+            <!-- 
+                 STRINGFORMAT permite formatear el valor antes de mostrarlo.
+                 
+                 USOS COMUNES:
+                 - Monedas: {0:C2} -> 1.234,56 €
+                 - Porcentajes: {0:P0} -> 25%
+                 - Fechas: {0:dd/MM/yyyy} -> 25/03/2026
+                 - Decimales: {0:N2} -> 1.234,56
+                 
+                 SINTAXIS: StringFormat='{}{0:C2}'
+                 El '{}' es un escape para que no se interprete como formato deMarca.
+            -->
+            <Border BorderBrush="#C62828" BorderThickness="2" CornerRadius="5" Padding="15" Margin="0,0,0,15">
+                <StackPanel>
+                    <TextBlock Text="5. StringFormat - Formatear Valores" FontSize="18" FontWeight="Bold" Foreground="#C62828"/>
+                    <TextBlock Text="Transforma valores numericos y fechas para mostrarlos de forma legible" 
+                               Margin="0,5,0,10" TextWrapping="Wrap"/>
+                    
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Precio (Currency):" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" 
+                                 Text="{Binding PrecioProducto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="0,5" Width="150" HorizontalAlignment="Left"/>
+                        
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Precio formateado:" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" 
+                                   Text="{Binding PrecioProducto, StringFormat='{}{0:C2}'}"
+                                   FontSize="16" FontWeight="Bold" Foreground="#C62828"
+                                   VerticalAlignment="Center"/>
+                    </Grid>
+                    
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <TextBlock Text="Fecha actual: " FontWeight="Bold"/>
+                        <TextBlock Text="{Binding FechaActual, StringFormat='{}{0:dddd, dd MMMM yyyy}'}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- ================================================================= -->
+            <!-- DEMO 6: CONVERTERS - Transformar tipos de datos -->
+            <!-- ================================================================= -->
+            <!-- 
+                 Los CONVERTERS transforman un tipo de dato en otro.
+                 
+                 PROBLEMA: La UI espera un tipo diferente al del ViewModel.
+                 
+                 EJEMPLOS:
+                 - bool -> Visibility (BoolToVisibilityConverter)
+                 - int -> Color (NumberToColorConverter)
+                 - DateTime -> string formateado
+                 
+                 COMO USARLO:
+                 1. Declarar el converter en Window.Resources
+                 2. Usar Converter={StaticResource NombreDelConverter} en el binding
+                 
+                 PROS:
+                 + Separa la logica de transformacion de la UI
+                 + Reutilizable en toda la aplicacion
+                 + Mantiene el ViewModel limpio
+                 
+                 CONTRAS:
+                 - Requiere crear una clase adicional
+                 - Puede ser dificil de debuggear
+            -->
+            <Border BorderBrush="#00838F" BorderThickness="2" CornerRadius="5" Padding="15" Margin="0,0,0,15">
+                <StackPanel>
+                    <TextBlock Text="6. Converters - Transformar Tipos" FontSize="18" FontWeight="Bold" Foreground="#00838F"/>
+                    <TextBlock Text="Transforma datos para que la UI pueda mostrarlos de otra forma" 
+                               Margin="0,5,0,10" TextWrapping="Wrap"/>
+                    
+                    <!-- Converter: bool -> Visibility -->
+                    <CheckBox Content="Es mayor de edad" 
+                              IsChecked="{Binding EsMayorDeEdad, Mode=TwoWay}"
+                              Margin="0,5"/>
+                    
+                    <Border Background="#E0E0E0" Padding="10" Margin="0,5"
+                            Visibility="{Binding EsMayorDeEdad, Converter={StaticResource BoolToVisibility}}">
+                        <TextBlock Text="Contenido solo para adultos" FontWeight="Bold"/>
+                    </Border>
+                    
+                    <!-- Converter: numero -> color -->
+                    <StackPanel Orientation="Horizontal" Margin="0,15,0,0">
+                        <TextBlock Text="Temperatura: " FontWeight="Bold" VerticalAlignment="Center"/>
+                        <Slider Value="{Binding Temperatura, Mode=TwoWay}" 
+                                Minimum="0" Maximum="50" Width="200"
+                                VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding Temperatura, StringFormat='{}{0}°C'}" 
+                                   Margin="10,0" FontSize="16" FontWeight="Bold"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                    
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <TextBlock Text="Color segun temperatura: " FontWeight="Bold" VerticalAlignment="Center"/>
+                        <Rectangle Width="50" Height="30" 
+                                   Fill="{Binding Temperatura, Converter={StaticResource NumberToColor}}"
+                                   Stroke="Black" StrokeThickness="1"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- ================================================================= -->
+            <!-- DEMO 7: ELEMENTNAME - Enlazar controles entre si -->
+            <!-- ================================================================= -->
+            <!-- 
+                 ELEMENTNAME permite enlazar la propiedad de un control
+                 con la propiedad de OTRO CONTROL (no del ViewModel).
+                 
+                 PROBLEMA: Quiero que un control dependa de otro sin pasar por el ViewModel.
+                 
+                 EJEMPLO:
+                 - Mover el Slider y que cambie el ancho del rectangulo
+                 - Sin necesidad de una propiedad en el ViewModel
+                 
+                 SINTAXIS:
+                 {Binding Width, ElementName=miSlider}
+                 
+                 PROS:
+                 + No necesita propiedad en el ViewModel
+                 + Respuesta inmediata
+                 + Útil para efectos visuales
+                 
+                 CONTRAS:
+                 - Acopla la UI entre si
+                 - Viola un poco el principio de MVVM
+                 - Difícil de testar
+            -->
+            <Border BorderBrush="#F57C00" BorderThickness="2" CornerRadius="5" Padding="15" Margin="0,0,0,15">
+                <StackPanel>
+                    <TextBlock Text="7. ElementName - Enlazar Controles Entre Si" FontSize="18" FontWeight="Bold" Foreground="#F57C00"/>
+                    <TextBlock Text="El rectangulo toma su ancho del Slider, sin pasar por el ViewModel" 
+                               Margin="0,5,0,10" TextWrapping="Wrap"/>
+                    
+                    <Slider x:Name="sliderAncho" Minimum="50" Maximum="400" Value="200"
+                            TickFrequency="50" IsSnapToTickEnabled="True"
+                            Margin="0,5"/>
+                    
+                    <Rectangle Height="50" Fill="#F57C00" HorizontalAlignment="Left"
+                               Width="{Binding Value, ElementName=sliderAncho}"
+                               Margin="0,10,0,0"/>
+                    
+                    <TextBlock Text="{Binding Value, ElementName=sliderAncho, StringFormat='Ancho: {0} px'}"
+                               Margin="0,5,0,0" FontStyle="Italic"/>
+                </StackPanel>
+            </Border>
+
+            <!-- ================================================================= -->
+            <!-- DEMO 8: FORMULARIO REACTIVO - Resumen en tiempo real -->
+            <!-- ================================================================= -->
+            <!-- 
+                 Este demo muestra el poder de la reactividad en MVVM.
+                 
+                 - Tenemos un formulario con varios campos
+                 - Un TextBlock muestra un "resumen" que se actualiza solo
+                 - NO necesitamos botones de "Actualizar"
+                 - La IA ( binding + propiedades calculadas) hace todo el trabajo
+                 
+                 COMO FUNCIONA:
+                 1. Cada campo del formulario esta bindeado con TwoWay
+                 2. Cada propiedad tiene un partial void On[Property]Changed
+                 3. Cuando cambia cualquier campo, se recalcula el resumen
+                 
+                 PROS:
+                 + Experiencia de usuario fluida
+                 + Sin codigo de actualizacion manual
+                 + Facil de mantener
+                 
+                 CONTRAS:
+                 - Puede haber muchas recalculaciones
+                 - Hay que optimizar si hay muchos campos
+            -->
+            <Border BorderBrush="#303F9F" BorderThickness="2" CornerRadius="5" Padding="15" Margin="0,0,0,15">
+                <StackPanel>
+                    <TextBlock Text="8. Formulario Reactivo - Resumen en Tiempo Real" FontSize="18" FontWeight="Bold" Foreground="#303F9F"/>
+                    <TextBlock Text="El resumen se actualiza automaticamente sin pulsar ningun boton" 
+                               Margin="0,5,0,10" TextWrapping="Wrap"/>
+                    
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Nombre:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" 
+                                 Text="{Binding Nombre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="0,5"/>
+                        
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Apellidos:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" 
+                                 Text="{Binding Apellidos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="0,5"/>
+                        
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Edad:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" 
+                                 Text="{Binding Edad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="0,5"/>
+                        
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Ciudad:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="3" Grid.Column="1" 
+                                 Text="{Binding Ciudad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="0,5"/>
+                    </Grid>
+                    
+                    <Border Background="#E8EAF6" Padding="15" Margin="0,15,0,0" CornerRadius="5">
+                        <StackPanel>
+                            <TextBlock Text="RESUMEN:" FontWeight="Bold" FontSize="14" Foreground="#303F9F"/>
+                            <TextBlock Text="{Binding ResumenPerfil}" FontSize="16" TextWrapping="Wrap" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <!-- ================================================================= -->
+            <!-- TABLA RESUMEN DE MODOS DE BINDING -->
+            <!-- ================================================================= -->
+            <Border BorderBrush="#455A64" BorderThickness="2" CornerRadius="5" Padding="15" Margin="0,0,0,15">
+                <StackPanel>
+                    <TextBlock Text="Resumen: Modos de Binding" FontSize="18" FontWeight="Bold" Foreground="#455A64" Margin="0,0,0,15"/>
+                    
+                    <!-- Encabezados -->
+                    <Grid Margin="0,0,0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Modo" FontWeight="Bold" Foreground="#1565C0"/>
+                        <TextBlock Grid.Column="1" Text="Direccion" FontWeight="Bold"/>
+                        <TextBlock Grid.Column="2" Text="Cuando usar" FontWeight="Bold"/>
+                    </Grid>
+                    
+                    <!-- OneWay -->
+                    <Grid Background="#E3F2FD" Margin="0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Orientation="Vertical">
+                            <TextBlock Text="OneWay" FontWeight="Bold" Foreground="#1565C0"/>
+                            <TextBlock Text="(predeterminado)" FontSize="10"/>
+                        </StackPanel>
+                        <TextBlock Grid.Column="1" Text="ViewModel → UI"/>
+                        <TextBlock Grid.Column="2" Text="Solo mostrar datos (labels, titulos)"/>
+                    </Grid>
+                    
+                    <!-- TwoWay -->
+                    <Grid Background="#FFF3E0" Margin="0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="TwoWay" FontWeight="Bold" Foreground="#EF6C00"/>
+                        <TextBlock Grid.Column="1" Text="ViewModel ↔ UI"/>
+                        <TextBlock Grid.Column="2" Text="Formularios, TextBox, Input del usuario"/>
+                    </Grid>
+                    
+                    <!-- OneTime -->
+                    <Grid Background="#E8F5E9" Margin="0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="OneTime" FontWeight="Bold" Foreground="#2E7D32"/>
+                        <TextBlock Grid.Column="1" Text="ViewModel → UI (una vez)"/>
+                        <TextBlock Grid.Column="2" Text="Datos estaticos (version, copyright)"/>
+                    </Grid>
+                    
+                    <!-- OneWayToSource -->
+                    <Grid Background="#F3E5F5" Margin="0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="OneWayToSource" FontWeight="Bold" Foreground="#7B1FA2"/>
+                        <TextBlock Grid.Column="1" Text="UI → ViewModel"/>
+                        <TextBlock Grid.Column="2" Text="Controles de solo escritura"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- ================================================================= -->
+            <!-- BOTON DE REINICIO -->
+            <!-- ================================================================= -->
+            <Button Content="Reiniciar Valores" 
+                    Click="BtnReiniciar_Click"
+                    HorizontalAlignment="Left"
+                    Padding="20,10"
+                    FontSize="14"
+                    Background="#1565C0"
+                    Foreground="White"/>
+
+            <!-- ================================================================= -->
+            <!-- DEMO 9: ONEWAY + EVENTOS (Code-Behind) -->
+            <!-- ================================================================= -->
+            <!-- 
+                 Este demo muestra el enfoque de OneWay + Eventos.
+                 
+                 A diferencia de TwoWay, aqui el binding es OneWay.
+                 Actualizamos el ViewModel manualmente desde el code-behind.
+                 
+                 DIFERENCIA CLAVE:
+                 - TwoWay: El binding hace TODO automaticamente
+                 - OneWay + Eventos: Nosotros controlamos CUANDO actualizar
+                 
+                 CUANDO USAR ESTE ENFOQUE:
+                 - Cuando necesitas logica EXTRA antes de actualizar
+                 - Validaciones complejas o asincronas
+                 - Optimizacion extrema
+                 
+                 PROS:
+                 + Control total sobre cuando se actualiza
+                 + Puedes añadir logica antes/despues de actualizar
+                 
+                 CONTRAS:
+                 - Mas codigo
+                 - Rompe un poco MVVM (code-behind conoce el ViewModel)
+                 - Mas dificil de mantener
+            -->
+            <Border BorderBrush="#AD1457" BorderThickness="2" CornerRadius="5" Padding="15" Margin="0,0,0,15">
+                <StackPanel>
+                    <TextBlock Text="9. OneWay + Eventos (Code-Behind)" FontSize="18" FontWeight="Bold" Foreground="#AD1457"/>
+                    <TextBlock Text="El binding es OneWay. Actualizamos el ViewModel manualmente desde eventos." 
+                               Margin="0,5,0,10" TextWrapping="Wrap"/>
+                    
+                    <TextBlock Text="Este enfoque rompre MVVM pero da control total. Escribe y observa:" 
+                               Margin="0,0,0,10" FontStyle="Italic"/>
+                    
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Escribe tu nombre:" VerticalAlignment="Center"/>
+                        <!-- OneWay binding: solo muestra el valor del ViewModel -->
+                        <TextBox Grid.Row="0" Grid.Column="1" 
+                                 x:Name="txtOneWay"
+                                 Text="{Binding NombreEvento, Mode=OneWay}"
+                                 TextChanged="TxtOneWay_TextChanged"
+                                 Margin="0,5"/>
+                        
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Caracteres:" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" 
+                                   x:Name="txtContador"
+                                   Text="0"
+                                   Foreground="#AD1457" FontWeight="Bold"/>
+                        
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Valor en ViewModel:" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" 
+                                   x:Name="txtValorViewModel"
+                                   Text="{Binding NombreEvento}"
+                                   Foreground="#AD1457"/>
+                    </Grid>
+                    
+                    <Border Background="#FCE4EC" Padding="10" Margin="0,15,0,0" CornerRadius="5">
+                        <StackPanel>
+                            <TextBlock Text="Explicacion:" FontWeight="Bold"/>
+                            <TextBlock TextWrapping="Wrap" Margin="0,5,0,0">
+                                <Run FontWeight="Bold">TwoWay:</Run>
+                                <Run>El binding envia automaticamente el texto al ViewModel.</Run>
+                            </TextBlock>
+                            <TextBlock TextWrapping="Wrap" Margin="0,5,0,0">
+                                <Run FontWeight="Bold">OneWay + Evento:</Run>
+                                <Run>Nosotros controllamos cuando actualizar. Aqui cuenteamos caracteres ANTES de actualizar el ViewModel.</Run>
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <!-- ================================================================= -->
+            <!-- DEMO 10: OnChanged - Reaccionar en el ViewModel -->
+            <!-- ================================================================= -->
+            <!-- 
+                 OnChanged NO es un evento de la UI.
+                 Es un metodo que se llama cuando la propiedad cambia.
+                 
+                 DIFERENCIA:
+                 - Evento (TextChanged): Solo desde la UI
+                 - OnChanged: Desde UI O desde codigo
+                 
+                 Se ejecuta DESPUES de que la propiedad cambia.
+            -->
+            <Border BorderBrush="#6A1B9A" BorderThickness="2" CornerRadius="5" Padding="15" Margin="0,0,0,15">
+                <StackPanel>
+                    <TextBlock Text="10. OnChanged - Reaccionar al Cambio" FontSize="18" FontWeight="Bold" Foreground="#6A1B9A"/>
+                    <TextBlock Text="Se ejecuta cuando la propiedad cambia (desde UI o desde codigo)" 
+                               Margin="0,5,0,10" TextWrapping="Wrap"/>
+                    
+                    <TextBlock Text="Escribe en cualquier campo del formulario reactivo de arriba y observa:" 
+                               Margin="0,0,0,10" FontStyle="Italic"/>
+                    
+                    <!-- Usamos el mismo binding de antes, pero aqui se ve la reaccion -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Nombre:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" 
+                                 Text="{Binding Nombre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="0,5"/>
+                        
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Resumen:" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" 
+                                   Text="{Binding ResumenPerfil}"
+                                   FontWeight="Bold" Foreground="#6A1B9A"/>
+                    </Grid>
+                    
+                    <TextBlock Text="El resumen se actualiza SOLO porque usamos partial void OnNombreChanged()" 
+                               Margin="0,10,0,0" FontStyle="Italic" TextWrapping="Wrap"/>
+                </StackPanel>
+            </Border>
+
+            <!-- ================================================================= -->
+            <!-- DEMO 11: FORMDATA + IDATAERRORINFO - Validación en Tiempo Real -->
+            <!-- ================================================================= -->
+            <!-- 
+                 ESTE ES EL NUEVO PATRÓN APRENDIDO:
+                 
+                 1. FormData: Una clase que contiene los campos del formulario
+                    Y la lógica de validación (implementando IDataErrorInfo)
+                 
+                 2. IDataErrorInfo: Interfaz de WPF que permite mostrar errores
+                    directamente en los controles
+                 
+                 3. ValidatesOnDataErrors=True: En el binding XAML, activa la validación
+                 
+                 4. UpdateSourceTrigger=PropertyChanged: Para validación en tiempo real
+                    (mientras el usuario escribe)
+                 
+                 VENTAJAS:
+                 + Validación en tiempo real (mientras escribe)
+                 + Mensajes de error específicos por campo
+                 + El botón Guardar se deshabilita si no es válido
+                 + Código testeable (FormData se puede testear unitariamente)
+                 + Separación de responsabilidades
+            -->
+            <Border BorderBrush="#FF5722" BorderThickness="2" CornerRadius="5" Padding="15" Margin="0,0,0,15">
+                <StackPanel>
+                    <TextBlock Text="11. FormData + IDataErrorInfo - Validación en Tiempo Real" 
+                               FontSize="18" FontWeight="Bold" Foreground="#FF5722"/>
+                    <TextBlock Text="Validación automática mientras escribes, con IDataErrorInfo y FormData" 
+                               Margin="0,5,0,10" TextWrapping="Wrap"/>
+                    
+                    <TextBlock Text="FormData (DTO con validación):" FontWeight="Bold" Margin="0,10,0,5"/>
+                    <TextBlock Text="• PersonaFormData implementa IDataErrorInfo" FontStyle="Italic"/>
+                    <TextBlock Text="• El indexador this[string] devuelve errores por propiedad" FontStyle="Italic"/>
+                    <TextBlock Text="• XAML usa ValidatesOnDataErrors=True" FontStyle="Italic"/>
+                    
+                    <Grid Margin="0,15,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <!-- DNI con validación -->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="DNI:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" 
+                                 Text="{Binding FormData.Dni, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                 Margin="0,5"/>
+                        
+                        <!-- Nombre con validación -->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Nombre:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" 
+                                 Text="{Binding FormData.Nombre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                 Margin="0,5"/>
+                        
+                        <!-- Apellidos con validación -->
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Apellidos:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" 
+                                 Text="{Binding FormData.Apellidos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                 Margin="0,5"/>
+                        
+                        <!-- Email con validación -->
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Email:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="3" Grid.Column="1" 
+                                 Text="{Binding FormData.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                 Margin="0,5"/>
+                        
+                        <!-- Edad con validación -->
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Edad:" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="4" Grid.Column="1" 
+                                 Text="{Binding FormData.Edad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                 Margin="0,5" Width="100" HorizontalAlignment="Left"/>
+                        
+                        <!-- Botones -->
+                        <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" 
+                                    Orientation="Horizontal" Margin="0,15,0,0">
+                            <!-- Botón Guardar: se habilita solo si el formulario es válido -->
+                            <Button Content="Guardar" 
+                                    Command="{Binding GuardarCommand}"
+                                    Padding="20,10"
+                                    Margin="0,0,10,0"
+                                    Background="#4CAF50"
+                                    Foreground="White"/>
+                            
+                            <Button Content="Limpiar" 
+                                    Command="{Binding LimpiarCommand}"
+                                    Padding="20,10"
+                                    Margin="0,0,10,0"/>
+                            
+                            <Button Content="Cargar Ejemplo" 
+                                    Command="{Binding CargarDatosEjemploCommand}"
+                                    Padding="20,10"/>
+                        </StackPanel>
+                    </Grid>
+                    
+                    <!-- Status Message -->
+                    <TextBlock Text="{Binding StatusMessage}" 
+                               FontWeight="Bold" 
+                               Foreground="#FF5722"
+                               Margin="0,15,0,0"/>
+                    
+                    <!-- Explicación visual -->
+                    <Border Background="#FFF3E0" Padding="10" Margin="0,15,0,0" CornerRadius="5">
+                        <StackPanel>
+                            <TextBlock Text="Cómo funciona:" FontWeight="Bold"/>
+                            <TextBlock TextWrapping="Wrap" Margin="0,5,0,0">
+                                <Run FontWeight="Bold">1.</Run>
+                                <Run>Usuario escribe "J" en el campo Nombre</Run>
+                            </TextBlock>
+                            <TextBlock TextWrapping="Wrap">
+                                <Run FontWeight="Bold">2.</Run>
+                                <Run>Binding con UpdateSourceTrigger=PropertyChanged actualiza FormData.Nombre</Run>
+                            </TextBlock>
+                            <TextBlock TextWrapping="Wrap">
+                                <Run FontWeight="Bold">3.</Run>
+                                <Run>WPF llama al indexador IDataErrorInfo["Nombre"] → devuelve "El nombre debe tener al menos 2 caracteres"</Run>
+                            </TextBlock>
+                            <TextBlock TextWrapping="Wrap">
+                                <Run FontWeight="Bold">4.</Run>
+                                <Run>El TextBox muestra borde rojo y el error (gracias a ValidatesOnDataErrors=True)</Run>
+                            </TextBlock>
+                            <TextBlock TextWrapping="Wrap">
+                                <Run FontWeight="Bold">5.</Run>
+                                <Run>El botón Guardar está DESHABILITADO (CanExecute = FormData.IsValid() = false)</Run>
+                            </TextBlock>
+                            <TextBlock TextWrapping="Wrap" Margin="0,5,0,0">
+                                <Run FontWeight="Bold">6.</Run>
+                                <Run>Usuario escribe "Juan" (3+ caracteres) → error desaparece → botón se habilita</Run>
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- Diferencia con validación anterior -->
+                    <Border Background="#E8F5E9" Padding="10" Margin="0,10,0,0" CornerRadius="5">
+                        <StackPanel>
+                            <TextBlock Text="Diferencia con Demo 8 (Formulario Reactivo):" FontWeight="Bold" Foreground="#2E7D32"/>
+                            <TextBlock TextWrapping="Wrap" Margin="0,5,0,0">
+                                <Run FontWeight="Bold">Demo 8:</Run>
+                                <Run> Solo actualizaba el resumen. NO validaba.</Run>
+                            </TextBlock>
+                            <TextBlock TextWrapping="Wrap">
+                                <Run FontWeight="Bold">Demo 11:</Run>
+                                <Run> Valida cada campo y muestra errores en tiempo real.</Run>
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</Window>

@@ -1,0 +1,12 @@
+<!-- ============================================================ -->
+<!-- App.xaml - Configuración de la aplicación WPF -->
+<!-- ============================================================ -->
+
+<Application x:Class="NavegacionVentanas.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="Views/Main/MainWindow.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>

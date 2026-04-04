@@ -1,0 +1,67 @@
+<!-- ============================================================ -->
+<!-- App.xaml - Configuración de la aplicación -->
+<!-- ============================================================ -->
+<!-- Punto de entrada de la aplicación WPF -->
+<!-- -->
+<!-- CONCEPTOS IMPORTANTES: -->
+<!-- -->
+<!-- 1. WPF Y XAML: -->
+<!--    - XAML (eXtensible Application Markup Language) -->
+<!--    - Lenguaje declarativo para definir interfaces -->
+<!--    - Separa la UI (XAML) del código (C#) -->
+<!-- -->
+<!-- 2. Application.Resources: -->
+<!--    - Diccionario de recursos compartidos -->
+<!--    - Available para toda la aplicación -->
+<!--    - Incluye temas, estilos, converters -->
+<!-- -->
+<!-- 3. ResourceDictionary.MergedDictionaries: -->
+<!--    - Combina múltiples diccionarios de recursos -->
+<!--    - Permite organizar recursos por categorías -->
+<!-- -->
+<!-- 4. MaterialDesignInXaml: -->
+<!--    - Librería externa para Material Design -->
+<!--    - Proporciona estilos y controles modernos -->
+<!--    - Paquete: MaterialDesignThemes -->
+
+<Application x:Class="GestionProductos.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- ============================================================ -->
+                <!-- TEMA MATERIAL DESIGN -->
+                <!-- ============================================================ -->
+                <!-- BundledTheme combina el tema base con los colores -->
+                <!-- -->
+                <!-- BaseTheme: "Light" (claro) o "Dark" (oscuro) -->
+                <!-- PrimaryColor: Color principal de la app (DeepPurple, Blue, Red...) -->
+                <!-- SecondaryColor: Color de acento (Lime, Amber, Pink...) -->
+                <!-- -->
+                <!-- Para cambiar el tema en runtime, usamos ThemeHelper.cs -->
+                <materialDesign:BundledTheme x:Name="BundledTheme" 
+                                              BaseTheme="Light" 
+                                              PrimaryColor="DeepPurple" 
+                                              SecondaryColor="Lime" />
+                
+                <!-- Recursos por defecto de Material Design 3 -->
+                <!-- Proporciona todos los estilos y brushes de Material Design -->
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- ============================================================ -->
+            <!-- RECURSOS PERSONALIZADOS -->
+            <!-- ============================================================ -->
+            <!-- Estos se mantienen junto con Material Design -->
+
+            <!-- Convertidor para visibilidad del buscador -->
+            <!-- Se usa para mostrar/ocultar el texto de placeholder -->
+            <Style x:Key="IntToVisibilityConverter" TargetType="TextBlock">
+                <Setter Property="Visibility" Value="Visible"/>
+            </Style>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

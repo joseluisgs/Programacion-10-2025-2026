@@ -1,0 +1,151 @@
+<!-- ============================================================ -->
+<!-- MainWindow.xaml -->
+<!-- ============================================================ -->
+
+<!-- ================================================================= -->
+<!-- GUIA PARA EL ALUMNO: POR QUÉ NECESITAMOS EL BINDING? -->
+<!-- ================================================================= -->
+
+<!--
+PROBLEMA: En MVVM, la Vista (XAML) y el ViewModel (C#) están separados.
+          ¿Cómo se comunican?
+
+SOLUCIÓN: El Binding (enlace de datos)
+
+SIN BINDING:
+  - En el code-behind tendriamos que hacer:
+    private void BtnIncrementar_Click(object sender, RoutedEventArgs e)
+    {
+        Contador++;
+        TxtContador.Text = Contador.ToString();  // Esto viola MVVM!
+    }
+
+CON BINDING:
+  - El XAML se conecta automáticamente al ViewModel
+  - No hay código en el code-behind
+  - Separation of Concerns: la UI no conoce la lógica
+
+EN RESUMEN: Binding es la forma de conectar la UI con los datos
+             SIN que la UI conozca la lógica.
+-->
+
+<Window x:Class="WpfMVVMCommunityToolkit.Views.Main.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MVVM CommunityToolkit - Contador" Height="300" Width="400"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- TITULO -->
+        <TextBlock Grid.Row="0" 
+                   Text="Ejemplo de MVVM con CommunityToolkit" 
+                   FontSize="20" 
+                   FontWeight="Bold" 
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,30"/>
+
+        <!-- ================================================================= -->
+        <!-- POR QUÉ {Binding Contador}? -->
+        <!-- ================================================================= -->
+        <!--
+        PROBLEMA: ¿Cómo muestra el TextBlock el valor del contador?
+        
+        SIN BINDING:
+          - Tendriamos que hacer: TxtContador.Text = contador.ToString()
+          - Esto viola MVVM porque mezcla UI con lógica
+        
+        CON BINDING:
+          - El TextBlock "escucha" el valor de Contador
+          - Cuando Contador cambia, el TextBlock cambia automáticamente
+          - El XAML NO conoce el código, solo "observa" el dato
+        
+        EN RESUMEN: Es la forma de mostrar datos SIN código en el code-behind
+        -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,30">
+            <TextBlock Text="Contador: " 
+                       FontSize="24" 
+                       VerticalAlignment="Center"/>
+            
+            <!-- Binding a la propiedad Contador del ViewModel -->
+            <TextBlock Text="{Binding Contador}" 
+                       FontSize="24" 
+                       FontWeight="Bold"
+                       Foreground="Blue"
+                       VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <!-- ================================================================= -->
+        <!-- POR QUÉ {Binding IncrementarCommand}? -->
+        <!-- ================================================================= -->
+        <!--
+        PROBLEMA: ¿Cómo ejecuta el botón una acción del ViewModel?
+        
+        SIN BINDING (viola MVVM):
+          - <Button Click="BtnIncrementar_Click"/>
+          - La UI conoce el método: BtnIncrementar_Click
+          - Esto acopla la UI con la lógica
+        
+        CON BINDING:
+          - <Button Command="{Binding IncrementarCommand}"/>
+          - El botón "no sabe" qué código ejecuta
+          - Solo sabe que hay un "comando" que se ejecutará
+          - El ViewModel decide qué código es
+        
+        EN RESUMEN: Es la forma de ejecutar acciones SIN acoplar UI y lógica
+        -->
+        
+        <!-- ================================================================= -->
+        <!-- POR QUÉ Command + CanExecute? -->
+        <!-- ================================================================= -->
+        <!--
+        PROBLEMA: ¿Cómo sabe el botón que no puede ejecutarse?
+        
+        SIN CanExecute:
+          - El botón siempre está habilitado
+          - El usuario puede pulsar aunque no deba
+        
+        CON CanExecute:
+          - El ViewModel dice: "solo puede ejecutarse si Contador > 0"
+          - El botón se habilita/deshabilita automáticamente
+          - La UI refleja el estado real sin código
+        
+        EN RESUMEN: Es la forma de que la UI refleje el estado
+                    sin que la UI conozca la lógica
+        -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            
+            <!-- Botón INCREMENTAR -->
+            <!-- Command="{Binding IncrementarCommand}" conecta con el comando del ViewModel -->
+            <Button Content="Incrementar" 
+                    Command="{Binding IncrementarCommand}"
+                    Padding="20,10" 
+                    Margin="5"
+                    Background="#4CAF50" 
+                    Foreground="White"/>
+            
+            <!-- Botón DECREMENTAR -->
+            <!-- CanExecute hace que se deshabilite cuando Contador == 0 -->
+            <Button Content="Decrementar" 
+                    Command="{Binding DecrementarCommand}"
+                    Padding="20,10" 
+                    Margin="5"
+                    Background="#f44336" 
+                    Foreground="White"/>
+            
+            <!-- Botón REINICIAR -->
+            <Button Content="Reiniciar" 
+                    Command="{Binding ReiniciarCommand}"
+                    Padding="20,10" 
+                    Margin="5"
+                    Background="#2196F3" 
+                    Foreground="White"/>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,610 @@
+<Window x:Class="Pokedex.Views.Main.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:iconPacks="clr-namespace:MahApps.Metro.IconPacks;assembly=MahApps.Metro.IconPacks.Material"
+        xmlns:converters="clr-namespace:Pokedex.Converters"
+        Title="Pokedex" Height="720" Width="1200"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize"
+        Background="#1a1a2e"
+        Icon="/Resources/app-icon.ico">
+
+    <Window.Resources>
+        <converters:ListToStringConverter x:Key="ListToStringConverter"/>
+        <converters:GenerationToRomanConverter x:Key="GenerationToRomanConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+        <!-- Colores Pokedex -->
+        <SolidColorBrush x:Key="PokedexRed" Color="#E3350C"/>
+        <SolidColorBrush x:Key="PokedexDarkRed" Color="#B8200A"/>
+        <SolidColorBrush x:Key="PokedexBlue" Color="#3B82C4"/>
+        <SolidColorBrush x:Key="PokedexDarkBlue" Color="#2A5F8F"/>
+        <SolidColorBrush x:Key="PokedexYellow" Color="#FFCB05"/>
+        <SolidColorBrush x:Key="PokedexDarkYellow" Color="#CBA304"/>
+        <SolidColorBrush x:Key="PokedexScreen" Color="#E8F4FD"/>
+        <SolidColorBrush x:Key="PokedexScreenBorder" Color="#3B82C4"/>
+        <SolidColorBrush x:Key="PokedexDarkBg" Color="#16213e"/>
+        <SolidColorBrush x:Key="PokedexCardBg" Color="#1a1a2e"/>
+        <SolidColorBrush x:Key="PokedexTextLight" Color="#e0e0e0"/>
+        <SolidColorBrush x:Key="PokedexTextMuted" Color="#a0a0b0"/>
+
+        <!-- Estilo DataGrid Pokedex -->
+        <Style x:Key="PokedexDataGridStyle" TargetType="DataGrid">
+            <Setter Property="Background" Value="{StaticResource PokedexDarkBg}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PokedexBlue}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="RowBackground" Value="#0f1a30"/>
+            <Setter Property="AlternatingRowBackground" Value="#16213e"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="#1e2d4a"/>
+            <Setter Property="VerticalGridLinesBrush" Value="#1e2d4a"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="CanUserDeleteRows" Value="False"/>
+            <Setter Property="CanUserResizeRows" Value="False"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="{StaticResource PokedexTextLight}"/>
+            <Setter Property="RowHeight" Value="30"/>
+        </Style>
+
+        <Style x:Key="PokedexColumnHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="{StaticResource PokedexRed}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PokedexDarkRed}"/>
+            <Setter Property="BorderThickness" Value="0,0,1,2"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="PokedexCellStyle" TargetType="DataGridCell">
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="{StaticResource PokedexTextLight}"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{StaticResource PokedexBlue}"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Estilo Boton Pokedex -->
+        <Style x:Key="PokedexButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource PokedexRed}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PokedexDarkRed}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Padding" Value="14,6"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{StaticResource PokedexYellow}"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                                <Setter Property="BorderBrush" Value="{StaticResource PokedexDarkYellow}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="{StaticResource PokedexDarkRed}"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Estilo TextBox Pokedex -->
+        <Style x:Key="PokedexTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="#0f1a30"/>
+            <Setter Property="Foreground" Value="{StaticResource PokedexTextLight}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PokedexBlue}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="CaretBrush" Value="{StaticResource PokedexYellow}"/>
+        </Style>
+
+        <!-- Estilo ComboBox Pokedex -->
+        <Style x:Key="PokedexComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="Background" Value="#0f1a30"/>
+            <Setter Property="Foreground" Value="{StaticResource PokedexYellow}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PokedexBlue}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Height" Value="34"/>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="Background" Value="#0f1a30"/>
+                        <Setter Property="Foreground" Value="{StaticResource PokedexTextLight}"/>
+                        <Setter Property="Padding" Value="8,4"/>
+                        <Setter Property="FontSize" Value="13"/>
+                        <Setter Property="MinHeight" Value="28"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter Property="Background" Value="{StaticResource PokedexBlue}"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="{StaticResource PokedexRed}"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton x:Name="ToggleButton"
+                                          Grid.Column="2"
+                                          Focusable="false"
+                                          IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          ClickMode="Press">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Border Background="Transparent">
+                                            <Path x:Name="Arrow"
+                                                  Fill="{StaticResource PokedexYellow}"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  Data="M 0 0 L 5 5 L 10 0 Z"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <ContentPresenter x:Name="ContentSite"
+                                              IsHitTestVisible="False"
+                                              Content="{TemplateBinding SelectionBoxItem}"
+                                              ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                              ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                              Margin="10,0,30,0"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Left"/>
+                            <TextBox x:Name="PART_EditableTextBox"
+                                     Visibility="Collapsed"
+                                     Background="Transparent"
+                                     Foreground="{StaticResource PokedexYellow}"
+                                     Margin="10,0,30,0"
+                                     VerticalAlignment="Center"/>
+                            <Popup x:Name="Popup"
+                                   Placement="Bottom"
+                                   IsOpen="{TemplateBinding IsDropDownOpen}"
+                                   AllowsTransparency="True"
+                                   Focusable="False"
+                                   PopupAnimation="Slide">
+                                <Grid x:Name="DropDown"
+                                      SnapsToDevicePixels="True"
+                                      MinWidth="{TemplateBinding ActualWidth}"
+                                      MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border x:Name="DropDownBorder"
+                                            Background="#0f1a30"
+                                            BorderThickness="2"
+                                            BorderBrush="{StaticResource PokedexBlue}"
+                                            CornerRadius="4"/>
+                                    <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasItems" Value="false">
+                                <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{StaticResource PokedexTextMuted}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Estilo Slider Pokedex -->
+        <Style x:Key="PokedexSliderStyle" TargetType="Slider">
+            <Setter Property="Minimum" Value="1"/>
+            <Setter Property="TickFrequency" Value="1"/>
+            <Setter Property="IsSnapToTickEnabled" Value="True"/>
+            <Setter Property="Foreground" Value="{StaticResource PokedexYellow}"/>
+        </Style>
+
+        <!-- Estilo ProgressBar Pokedex -->
+        <Style x:Key="PokedexProgressBarStyle" TargetType="ProgressBar">
+            <Setter Property="Background" Value="#0f1a30"/>
+            <Setter Property="Foreground" Value="{StaticResource PokedexYellow}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PokedexBlue}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Height" Value="14"/>
+        </Style>
+
+        <!-- Estilo Card Border -->
+        <Style x:Key="PokedexCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource PokedexDarkBg}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PokedexBlue}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="15"/>
+        </Style>
+
+        <!-- Estilo Label -->
+        <Style x:Key="PokedexLabelStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource PokedexYellow}"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+
+        <!-- Estilo Value -->
+        <Style x:Key="PokedexValueStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource PokedexTextLight}"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+    </Window.Resources>
+
+    <DockPanel>
+        <!-- Menu -->
+        <Menu DockPanel.Dock="Top" Background="{StaticResource PokedexDarkRed}" Height="32">
+            <MenuItem Padding="12,5" FontSize="13">
+                <MenuItem.Header>
+                    <TextBlock Text="Archivo" Foreground="White" FontWeight="SemiBold"/>
+                </MenuItem.Header>
+                <MenuItem Header="Importar" Command="{Binding ImportarCommand}" Padding="8,4" FontSize="13">
+                    <MenuItem.Icon>
+                        <iconPacks:PackIconMaterial Kind="Download" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Exportar" Command="{Binding ExportarCommand}" Padding="8,4" FontSize="13">
+                    <MenuItem.Icon>
+                        <iconPacks:PackIconMaterial Kind="Upload" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Salir" Command="{Binding CerrarCommand}" Padding="8,4" FontSize="13">
+                    <MenuItem.Icon>
+                        <iconPacks:PackIconMaterial Kind="ExitToApp" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Padding="12,5" FontSize="13">
+                <MenuItem.Header>
+                    <TextBlock Text="Estadísticas" Foreground="White" FontWeight="SemiBold"/>
+                </MenuItem.Header>
+                <MenuItem Header="Ver estadísticas" Click="Estadisticas_Click" Padding="8,4" FontSize="13">
+                    <MenuItem.Icon>
+                        <iconPacks:PackIconMaterial Kind="ChartBar" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Padding="12,5" FontSize="13">
+                <MenuItem.Header>
+                    <TextBlock Text="Ayuda" Foreground="White" FontWeight="SemiBold"/>
+                </MenuItem.Header>
+                <MenuItem Header="Acerca de" Click="AcercaDe_Click" Padding="8,4" FontSize="13">
+                    <MenuItem.Icon>
+                        <iconPacks:PackIconMaterial Kind="Information" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+
+        <!-- Loading overlay -->
+        <Grid Margin="10" Visibility="{Binding EstaCargando, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Border Background="#CC000000" CornerRadius="10"/>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="Cargando..." FontSize="28" Foreground="{StaticResource PokedexYellow}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <ProgressBar IsIndeterminate="True" Width="200" Height="6" Margin="0,15,0,0"
+                             Background="Transparent" Foreground="{StaticResource PokedexYellow}" BorderThickness="0"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Contenido principal -->
+        <Grid Margin="15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="450"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Panel Izquierdo: Lista de Pokemons -->
+            <Border Grid.Column="0" Style="{StaticResource PokedexCardStyle}" Margin="0,0,10,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Cabecera -->
+                    <TextBlock Grid.Row="0" Text="POKEDEX" FontSize="22" FontWeight="Bold"
+                               Foreground="{StaticResource PokedexYellow}" Margin="0,0,0,12"
+                               FontFamily="Consolas"/>
+
+                    <!-- Buscador y orden -->
+                    <Grid Grid.Row="1" Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox Grid.Column="0" Text="{Binding Busqueda, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource PokedexTextBoxStyle}"
+                                 Padding="10,7" FontSize="13">
+                            <TextBox.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="6"/>
+                                </Style>
+                            </TextBox.Resources>
+                        </TextBox>
+
+                        <ComboBox Grid.Column="1" Margin="10,0,0,0"
+                                  ItemsSource="{Binding OpcionesOrden}"
+                                  SelectedItem="{Binding OrdenSeleccionado}"
+                                  Style="{StaticResource PokedexComboBoxStyle}"
+                                  Width="120"/>
+
+                        <Button Grid.Column="2" Content="Limpiar"
+                                Margin="10,0,0,0"
+                                Command="{Binding LimpiarBusquedaCommand}"
+                                Style="{StaticResource PokedexButtonStyle}"/>
+                    </Grid>
+
+                    <!-- Filtro tipo -->
+                    <ComboBox Grid.Row="2" Margin="0,0,0,10"
+                              ItemsSource="{Binding Types}"
+                              SelectedItem="{Binding TipoSeleccionado}"
+                              Style="{StaticResource PokedexComboBoxStyle}"/>
+
+                    <!-- Tabla de Pokemons -->
+                    <DataGrid Grid.Row="2"
+                              ItemsSource="{Binding Pokemons}"
+                              SelectedItem="{Binding PokemonSeleccionado}"
+                              Style="{StaticResource PokedexDataGridStyle}"
+                              ColumnHeaderStyle="{StaticResource PokedexColumnHeaderStyle}"
+                              CellStyle="{StaticResource PokedexCellStyle}"
+                              Margin="0,50,0,0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Num" Binding="{Binding Id}" Width="70"/>
+                            <DataGridTextColumn Header="Nombre" Binding="{Binding Name}" Width="*"/>
+                            <DataGridTextColumn Header="Tipo" Binding="{Binding Type[0]}" Width="100"/>
+                            <DataGridTextColumn Header="Gen." Binding="{Binding Generation, Converter={StaticResource GenerationToRomanConverter}}" Width="70"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!-- Mensaje cuando no hay resultados -->
+                    <TextBlock Grid.Row="2"
+                               Text="{Binding Mensaje}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Foreground="{StaticResource PokedexTextMuted}" FontSize="16"
+                               Visibility="{Binding Mensaje, Converter={StaticResource StringToVisibilityConverter}, FallbackValue=Collapsed}"/>
+
+                    <!-- Paginacion -->
+                    <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,12,0,8">
+                        <Button Content="◄ Anterior"
+                                Command="{Binding PaginaAnteriorCommand}"
+                                Margin="0,0,12,0"
+                                Style="{StaticResource PokedexButtonStyle}"/>
+                        <TextBlock VerticalAlignment="Center" FontSize="13" Foreground="{StaticResource PokedexTextLight}">
+                            <Run Text="Pagina "/>
+                            <Run Text="{Binding PaginaActual}" Foreground="{StaticResource PokedexYellow}" FontWeight="Bold"/>
+                            <Run Text=" de "/>
+                            <Run Text="{Binding TotalPaginas}" Foreground="{StaticResource PokedexYellow}" FontWeight="Bold"/>
+                            <Run Text=" | Total: "/>
+                            <Run Text="{Binding TotalPokemons}" Foreground="{StaticResource PokedexYellow}" FontWeight="Bold"/>
+                        </TextBlock>
+                        <Button Content="Siguiente ►"
+                                Command="{Binding PaginaSiguienteCommand}"
+                                Margin="12,0,0,0"
+                                Style="{StaticResource PokedexButtonStyle}"/>
+                    </StackPanel>
+
+                    <!-- Slider paginacion -->
+                    <Slider Grid.Row="4"
+                            Minimum="1" Maximum="{Binding TotalPaginas}"
+                            Value="{Binding PaginaActual}"
+                            Style="{StaticResource PokedexSliderStyle}"
+                            Margin="0,5"/>
+                </Grid>
+            </Border>
+
+            <!-- Panel Derecho: Ficha Pokemon -->
+            <Border Grid.Column="1" Style="{StaticResource PokedexCardStyle}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <!-- Cabecera Ficha -->
+                        <TextBlock Text="FICHA POKEMON"
+                                   FontSize="20" FontWeight="Bold"
+                                   Foreground="{StaticResource PokedexYellow}"
+                                   Margin="0,0,0,12"
+                                   FontFamily="Consolas"
+                                   HorizontalAlignment="Center"/>
+
+                        <!-- Badges Legendario/Mitico -->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,12">
+                            <Border Background="{StaticResource PokedexYellow}" CornerRadius="12" Padding="8,3" Margin="0,0,6,0"
+                                    Visibility="{Binding EsLegendario, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <TextBlock Text="LEGENDARIO" FontSize="9" FontWeight="Bold" Foreground="Black"/>
+                            </Border>
+                            <Border Background="#9B59B6" CornerRadius="12" Padding="8,3"
+                                    Visibility="{Binding EsMitico, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <TextBlock Text="MITICO" FontSize="9" FontWeight="Bold" Foreground="White"/>
+                            </Border>
+                        </StackPanel>
+
+                        <!-- Imagen -->
+                        <Border Background="#0f1a30" CornerRadius="12"
+                                BorderBrush="{StaticResource PokedexBlue}" BorderThickness="2"
+                                Padding="15" HorizontalAlignment="Center" Margin="0,0,0,15"
+                                Width="200" Height="200">
+                            <Image x:Name="ImgPokemon"
+                                   Stretch="Uniform"/>
+                        </Border>
+
+                        <!-- Nombre y numero -->
+                        <TextBlock FontSize="18" FontWeight="Bold" Margin="0,0,0,4" HorizontalAlignment="Center">
+                            <Run Text="#" Foreground="{StaticResource PokedexYellow}"/>
+                            <Run Text="{Binding PokemonSeleccionado.Id, FallbackValue='---'}" Foreground="{StaticResource PokedexYellow}"/>
+                            <Run Text=" "/>
+                            <Run Text="{Binding PokemonSeleccionado.Name, FallbackValue='---'}" Foreground="{StaticResource PokedexTextLight}"/>
+                        </TextBlock>
+                        <TextBlock Text="{Binding PokemonSeleccionado.Genus, FallbackValue='---'}"
+                                   FontStyle="Italic" Foreground="{StaticResource PokedexTextMuted}"
+                                   Margin="0,0,0,15" HorizontalAlignment="Center" FontSize="12"/>
+
+                        <!-- Separador -->
+                        <Border Height="2" Background="{StaticResource PokedexBlue}" Margin="0,0,0,12" Opacity="0.3"/>
+
+                        <!-- Tipo -->
+                        <StackPanel Margin="0,0,0,12">
+                            <TextBlock Text="TIPO" Style="{StaticResource PokedexLabelStyle}" Margin="0,0,0,4"/>
+                            <TextBlock Text="{Binding PokemonSeleccionado.Type, Converter={StaticResource ListToStringConverter}, FallbackValue='---'}"
+                                       Style="{StaticResource PokedexValueStyle}"/>
+                        </StackPanel>
+
+                        <!-- Informacion fisica -->
+                        <StackPanel Margin="0,0,0,12">
+                            <TextBlock Text="INFORMACION FISICA" Style="{StaticResource PokedexLabelStyle}" Margin="0,0,0,6"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,0,4">
+                                    <TextBlock Text="Altura" Style="{StaticResource PokedexLabelStyle}" FontSize="10"/>
+                                    <TextBlock Text="{Binding PokemonSeleccionado.Height, StringFormat={}{0} m, FallbackValue='---'}" Style="{StaticResource PokedexValueStyle}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="1" Margin="0,0,0,4">
+                                    <TextBlock Text="Peso" Style="{StaticResource PokedexLabelStyle}" FontSize="10"/>
+                                    <TextBlock Text="{Binding PokemonSeleccionado.Weight, StringFormat={}{0} kg, FallbackValue='---'}" Style="{StaticResource PokedexValueStyle}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,0,4">
+                                    <TextBlock Text="Generacion" Style="{StaticResource PokedexLabelStyle}" FontSize="10"/>
+                                    <TextBlock Text="{Binding Generacion, Converter={StaticResource GenerationToRomanConverter}, FallbackValue='---'}" Style="{StaticResource PokedexValueStyle}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,0,4">
+                                    <TextBlock Text="Habitat" Style="{StaticResource PokedexLabelStyle}" FontSize="10"/>
+                                    <TextBlock Text="{Binding Habitat, FallbackValue='---'}" Style="{StaticResource PokedexValueStyle}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="2" Grid.Column="0">
+                                    <TextBlock Text="Color" Style="{StaticResource PokedexLabelStyle}" FontSize="10"/>
+                                    <TextBlock Text="{Binding Color, FallbackValue='---'}" Style="{StaticResource PokedexValueStyle}"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Separador -->
+                        <Border Height="2" Background="{StaticResource PokedexBlue}" Margin="0,0,0,12" Opacity="0.3"/>
+
+                        <!-- Stats base -->
+                        <StackPanel Margin="0,0,0,12">
+                            <TextBlock Text="STATS BASE" Style="{StaticResource PokedexLabelStyle}" Margin="0,0,0,8"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="55"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="35"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="4"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="4"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="4"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="4"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="4"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="HP" Style="{StaticResource PokedexLabelStyle}" FontSize="11"/>
+                                <ProgressBar Grid.Row="0" Grid.Column="1" Value="{Binding Hp}" Maximum="255" Style="{StaticResource PokedexProgressBarStyle}" Margin="0,0,8,0"/>
+                                <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Hp}" Style="{StaticResource PokedexValueStyle}" HorizontalAlignment="Right" FontSize="11"/>
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="ATK" Style="{StaticResource PokedexLabelStyle}" FontSize="11"/>
+                                <ProgressBar Grid.Row="2" Grid.Column="1" Value="{Binding Ataque}" Maximum="255" Style="{StaticResource PokedexProgressBarStyle}" Margin="0,0,8,0"/>
+                                <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding Ataque}" Style="{StaticResource PokedexValueStyle}" HorizontalAlignment="Right" FontSize="11"/>
+
+                                <TextBlock Grid.Row="4" Grid.Column="0" Text="DEF" Style="{StaticResource PokedexLabelStyle}" FontSize="11"/>
+                                <ProgressBar Grid.Row="4" Grid.Column="1" Value="{Binding Defensa}" Maximum="255" Style="{StaticResource PokedexProgressBarStyle}" Margin="0,0,8,0"/>
+                                <TextBlock Grid.Row="4" Grid.Column="2" Text="{Binding Defensa}" Style="{StaticResource PokedexValueStyle}" HorizontalAlignment="Right" FontSize="11"/>
+
+                                <TextBlock Grid.Row="6" Grid.Column="0" Text="SP.ATK" Style="{StaticResource PokedexLabelStyle}" FontSize="11"/>
+                                <ProgressBar Grid.Row="6" Grid.Column="1" Value="{Binding SpAtaque}" Maximum="255" Style="{StaticResource PokedexProgressBarStyle}" Margin="0,0,8,0"/>
+                                <TextBlock Grid.Row="6" Grid.Column="2" Text="{Binding SpAtaque}" Style="{StaticResource PokedexValueStyle}" HorizontalAlignment="Right" FontSize="11"/>
+
+                                <TextBlock Grid.Row="8" Grid.Column="0" Text="SP.DEF" Style="{StaticResource PokedexLabelStyle}" FontSize="11"/>
+                                <ProgressBar Grid.Row="8" Grid.Column="1" Value="{Binding SpDefensa}" Maximum="255" Style="{StaticResource PokedexProgressBarStyle}" Margin="0,0,8,0"/>
+                                <TextBlock Grid.Row="8" Grid.Column="2" Text="{Binding SpDefensa}" Style="{StaticResource PokedexValueStyle}" HorizontalAlignment="Right" FontSize="11"/>
+
+                                <TextBlock Grid.Row="10" Grid.Column="0" Text="SPD" Style="{StaticResource PokedexLabelStyle}" FontSize="11"/>
+                                <ProgressBar Grid.Row="10" Grid.Column="1" Value="{Binding Velocidad}" Maximum="255" Style="{StaticResource PokedexProgressBarStyle}" Margin="0,0,8,0"/>
+                                <TextBlock Grid.Row="10" Grid.Column="2" Text="{Binding Velocidad}" Style="{StaticResource PokedexValueStyle}" HorizontalAlignment="Right" FontSize="11"/>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Separador -->
+                        <Border Height="2" Background="{StaticResource PokedexBlue}" Margin="0,0,0,12" Opacity="0.3"/>
+
+                        <!-- Habilidades -->
+                        <StackPanel Margin="0,0,0,12">
+                            <TextBlock Text="HABILIDADES" Style="{StaticResource PokedexLabelStyle}" Margin="0,0,0,4"/>
+                            <TextBlock Text="{Binding PokemonSeleccionado.Abilities[0].Name, FallbackValue='---'}"
+                                       Style="{StaticResource PokedexValueStyle}" TextWrapping="Wrap"/>
+                        </StackPanel>
+
+                        <!-- Evoluciones -->
+                        <StackPanel Margin="0,0,0,12">
+                            <TextBlock Text="EVOLUCION" Style="{StaticResource PokedexLabelStyle}" Margin="0,0,0,6"/>
+                            <TextBlock Style="{StaticResource PokedexValueStyle}">
+                                <Run Text="← " FontWeight="Bold" Foreground="{StaticResource PokedexYellow}"/>
+                                <Run Text="{Binding EvolucionPrevia, FallbackValue='Ninguna'}"/>
+                            </TextBlock>
+                            <TextBlock Style="{StaticResource PokedexValueStyle}" Margin="0,4,0,0">
+                                <Run Text="→ " FontWeight="Bold" Foreground="{StaticResource PokedexYellow}"/>
+                                <Run Text="{Binding EvolucionSiguiente, FallbackValue='Ninguna'}"/>
+                            </TextBlock>
+                        </StackPanel>
+
+                        <!-- Separador -->
+                        <Border Height="2" Background="{StaticResource PokedexBlue}" Margin="0,0,0,12" Opacity="0.3"/>
+
+                        <!-- Descripcion -->
+                        <StackPanel>
+                            <TextBlock Text="DESCRIPCION" Style="{StaticResource PokedexLabelStyle}" Margin="0,0,0,4"/>
+                            <TextBlock Text="{Binding PokemonSeleccionado.Description, FallbackValue='---'}"
+                                       Style="{StaticResource PokedexValueStyle}" TextWrapping="Wrap" FontSize="11"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </DockPanel>
+</Window>

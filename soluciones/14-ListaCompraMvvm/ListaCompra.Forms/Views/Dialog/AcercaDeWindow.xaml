@@ -1,0 +1,37 @@
+<Window x:Class="ListaCompra.Forms.Views.Dialog.AcercaDeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Acerca de" Height="250" Width="400"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Icon="/Resources/app-icon.ico">
+
+    <Grid Margin="30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="🛒 Lista de la Compra" 
+                   FontSize="24" FontWeight="Bold" 
+                   HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+        <TextBlock Grid.Row="1" 
+                   Text="Versión 1.0.0" 
+                   FontSize="14" 
+                   HorizontalAlignment="Center" Margin="0,0,0,10"/>
+
+        <TextBlock Grid.Row="2" 
+                   Text="Aplicación de gestión de lista de la compra&#x0a;con WPF, MVVM, SQLite y Dapper&#x0a;&#x0a;Desarrollado por Jose Luis GS"
+                   TextAlignment="Center" 
+                   Foreground="Gray"/>
+
+        <Button Grid.Row="4" Content="Cerrar" 
+                Padding="20,10" 
+                HorizontalAlignment="Center"
+                Click="Cerrar_Click"/>
+    </Grid>
+</Window>

@@ -1,0 +1,70 @@
+<Page x:Class="GestionAcademica.Views.Dashboard.DashboardView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Gestión Académica - Dashboard"
+      Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+    
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="📊 Panel de Control" 
+                   Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" FontSize="28" FontWeight="Bold" Margin="0,0,0,20"/>
+
+        <Border Grid.Row="1" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" CornerRadius="8" Padding="20" Margin="0,0,0,20">
+            <StackPanel>
+                <TextBlock Text="━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" Foreground="#667EEA" Margin="0,0,0,10"/>
+                <UniformGrid Columns="3">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="ESTUDIANTES" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="12" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding TotalEstudiantes}" Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" FontSize="36" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="DOCENTES" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="12" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding TotalDocentes}" Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" FontSize="36" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="ESTADO" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="12" HorizontalAlignment="Center"/>
+                        <TextBlock Text="ACTIVO" Foreground="#28A745" FontSize="36" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </UniformGrid>
+                <TextBlock Text="────────────────────────────────────────────────────────────────────────" Foreground="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" Margin="0,10,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" CornerRadius="8" Padding="20" Margin="0,0,10,0">
+                <StackPanel>
+                    <TextBlock Text="RESUMEN ACADÉMICO" Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
+                    <TextBlock Text="{Binding MensajeEstado}" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" TextWrapping="Wrap"/>
+                    
+                    <Grid Margin="0,20,0,0">
+                        <StackPanel>
+                            <TextBlock Text="Distribución de Notas:" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" Margin="0,0,0,5"/>
+                            <ProgressBar Value="{Binding PorcentajeAprobados}" Height="10" Foreground="#667EEA" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" BorderThickness="0"/>
+                            <TextBlock Text="{Binding PorcentajeAprobados, StringFormat={}{0}% aprobados}" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" FontSize="11" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="1" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" CornerRadius="8" Padding="20" Margin="10,0,0,0">
+                <StackPanel>
+                    <TextBlock Text="ACCIONES RÁPIDAS" Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
+                    <Button Content="🔄 Actualizar" Command="{Binding RefrescarCommand}" Style="{StaticResource PrimaryButton}" Margin="0,0,0,10"
+                            ToolTip="Actualizar estadísticas del panel de control"/>
+                    <Button Content="📊 Ver Gráficos" Command="{Binding ViewGraficosCommand}" Style="{StaticResource SecondaryButton}" Margin="0,0,0,10"
+                            ToolTip="Ver gráficos y estadísticas detalladas"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>

@@ -1,0 +1,54 @@
+<!-- ============================================================ -->
+<!-- DialogoPersonalizado.xaml - Diálogo completo personalizado -->
+<!-- ============================================================ -->
+<!-- Ejemplo de diálogo con múltiples campos y opciones. -->
+
+<Window x:Class="Dialogos.Views.Dialogs.DialogoPersonalizado"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Name="Ventana"
+        Title="Configuración" Height="300" Width="400"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        WindowStyle="ToolWindow">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Título dinámico -->
+        <TextBlock Grid.Row="0" x:Name="TxtTitulo" FontSize="18" FontWeight="Bold" 
+                   HorizontalAlignment="Center" Margin="0,0,0,15"/>
+
+        <!-- Campo: Título -->
+        <Label Grid.Row="1" Content="Título:" FontWeight="Bold"/>
+        <TextBox x:Name="TxtTituloInput" Grid.Row="1" Padding="5" Margin="0,25,0,5"/>
+
+        <!-- Campo: Descripción -->
+        <Label Grid.Row="2" Content="Descripción:" FontWeight="Bold"/>
+        <TextBox x:Name="TxtDescripcion" Grid.Row="2" Padding="5" Margin="0,25,0,5"
+                 Height="50" TextWrapping="Wrap" AcceptsReturn="True"/>
+
+        <!-- Checkbox: Confirmado -->
+        <CheckBox x:Name="ChkConfirmado" Grid.Row="3" Content="Confirmar operación"
+                  Margin="0,15,0,0"/>
+
+        <!-- Botones -->
+        <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="✅ Confirmar" Padding="20,8" Margin="5" 
+                    Background="#4CAF50" Foreground="White"
+                    Click="BtnConfirmar_Click"/>
+            <Button Content="❌ Cancelar" Padding="20,8" Margin="5"
+                    Background="#f44336" Foreground="White"
+                    Click="BtnCancelar_Click"/>
+        </StackPanel>
+
+    </Grid>
+</Window>
