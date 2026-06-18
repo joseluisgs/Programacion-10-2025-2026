@@ -1,0 +1,132 @@
+<Window x:Class="ListaCompra.Views.Main.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="🛒 Lista de la Compra" Height="600" Width="600"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize"
+        Icon="pack://application:,,,/resources/app-icon.ico">
+
+    <Window.Resources>
+        <Style x:Key="BotonAccion" TargetType="Button">
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="2"/>
+        </Style>
+    </Window.Resources>
+
+    <!-- Grid principal con margen de 15 -->
+    <Grid Margin="15">
+        <!-- Definición de filas -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- TÍTULO: Título de la aplicación -->
+        <TextBlock Text="🛒 Lista de la Compra" FontSize="22" FontWeight="Bold" 
+                   Margin="0,0,0,15"/>
+
+        <!-- BUSCADOR: Fila 1 - Campo de búsqueda y botón limpiar -->
+        <Grid Grid.Row="1" Margin="0,0,0,15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBox Padding="5" 
+                   Text="{Binding Busqueda, UpdateSourceTrigger=PropertyChanged}"/>
+            
+            <Button Grid.Column="1" Content="Limpiar" Padding="10,5" Margin="5,0,0,0"
+                    Command="{Binding LimpiarBusquedaCommand}"/>
+        </Grid>
+
+        <!-- FORMULARIO AÑADIR: Fila 2 -->
+        <Border Grid.Row="2" Background="#f5f5f5" Padding="10" CornerRadius="5" Margin="0,0,0,15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBox Padding="5" Margin="0,0,5,0"
+                        ToolTip="Nombre del producto"
+                        Text="{Binding Nombre, UpdateSourceTrigger=PropertyChanged}"/>
+                
+                <TextBox Grid.Column="1" Padding="5" Margin="0,0,5,0"
+                        ToolTip="Cantidad" 
+                        Text="{Binding Cantidad, UpdateSourceTrigger=PropertyChanged}"/>
+                
+                <TextBox Grid.Column="2" Padding="5" Margin="0,0,5,0"
+                        ToolTip="Precio" 
+                        Text="{Binding Precio, UpdateSourceTrigger=PropertyChanged}"/>
+                
+                <Button Grid.Column="3" Content="➕ Añadir" Padding="15,5"
+                        Background="#4CAF50" Foreground="White"
+                        Command="{Binding AñadirCommand}"/>
+            </Grid>
+        </Border>
+
+        <!-- LISTA PRODUCTOS: Fila 3 -->
+        <ListBox Grid.Row="3"
+                ItemsSource="{Binding Productos}"
+                SelectedItem="{Binding ProductoSeleccionado}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <CheckBox Grid.Column="0" IsChecked="{Binding EstaComprado}" 
+                                  VerticalAlignment="Center"
+                                  Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                        
+                        <TextBlock Grid.Column="1" Text="{Binding Nombre}" 
+                                   VerticalAlignment="Center" FontSize="14"
+                                   TextDecorations="{Binding EstaComprado, Converter={StaticResource BoolToTextDecoration}, FallbackValue=None}"/>
+                        
+                        <TextBlock Grid.Column="2" 
+                                   Text="{Binding Cantidad, StringFormat=' x{0}'}" 
+                                   VerticalAlignment="Center" Foreground="Gray"/>
+                        
+                        <TextBlock Grid.Column="3" 
+                                   Text="{Binding Total, StringFormat='{}{0:N2} €'}" 
+                                   VerticalAlignment="Center" FontWeight="Bold"/>
+                        
+                        <Button Grid.Column="4" Content="🗑️" Padding="5,2"
+                                Background="#f44336" Foreground="White"
+                                Command="{Binding DataContext.EliminarCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                CommandParameter="{Binding}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <!-- PANEL INFERIOR: Fila 4 -->
+        <Grid Grid.Row="4" Margin="0,15,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Total}" 
+                           FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding Mensaje}" 
+                           Foreground="Gray" Margin="20,0,0,0" VerticalAlignment="Center"/>
+            </StackPanel>
+            
+            <Button Grid.Column="1" Content="Cerrar" Padding="20,0"
+                    Command="{Binding CerrarCommand}"/>
+        </Grid>
+
+    </Grid>
+</Window>

@@ -1,0 +1,341 @@
+@* PAGINA DE GESTION DE ESTUDIANTES
+   - CRUD completo: Crear, Leer, Actualizar, Eliminar (con borrado logico/fisico)
+   - Busqueda por texto (DNI, nombre, apellidos, email) con filtrado en cliente
+   - Filtro por ciclo academico (DAM, DAW, ASIR)
+   - Paginacion (5, 10, 25, 50) con navegacion primera/anterior/siguiente/ultima
+   - Ordenacion por columnas (click en cabecera)
+   - Modal de edicion (EstudianteEdit) y detalles (EstudianteDetails)
+
+   CONCEPTOS CLAVE:
+   - @bind="search" para enlace bidireccional del campo de busqueda
+   - @bind:after="Filtrar" ejecuta el filtrado DESPUES de actualizar el valor
+   - disabled="@(selected == null)" deshabilita botones si no hay seleccion
+   - @onclick y @ondblclick para manejo de eventos en filas de tabla
+   - Componentes modales condicionales: @if (showEdit) { <EstudianteEdit .../> }
+*@
+@page "/estudiantes"
+@rendermode InteractiveServer
+@implements IDisposable
+@inject IPersonasService PersonasService
+@inject IDialogService DialogService
+@inject StateContainer State
+
+
+<PageTitle>Estudiantes - Gestión Académica</PageTitle>
+
+<div class="page-header d-flex align-items-center gap-3 mb-4">
+    <i class="bi bi-people" style="font-size:2rem"></i>
+    <h1 class="mb-0">Gestión de Estudiantes</h1>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="d-flex flex-wrap gap-2 mb-3 align-items-center">
+            <button class="btn btn-primary" @onclick="Nuevo"><i class="bi bi-plus-lg"></i> Nuevo</button>
+            <button class="btn btn-info text-white" @onclick="Ver" disabled="@(selected == null)"><i class="bi bi-eye"></i> Ver</button>
+            <button class="btn btn-warning" @onclick="Editar" disabled="@(selected == null)"><i class="bi bi-pencil"></i> Editar</button>
+            @if (AppConfig.UseLogicalDelete)
+            {
+                <button class="btn @BtnClaseEliminar" @onclick="ToggleEliminarRestaurar" disabled="@(selected == null)">
+                    <i class="bi @BtnIconoEliminar"></i> @BtnTextoEliminar
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-danger" @onclick="Eliminar" disabled="@(selected == null)"><i class="bi bi-trash"></i> Eliminar</button>
+            }
+            <button class="btn btn-outline-secondary" @onclick="Recargar"><i class="bi bi-arrow-clockwise"></i> Recargar</button>
+
+            <div class="ms-auto d-flex gap-2 align-items-center flex-wrap">
+                <label class="form-label mb-0 small text-muted">Buscar:</label>
+                <input type="text" class="form-control form-control-sm" style="width:200px"
+                       @bind="search" @bind:event="oninput" @bind:after="Filtrar" placeholder="Buscar..."/>
+                <select class="form-select form-select-sm" style="width:auto"
+                        @bind="cicloFiltro" @bind:after="Filtrar">
+                    <option value="Todos">Todos</option>
+                    @foreach (var c in Enum.GetValues<Ciclo>())
+                    {
+                        <option value="@c">@c</option>
+                    }
+                </select>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" @bind="mostrarEliminados" @bind:after="Filtrar" id="verElim"/>
+                    <label class="form-check-label small" for="verElim">Ver eliminados</label>
+                </div>
+            </div>
+        </div>
+
+        @if (isLoading)
+        {
+            <div class="loading-overlay">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover table-data align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width:50px">Foto</th>
+                            <th @onclick="() => Ordenar(TipoOrdenamiento.Dni)" style="cursor:pointer">DNI</th>
+                            <th @onclick="() => Ordenar(TipoOrdenamiento.Nombre)" style="cursor:pointer">Nombre</th>
+                            <th @onclick="() => Ordenar(TipoOrdenamiento.Apellidos)" style="cursor:pointer">Apellidos</th>
+                            <th>Email</th>
+                            <th @onclick="() => Ordenar(TipoOrdenamiento.Ciclo)" style="cursor:pointer">Ciclo</th>
+                            <th @onclick="() => Ordenar(TipoOrdenamiento.Nota)" style="cursor:pointer">Nota</th>
+                            <th @onclick="() => Ordenar(TipoOrdenamiento.Curso)" style="cursor:pointer">Curso</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in paginados)
+                        {
+                            <tr class="@(selected?.Id == item.Id ? "table-primary" : "") @(item.IsDeleted ? "deleted-row" : "")"
+                                @onclick="() => Seleccionar(item)"
+                                @ondblclick="() => Ver()">
+                                <td>
+                                    @* ?v={item.UpdatedAt.Ticks}: cache-busting. Cada vez que se actualiza un estudiante,
+                                       UpdatedAt cambia, forzando al navegador a recargar la imagen en vez de usar la
+                                       cache. Sin esto, al reemplazar la foto se vería la anterior hasta hacer F5. *@
+                                    <img src="@(string.IsNullOrEmpty(item.Imagen) ? "images/sin-imagen.png" : $"{item.Imagen}?v={item.UpdatedAt.Ticks}")"
+                                         alt="Foto" class="photo-circle"
+                                         onerror="this.src='images/sin-imagen.png'"/>
+                                </td>
+                                <td>@item.Dni</td>
+                                <td>@item.Nombre</td>
+                                <td>@item.Apellidos</td>
+                                <td>@item.Email</td>
+                                <td>@item.Ciclo</td>
+                                <td>@item.Calificacion.ToString("F1")</td>
+                                <td>@item.Curso</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @if (!filtrados.Any())
+            {
+                <div class="empty-state">No se encontraron estudiantes.</div>
+            }
+
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <span class="pagination-info">@filtrados.Count registro(s)</span>
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-outline-secondary btn-sm" @onclick="Primera" disabled="@(pagina <= 1)">««</button>
+                    <button class="btn btn-outline-secondary btn-sm" @onclick="Anterior" disabled="@(pagina <= 1)">«</button>
+                    <span class="pagination-info">Página @pagina de @totalPaginas</span>
+                    <button class="btn btn-outline-secondary btn-sm" @onclick="Siguiente" disabled="@(pagina >= totalPaginas)">»</button>
+                    <button class="btn btn-outline-secondary btn-sm" @onclick="Ultima" disabled="@(pagina >= totalPaginas)">»»</button>
+                    <select class="form-select form-select-sm" style="width:auto" @bind="tamanoPagina" @bind:after="CambiarTamano">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(mensaje))
+        {
+            <div class="alert alert-info mt-2 py-1 small">@mensaje</div>
+        }
+    </div>
+</div>
+
+@* Componentes modales condicionales: solo se renderizan cuando showEdit/showDetails es true *@
+@if (showEdit)
+{
+    <EstudianteEdit Estudiante="@editando"
+                    EsNuevo="@esNuevo"
+                    OnGuardar="@OnGuardar"
+                    OnCancelar="@(() => showEdit = false)"/>
+}
+
+@if (showDetails)
+{
+    <EstudianteDetails Estudiante="@detalles"
+                       OnCerrar="@(() => showDetails = false)"/>
+}
+
+@code {
+    @* --- VARIABLES DE ESTADO ---
+       todos: lista completa cargada del servicio (necesaria para filtrar por texto/ciclo en cliente).
+       filtrados: resultado de aplicar los filtros (busqueda, ciclo, eliminados).
+       paginados: subconjunto de filtrados que se muestra en la pagina actual.
+
+       NOTA EDUCATIVA SOBRE PAGINACION:
+       Cargamos TODOS los registros con LoadAllRecordsForFilter porque el filtrado
+       (busqueda por texto, ciclo, mostrar eliminados) se hace en memoria (cliente).
+       En una aplicacion profesional con miles de registros, el filtrado se haria
+       en el servidor (SQL WHERE + parametros) y se usaria Skip/Take real en la BD
+       para no cargar todo en memoria. Ver IPersonasRepository.GetEstudiantesOrderBy()
+       que ya acepta page y pageSize para paginacion server-side. *@
+    private List<Estudiante> todos = new();
+    private List<Estudiante> filtrados = new();
+    private List<Estudiante> paginados = new();
+    private Estudiante? selected;
+    private bool isLoading = true;
+    private string search = "";
+    private string cicloFiltro = "Todos";
+    private bool mostrarEliminados;
+    private int pagina = 1, tamanoPagina = 10, totalPaginas = 1;
+    private string mensaje = "";
+    private TipoOrdenamiento orden = TipoOrdenamiento.Dni;
+
+    @* Constante que indica "cargar todos los registros para filtrar en cliente".
+       Se usa en vez de int.MaxValue directamente para que el codigo sea mas legible
+       y quede clara la intencion educativa. *@
+    private const int LoadAllRecordsForFilter = int.MaxValue;
+
+    private bool showEdit, esNuevo;
+    private Estudiante? editando;
+    private bool showDetails;
+    private Estudiante? detalles;
+
+    protected override async Task OnInitializedAsync()
+    {
+        State.OnChange += RecargarAuto;
+        await Recargar();
+    }
+
+    public void Dispose()
+    {
+        State.OnChange -= RecargarAuto;
+    }
+
+    private async void RecargarAuto()
+    {
+        try
+        {
+            todos = (await PersonasService.GetEstudiantesOrderByAsync(orden, 1, LoadAllRecordsForFilter, true)).ToList();
+            Filtrar();
+        }
+        catch (Exception ex) { mensaje = ex.LogYAmigable("recargar estudiantes automáticamente"); }
+        finally { await InvokeAsync(StateHasChanged); }
+    }
+
+    private async Task Recargar()
+    {
+        try
+        {
+            isLoading = true;
+            search = ""; cicloFiltro = "Todos"; mostrarEliminados = false; pagina = 1; orden = TipoOrdenamiento.Dni;
+            selected = null;
+            var lista = await PersonasService.GetEstudiantesOrderByAsync(orden, 1, LoadAllRecordsForFilter, true);
+            todos = lista.Select(e => e).ToList();
+            Filtrar();
+            mensaje = $"Cargados {todos.Count} estudiantes";
+        }
+        catch (Exception ex) { mensaje = ex.LogYAmigable("cargar estudiantes"); }
+        finally { isLoading = false; }
+    }
+
+    private void Filtrar()
+    {
+        pagina = 1;
+        var q = todos.AsEnumerable();
+        if (!mostrarEliminados) q = q.Where(e => !e.IsDeleted);
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            var s = search.ToLower();
+            q = q.Where(e => e.Dni.ToLower().Contains(s) || e.Nombre.ToLower().Contains(s) ||
+                             e.Apellidos.ToLower().Contains(s) || e.Email.ToLower().Contains(s));
+        }
+        if (cicloFiltro != "Todos" && Enum.TryParse<Ciclo>(cicloFiltro, out var c)) q = q.Where(e => e.Ciclo == c);
+        q = orden switch
+        {
+            TipoOrdenamiento.Dni => q.OrderBy(e => e.Dni),
+            TipoOrdenamiento.Nombre => q.OrderBy(e => e.Nombre),
+            TipoOrdenamiento.Apellidos => q.OrderBy(e => e.Apellidos),
+            TipoOrdenamiento.Nota => q.OrderBy(e => e.Calificacion),
+            TipoOrdenamiento.Curso => q.OrderBy(e => e.Curso),
+            TipoOrdenamiento.Ciclo => q.OrderBy(e => e.Ciclo),
+            _ => q.OrderBy(e => e.Id)
+        };
+        filtrados = q.ToList();
+        @* Calculamos el total de paginas en BASE al numero de registros filtrados,
+           NO al total cargado de la BD. Esto es paginacion cliente-side:
+           dividimos los resultados ya filtrados en paginas. *@
+        totalPaginas = Math.Max(1, (int)Math.Ceiling((double)filtrados.Count / tamanoPagina));
+        if (pagina > totalPaginas) pagina = totalPaginas;
+        Paginar();
+    }
+
+    @* Paginacion cliente-side: Skip y Take sobre la lista ya filtrada.
+       Equivalente a OFFSET y LIMIT en SQL, pero en memoria.
+       Para produccion, estos valores se pasarian como parametros page/pageSize
+       al servicio para que la BD haga Skip/Take real. *@
+    private void Paginar() => paginados = filtrados.Skip((pagina - 1) * tamanoPagina).Take(tamanoPagina).ToList();
+    private void Seleccionar(Estudiante e) { selected = selected?.Id == e.Id ? null : e; StateHasChanged(); }
+    private string BtnClaseEliminar => selected?.IsDeleted == true ? "btn-success" : "btn-danger";
+    private string BtnIconoEliminar => selected?.IsDeleted == true ? "bi-arrow-counterclockwise" : "bi-trash";
+    private string BtnTextoEliminar => selected?.IsDeleted == true ? "Restaurar" : "Eliminar";
+    private void Ordenar(TipoOrdenamiento o) { orden = o; Filtrar(); }
+    private void Anterior() { if (pagina > 1) { pagina--; Paginar(); } }
+    private void Siguiente() { if (pagina < totalPaginas) { pagina++; Paginar(); } }
+    private void Primera() { pagina = 1; Paginar(); }
+    private void Ultima() { pagina = totalPaginas; Paginar(); }
+    private void CambiarTamano() { pagina = 1; Filtrar(); }
+
+    private void Nuevo()
+    {
+        editando = new Estudiante { Nombre = "", Apellidos = "", Dni = "", Email = "",
+            FechaNacimiento = DateTime.Today.AddYears(-18), Calificacion = 0, Ciclo = Ciclo.DAW,
+            Curso = Curso.Primero, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow };
+        esNuevo = true; showEdit = true;
+    }
+
+    private async Task Editar()
+    {
+        if (selected == null) return;
+        var r = await PersonasService.GetByIdAsync(selected.Id);
+        if (r.IsSuccess && r.Value is Estudiante est) { editando = est; esNuevo = false; showEdit = true; }
+    }
+
+    private void Ver()
+    {
+        if (selected == null) return;
+        detalles = selected; showDetails = true;
+    }
+
+    private async Task ToggleEliminarRestaurar()
+    {
+        if (selected == null) return;
+        if (selected.IsDeleted)
+            await Restaurar();
+        else
+            await Eliminar();
+    }
+
+    private async Task Eliminar()
+    {
+        if (selected == null) return;
+        if (!await DialogService.ShowConfirmationAsync($"¿Eliminar a {selected.NombreCompleto}?")) return;
+        try
+        {
+            var r = await PersonasService.DeleteAsync(selected.Id, AppConfig.UseLogicalDelete);
+            mensaje = r.IsSuccess ? "Estudiante eliminado" : r.Error!.ToString();
+            if (r.IsSuccess) { await Recargar(); State.NotifyChange(); }
+        }
+        catch (Exception ex) { mensaje = ex.LogYAmigable("eliminar estudiante"); }
+    }
+
+    private async Task Restaurar()
+    {
+        if (selected == null) return;
+        if (!await DialogService.ShowConfirmationAsync($"¿Restaurar a {selected.NombreCompleto}?")) return;
+        try
+        {
+            var r = await PersonasService.RestoreAsync(selected.Id);
+            mensaje = r.IsSuccess ? "Estudiante restaurado" : r.Error!.ToString();
+            if (r.IsSuccess) { await Recargar(); State.NotifyChange(); }
+        }
+        catch (Exception ex) { mensaje = ex.LogYAmigable("restaurar estudiante"); }
+    }
+
+    private async Task OnGuardar() { showEdit = false; await Recargar(); State.NotifyChange(); }
+}

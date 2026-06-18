@@ -1,0 +1,39 @@
+@* MODAL DE RECONEXION SIGNALR (ReconnectModal.razor)
+   Muestra un dialogo cuando se pierde la conexion SignalR con el servidor.
+   Blazor Server muestra automaticamente este dialogo gracias al id "components-reconnect-modal".
+   - components-reconnect-first-attempt-visible: primer intento de reconexion
+   - components-reconnect-repeated-attempt-visible: reintentos fallidos
+   - components-reconnect-failed-visible: reconexion fallida definitiva
+   - components-pause-visible: sesion pausada por el servidor
+   El script reconnect-modal.js (en wwwroot/js/) maneja los eventos de cambio de estado.
+*@
+
+<dialog id="components-reconnect-modal" data-nosnippet>
+    <div class="components-reconnect-container">
+        <div class="components-rejoining-animation" aria-hidden="true">
+            <div></div>
+            <div></div>
+        </div>
+        <p class="components-reconnect-first-attempt-visible">
+            Reconectando con el servidor...
+        </p>
+        <p class="components-reconnect-repeated-attempt-visible">
+            Error de reconexion... reintentando en <span id="components-seconds-to-next-attempt"></span> segundos.
+        </p>
+        <p class="components-reconnect-failed-visible">
+            No se pudo reconectar.<br/>Por favor, recargue la pagina.
+        </p>
+        <button id="components-reconnect-button" class="btn btn-primary components-reconnect-failed-visible">
+            Reintentar
+        </button>
+        <p class="components-pause-visible">
+            La sesion ha sido pausada por el servidor.
+        </p>
+        <p class="components-resume-failed-visible">
+            No se pudo reanudar la sesion.<br/>Por favor, recargue la pagina.
+        </p>
+        <button id="components-resume-button" class="btn btn-primary components-pause-visible components-resume-failed-visible">
+            Reanudar
+        </button>
+    </div>
+</dialog>

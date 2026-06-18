@@ -1,0 +1,51 @@
+<!-- ============================================================ -->
+<!-- VentanaPropiedades.xaml - Paso de datos por propiedades -->
+<!-- ============================================================ -->
+<!-- Esta ventana recibe datos a través de propiedades públicas. -->
+
+<Window x:Class="NavegacionVentanas.Views.VentanaPropiedades.VentanaPropiedades"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Name="Ventana"
+        Title="Datos por Propiedades" Height="250" Width="350"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="CanMinimize">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Título -->
+        <TextBlock Grid.Row="0" x:Name="TxtTitulo"
+                   Text="Datos por Propiedades"
+                   FontSize="16" FontWeight="Bold" 
+                   HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+        <!-- Datos recibidos -->
+        <StackPanel Grid.Row="1">
+            <TextBlock Text="Dato Principal:" FontWeight="Bold"/>
+            <TextBlock x:Name="TxtDato" Margin="0,0,0,10"/>
+        </StackPanel>
+
+        <!-- Mensaje editable -->
+        <StackPanel Grid.Row="2" Margin="0,20,0,0">
+            <TextBlock Text="Tu mensaje:" FontWeight="Bold"/>
+            <TextBox x:Name="TxtMensaje" Padding="5" Margin="0,5,0,0"/>
+        </StackPanel>
+
+        <!-- Botones -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="✅ Aceptar" Padding="20,8" Margin="5"
+                    Background="#4CAF50" Foreground="White"
+                    Click="BtnAceptar_Click"/>
+            <Button Content="❌ Cancelar" Padding="20,8" Margin="5"
+                    Background="#f44336" Foreground="White"
+                    Click="BtnCancelar_Click"/>
+        </StackPanel>
+
+    </Grid>
+</Window>

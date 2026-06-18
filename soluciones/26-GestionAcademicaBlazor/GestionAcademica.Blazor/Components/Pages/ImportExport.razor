@@ -1,0 +1,136 @@
+@* PAGINA DE IMPORTACION/EXPORTACION DE DATOS
+   Permite exportar e importar datos en formatos CSV y JSON.
+   - Exportar: guarda en wwwroot/exports/ y ofrece descarga
+   - Importar: subida de archivo CSV/JSON desde el navegador
+*@
+@page "/importexport"
+@rendermode InteractiveServer
+@inject IPersonasService PersonasService
+@inject IImportExportService ImportExportService
+@inject IDialogService DialogService
+@inject IWebHostEnvironment WebHostEnv
+@inject StateContainer State
+
+<PageTitle>Import/Export - Gestion Academica</PageTitle>
+
+<div class="page-header d-flex align-items-center gap-3 mb-4">
+    <i class="bi bi-arrow-left-right" style="font-size:2rem"></i>
+    <h1 class="mb-0">Importar / Exportar Datos</h1>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" @bind="sustituir" id="sustituir"/>
+            <label class="form-check-label" for="sustituir">Sustituir datos existentes al importar</label>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title">Exportar</h6>
+                        <div class="d-flex gap-2 mb-2">
+                            <button class="btn btn-info text-white btn-icon" @onclick="ExportarCsv" disabled="@cargando"><i class="bi bi-download"></i> Exportar CSV</button>
+                            <button class="btn btn-info text-white btn-icon" @onclick="ExportarJson" disabled="@cargando"><i class="bi bi-download"></i> Exportar JSON</button>
+                        </div>
+                        @if (descargaUrl is not null)
+                        {
+                            <a href="@descargaUrl" class="btn btn-success btn-sm btn-icon" download target="_blank"><i class="bi bi-download"></i> Descargar @Path.GetFileName(descargaUrl)</a>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title">Importar</h6>
+                        <div class="mb-2">
+                            <label class="form-label small text-muted">Seleccione archivo CSV o JSON</label>
+                            <InputFile OnChange="@OnFileSeleccionado" accept=".csv,.json" class="form-control form-control-sm" disabled="@cargando"/>
+                        </div>
+                        <button class="btn btn-warning btn-icon" @onclick="ImportarArchivo" disabled="@(archivoImportar is null || cargando)"><i class="bi bi-upload"></i> Importar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (cargando) { <div class="loading-overlay"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div> }
+        @if (!string.IsNullOrEmpty(mensaje)) { <div class="alert alert-info mt-3 py-1 small">@mensaje</div> }
+    </div>
+</div>
+
+@code {
+    private const long MaxImportFileSize = 10 * 1024 * 1024;
+    private bool cargando, sustituir;
+    private string mensaje = "";
+    private string? descargaUrl;
+    private ImportFile? archivoImportar;
+
+    private async Task Exportar(string extension)
+    {
+        try
+        {
+            cargando = true; descargaUrl = null; mensaje = "Exportando..."; StateHasChanged();
+            var personas = (await PersonasService.GetAllAsync(1, int.MaxValue, true)).ToList();
+            var dir = Path.Combine(WebHostEnv.WebRootPath, "exports");
+            if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+            var fileName = $"export_{DateTime.Now:yyyyMMdd_HHmmss}{extension}";
+            var path = Path.Combine(dir, fileName);
+            var r = await ImportExportService.ExportarDatosAsync(personas, path);
+            if (r.IsSuccess)
+            {
+                descargaUrl = $"exports/{fileName}";
+                mensaje = $"Exportadas {r.Value} personas a {fileName}";
+            }
+            else { mensaje = $"Error: {r.Error}"; }
+        }
+        catch (Exception ex) { mensaje = ex.LogYAmigable("exportar datos"); }
+        finally { cargando = false; }
+    }
+
+    private async Task ExportarCsv() => await Exportar(".csv");
+    private async Task ExportarJson() => await Exportar(".json");
+
+    private async Task OnFileSeleccionado(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (file is null) return;
+        var ext = Path.GetExtension(file.Name)?.ToLower();
+        if (ext != ".csv" && ext != ".json")
+        {
+            mensaje = "Formato no soportado. Use .csv o .json";
+            return;
+        }
+        var uploadsDir = Path.Combine(WebHostEnv.WebRootPath, "uploads");
+        if (!Directory.Exists(uploadsDir)) Directory.CreateDirectory(uploadsDir);
+        var path = Path.Combine(uploadsDir, file.Name);
+        await using var stream = file.OpenReadStream(maxAllowedSize: MaxImportFileSize);
+        await using var fs = File.Create(path);
+        await stream.CopyToAsync(fs);
+        archivoImportar = new ImportFile { Ruta = path, Nombre = file.Name };
+        mensaje = $"Archivo cargado: {file.Name}";
+    }
+
+    private async Task ImportarArchivo()
+    {
+        if (archivoImportar is null) return;
+        try
+        {
+            cargando = true; mensaje = "Importando..."; StateHasChanged();
+            if (sustituir) await PersonasService.DeleteAllAsync();
+            var r = await ImportExportService.ImportarDatosAsync(archivoImportar.Ruta);
+            if (r.IsSuccess)
+            {
+                foreach (var p in r.Value) await PersonasService.SaveAsync(p);
+                DialogService.ShowSuccess($"Importacion completada: {r.Value.Count()} personas");
+                mensaje = $"Importadas {r.Value.Count()} personas";
+                State.NotifyChange();
+            }
+            else { mensaje = $"Error: {r.Error}"; }
+        }
+        catch (Exception ex) { mensaje = ex.LogYAmigable("importar datos"); }
+        finally { cargando = false; }
+    }
+
+}

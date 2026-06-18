@@ -1,0 +1,222 @@
+@page "/"
+
+@* ============================================================
+     PÁGINA PRINCIPAL - LISTA DE TAREAS
+     ============================================================
+     
+     Esta es la página principal de la aplicación Blazor.
+     Gestiona el estado de las tareas y contiene la lógica de la UI.
+     
+     CONCEPTOS IMPORTANTES DE BLAZOR:
+     1. @page "/" - Define la ruta de esta página
+     2. @inject - Inyección de dependencias (inyecta el servicio)
+     3. @using - Importa espacios de nombres
+     4. @code { } - Bloque de código C# (como el OnInit, propiedades, etc.)
+     
+     COMUNICACIÓN PADRE-HIJO:
+     - Esta página es el "componente padre" que contiene a TareaItem
+     - Pasa datos a los hijos mediante propiedades (parámetros)
+     - Recibe eventos de los hijos mediante EventCallbacks
+     
+     En este caso, el TareaItem recibe:
+     - Tarea tarea -> La tarea a mostrar
+     - EventCallback<Guid> OnToggle -> Callback para cambiar estado
+     - EventCallback<Guid> OnDelete -> Callback para eliminar
+     
+     Y el padre (esta página) define esos callbacks para manejar los eventos.
+} *@
+
+@* Inyección de dependencias: obtenemos el servicio de tareas *@
+@inject ITareaService TareaService
+
+@* Título de la página *@
+<PageTitle>Lista de Tareas</PageTitle>
+
+<div class="container">
+    <h1 class="my-4">📝 Lista de Tareas</h1>
+
+    @* ============================================================
+         FORMULARIO PARA AÑADIR NUEVA TAREA
+         ============================================================
+         
+         Usamos un formulario simple con:
+         - Input binding TwoWay con la variable NuevaTarea
+         - Botón que llama al método AgregarTarea()
+         
+         Binding en Blazor:
+         - @bind="variable" crea un binding TwoWay automáticamente
+         - Cuando el usuario escribe, se actualiza la variable
+         - Cuando el código cambia la variable, se actualiza la UI
+    *@
+    <div class="input-group mb-4">
+        <input 
+            type="text" 
+            class="form-control" 
+            placeholder="Escribe una nueva tarea..." 
+            @bind="NuevaTarea" 
+            @onkeypress="HandleKeyPress" />
+        <button class="btn btn-primary" @onclick="AgregarTarea">
+            ➕ Añadir
+        </button>
+    </div>
+
+    @* ============================================================
+         LISTA DE TAREAS (COMPONENTES HIJOS)
+         ============================================================
+         
+         Aquí iteramos sobre la lista de tareas y renderizamos
+         un componente TareaItem para cada una.
+         
+         Binding de parámetros:
+         - Tarea="tarea" -> Pasa la tarea al componente hijo
+         - OnToggle="ToggleTarea" -> Pasa el callback para toggle
+         - OnDelete="EliminarTarea" -> Pasa el callback para eliminar
+         
+         El símbolo @=" indica que es un EXPRESSION BUILDER,
+         necesario para pasar EventCallbacks.
+    *@
+    <div class="list-group">
+        @foreach (var tarea in Tareas)
+        {
+            <TareaItem 
+                Tarea="tarea" 
+                OnToggle="ToggleTarea" 
+                OnDelete="EliminarTarea" />
+        }
+    </div>
+
+    @* ============================================================
+         CONTADOR DE TAREAS PENDIENTES
+         ============================================================
+         
+         Muestra el número de tareas sin completar.
+         Se actualiza automáticamente porque usa bindings.
+    *@
+    @if (Tareas.Any())
+    {
+        <div class="alert alert-info mt-4">
+            📊 Tareas pendientes: <strong>@TareaService.GetPendientes()</strong> de @Tareas.Count
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-success mt-4">
+            ✅ ¡No hay tareas! Añade una para empezar.
+        </div>
+    }
+</div>
+
+@* ============================================================
+     BLOQUE DE CÓDIGO C#
+     ============================================================
+     
+     Aquí definimos:
+     - Propiedades que usamos en la UI
+     - Métodos que responden a eventos
+     - Lógica de la página
+     
+     Las propiedades con [Parameter] serían parámetros recibidos
+     de un componente padre (no es el caso aquí).
+*@
+@code {
+    /// <summary>
+    /// Lista de tareas a mostrar.
+    /// </summary>
+    /// <remarks>
+    /// Se carga desde el servicio en OnInitialized.
+    /// Se notifica a Blazor cuando cambia para re-renderizar.
+    /// </remarks>
+    private List<Tarea> Tareas { get; set; } = new();
+
+    /// <summary>
+    /// Texto de la nueva tarea a añadir.
+    /// </summary>
+    /// <remarks>
+    /// Bound con @bind en el input. Se limpia después de añadir.
+    /// </remarks>
+    private string NuevaTarea { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Se ejecuta cuando el componente se inicializa.
+    /// </summary>
+    /// <remarks>
+    /// Equivalent al OnInit de versiones anteriores.
+    /// Aquí cargamos las tareas iniciales del servicio.
+    /// </remarks>
+    protected override void OnInitialized()
+    {
+        // Cargar todas las tareas del servicio
+        Tareas = TareaService.GetAll();
+    }
+
+    /// <summary>
+    /// Añade una nueva tarea a la lista.
+    /// </summary>
+    /// <remarks>
+    /// Valida que el título no esté vacío antes de añadir.
+    /// Usa StateHasChanged para forzar re-renderizado después del cambio.
+    /// </remarks>
+    private void AgregarTarea()
+    {
+        if (string.IsNullOrWhiteSpace(NuevaTarea))
+            return;
+
+        // Llamar al servicio para añadir la tarea
+        TareaService.Add(NuevaTarea);
+        
+        // Recargar la lista (el servicio podría cambiar en el futuro)
+        Tareas = TareaService.GetAll();
+        
+        // Limpiar el campo de texto
+        NuevaTarea = string.Empty;
+        
+        // Forzar re-renderizado de la UI
+        // (En Blazor esto es automático con bindings, pero es buena práctica)
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// Maneja la tecla Enter en el input.
+    /// </summary>
+    /// <param name="e">Evento de teclado</param>
+    /// <remarks>
+    /// Permite añadir tareas pulsando Enter en lugar de hacer clic.
+    /// </remarks>
+    private void HandleKeyPress(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            AgregarTarea();
+        }
+    }
+
+    /// <summary>
+    /// Callback para togglear el estado de una tarea.
+    /// </summary>
+    /// <param name="id">ID de la tarea</param>
+    /// <remarks>
+    /// Este método se pasa como EventCallback al componente hijo.
+    /// Cuando el hijo llama a OnToggle.Invoke(id), se ejecuta este método.
+    /// </remarks>
+    private void ToggleTarea(Guid id)
+    {
+        TareaService.Toggle(id);
+        Tareas = TareaService.GetAll();
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// Callback para eliminar una tarea.
+    /// </summary>
+    /// <param name="id">ID de la tarea</param>
+    /// <remarks>
+    /// Este método se pasa como EventCallback al componente hijo.
+    /// Cuando el hijo llama a OnDelete.Invoke(id), se ejecuta este método.
+    /// </remarks>
+    private void EliminarTarea(Guid id)
+    {
+        TareaService.Remove(id);
+        Tareas = TareaService.GetAll();
+        StateHasChanged();
+    }
+}

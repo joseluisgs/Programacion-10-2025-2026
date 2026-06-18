@@ -1,0 +1,32 @@
+@page "/configuracion"
+@rendermode InteractiveServer
+
+<PageTitle>Configuración - Gestión Académica</PageTitle>
+
+<div class="page-header d-flex align-items-center gap-3 mb-4">
+    <i class="bi bi-gear" style="font-size:2rem"></i>
+    <h1 class="mb-0">Configuración</h1>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead><tr><th>Propiedad</th><th>Valor</th></tr></thead>
+            <tbody>
+                <tr><td>Repositorio</td><td>@AppConfig.RepositoryType</td></tr>
+                <tr><td>Storage</td><td>@AppConfig.StorageType</td></tr>
+                <tr><td>Datos</td><td>@AppConfig.DataFolder</td></tr>
+                <tr><td>Borrado</td><td>@(AppConfig.UseLogicalDelete ? "Lógico" : "Físico")</td></tr>
+                <tr><td>Conexión</td><td>@AppConfig.ConnectionString</td></tr>
+                <tr><td>Nota aprobado</td><td>@AppConfig.NotaAprobado</td></tr>
+                <tr><td>Tamaño caché</td><td>@AppConfig.CacheSize</td></tr>
+                <tr><td>Formato backup</td><td>@AppConfig.BackupFormat</td></tr>
+                <tr><td>Directorio backup</td><td>@AppConfig.BackupDirectory</td></tr>
+                <tr><td>Extensiones imagen</td><td>@string.Join(", ", AppConfig.AllowedImageExtensions)</td></tr>
+                <tr><td>Log a archivo</td><td>@(AppConfig.LogToFile ? "Sí" : "No")</td></tr>
+                <tr><td>Nivel log</td><td>@AppConfig.LogLevel</td></tr>
+                <tr><td>Retención logs</td><td>@AppConfig.LogRetainDays días</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>

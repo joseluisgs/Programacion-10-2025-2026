@@ -1,0 +1,43 @@
+<!-- ============================================================ -->
+<!-- VentanaNoModal.xaml - Ventana no modal con Show() -->
+<!-- ============================================================ -->
+<!-- Esta ventana se abre con Show() y no bloquea la ventana padre. -->
+
+<Window x:Class="NavegacionVentanas.Views.VentanaNoModal.VentanaNoModal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Ventana No Modal" Height="250" Width="350"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize"
+        Closing="Window_Closing">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Título -->
+        <TextBlock Grid.Row="0" Text="📢 Ventana NO MODAL"
+                   FontSize="18" FontWeight="Bold" 
+                   HorizontalAlignment="Center" Margin="0,0,0,15"/>
+
+        <!-- Contenido -->
+        <StackPanel Grid.Row="1" VerticalAlignment="Center">
+            <TextBlock Text="¡Puedes interactuar con ambas ventanas!"
+                       FontSize="14" TextWrapping="Wrap" TextAlignment="Center"
+                       Margin="0,0,0,10"/>
+            <TextBlock Text="Esta ventana se abrió con Show() y no bloquea la principal."
+                       TextWrapping="Wrap" TextAlignment="Center"
+                       Foreground="Gray"/>
+        </StackPanel>
+
+        <!-- Botón cerrar -->
+        <Button Grid.Row="2" Content="❌ Cerrar"
+                Padding="20,8" HorizontalAlignment="Center"
+                Background="#f44336" Foreground="White"
+                Click="BtnCerrar_Click"/>
+
+    </Grid>
+</Window>

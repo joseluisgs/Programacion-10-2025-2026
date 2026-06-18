@@ -1,0 +1,182 @@
+@* PAGINA DE GENERACION DE INFORMES
+   Permite generar informes en formato PDF o HTML para:
+   - Estudiantes (listado con filtros)
+   - Docentes (listado con filtros)
+   - Listado completo (todas las personas)
+
+   Usa IReportService que convierte HTML a PDF usando Select.HtmlToPdf.NetCore.
+   Los informes se guardan en wwwroot/reports/ y se ofrecen como descarga.
+*@
+@page "/informes"
+@rendermode InteractiveServer
+@inject IPersonasService PersonasService
+@inject IReportService ReportService
+@inject IDialogService DialogService
+@inject IWebHostEnvironment WebHostEnv
+
+<PageTitle>Informes - Gestión Académica</PageTitle>
+
+<div class="page-header d-flex align-items-center gap-3 mb-4">
+    <i class="bi bi-file-text" style="font-size:2rem"></i>
+    <h1 class="mb-0">Informes</h1>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        @if (generando)
+        {
+            <div class="loading-overlay">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Generando...</span>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="d-flex gap-3 mb-4">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" @bind="mostrarEliminados" id="f1"/>
+                    <label class="form-check-label" for="f1">Mostrar eliminados</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" @bind="mostrarMenores" id="f2"/>
+                    <label class="form-check-label" for="f2">Mostrar menores de edad</label>
+                </div>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title">Informes de Estudiantes</h6>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-primary btn-sm btn-icon" @onclick="GenerarEstudiantesPdf"><i class="bi bi-file-earmark-pdf"></i> PDF</button>
+                                <button class="btn btn-info btn-sm text-white btn-icon" @onclick="GenerarEstudiantesHtml"><i class="bi bi-file-earmark-code"></i> HTML</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title">Informes de Docentes</h6>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-primary btn-sm btn-icon" @onclick="GenerarDocentesPdf"><i class="bi bi-file-earmark-pdf"></i> PDF</button>
+                                <button class="btn btn-info btn-sm text-white btn-icon" @onclick="GenerarDocentesHtml"><i class="bi bi-file-earmark-code"></i> HTML</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title">Listados Generales</h6>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-primary btn-sm btn-icon" @onclick="GenerarListadoPdf"><i class="bi bi-file-earmark-pdf"></i> PDF</button>
+                                <button class="btn btn-info btn-sm text-white btn-icon" @onclick="GenerarListadoHtml"><i class="bi bi-file-earmark-code"></i> HTML</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(mensaje))
+        {
+            <div class="alert alert-info mt-3 py-1 small d-flex align-items-center gap-2">
+                <span>@mensaje</span>
+                @if (descargaUrl is not null)
+                {
+                    <a href="@descargaUrl" class="btn btn-success btn-sm" download target="_blank">
+                        <i class="bi bi-download"></i> Descargar
+                    </a>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private bool generando;
+    private bool mostrarEliminados, mostrarMenores;
+    private string mensaje = "";
+    private string? descargaUrl;
+
+    private async Task GenerarEstudiantesHtml() => await GenerarInforme("Estudiantes", false);
+    private async Task GenerarEstudiantesPdf() => await GenerarInforme("Estudiantes", true);
+    private async Task GenerarDocentesHtml() => await GenerarInforme("Docentes", false);
+    private async Task GenerarDocentesPdf() => await GenerarInforme("Docentes", true);
+    private async Task GenerarListadoHtml() => await GenerarInforme("ListadoCompleto", false);
+    private async Task GenerarListadoPdf() => await GenerarInforme("ListadoCompleto", true);
+
+    private async Task GenerarInforme(string tipo, bool pdf)
+    {
+        try
+        {
+            generando = true;
+            descargaUrl = null;
+            mensaje = $"Generando {tipo}...";
+            StateHasChanged();
+            await Task.Delay(1); // yield para que Blazor renderice el spinner
+
+            Result<string, DomainError> htmlResult;
+
+            switch (tipo)
+            {
+                case "Estudiantes":
+                    var est = await PersonasService.GetEstudiantesOrderByAsync(TipoOrdenamiento.Dni, 1, int.MaxValue, mostrarEliminados);
+                    htmlResult = await ReportService.GenerarInformeEstudiantesHtmlAsync(est, mostrarEliminados, mostrarMenores);
+                    break;
+                case "Docentes":
+                    var doc = await PersonasService.GetDocentesOrderByAsync(TipoOrdenamiento.Dni, 1, int.MaxValue, mostrarEliminados);
+                    htmlResult = await ReportService.GenerarInformeDocentesHtmlAsync(doc, mostrarEliminados);
+                    break;
+                default:
+                    var pers = await PersonasService.GetAllAsync(1, int.MaxValue, mostrarEliminados);
+                    htmlResult = await ReportService.GenerarListadoPersonasHtmlAsync(pers, mostrarEliminados, mostrarMenores);
+                    break;
+            }
+
+            if (htmlResult.IsSuccess)
+            {
+                var fileName = $"{tipo}_{DateTime.Now:yyyyMMdd_HHmmss}";
+                var ext = pdf ? ".pdf" : ".html";
+                var reportsDir = Path.Combine(WebHostEnv.WebRootPath, "reports");
+                if (!Directory.Exists(reportsDir)) Directory.CreateDirectory(reportsDir);
+                var filePath = Path.Combine(reportsDir, $"{fileName}{ext}");
+
+                if (pdf)
+                {
+                    var converter = new SelectPdf.HtmlToPdf();
+                    converter.Options.PdfPageSize = SelectPdf.PdfPageSize.A4;
+                    converter.Options.MarginTop = 10;
+                    converter.Options.MarginBottom = 10;
+                    converter.Options.MarginLeft = 10;
+                    converter.Options.MarginRight = 10;
+                    var doc = converter.ConvertHtmlString(htmlResult.Value);
+                    doc.Save(filePath);
+                    doc.Close();
+                }
+                else
+                {
+                    File.WriteAllText(filePath, htmlResult.Value, Encoding.UTF8);
+                }
+
+                descargaUrl = $"reports/{fileName}{ext}";
+                mensaje = $"Informe {tipo} generado: {fileName}{ext}";
+            }
+            else
+            {
+                mensaje = "Error al generar";
+            }
+        }
+        catch (Exception ex)
+        {
+            mensaje = ex.LogYAmigable("generar informe");
+        }
+        finally
+        {
+            generando = false;
+        }
+    }
+}

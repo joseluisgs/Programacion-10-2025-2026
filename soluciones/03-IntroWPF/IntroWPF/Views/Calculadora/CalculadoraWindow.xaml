@@ -1,0 +1,92 @@
+<Window x:Class="IntroWPF.Views.Calculadora.CalculadoraWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Calculadora" Height="300" Width="350"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+    
+    <!-- Margin: espacio exterior alrededor del Grid -->
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <!-- RowDefinitions: define las filas del Grid -->
+            <RowDefinition Height="Auto"/>  <!-- Auto = tamaño según contenido -->
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>    <!-- * = ocupar el espacio restante -->
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>  <!-- Ancho fijo de 100 -->
+            <ColumnDefinition Width="*"/>    <!-- Ancho restante -->
+        </Grid.ColumnDefinitions>
+        
+        <!-- Fila 0: Número 1 -->
+        <TextBlock Text="Número 1:" 
+                   VerticalAlignment="Center" 
+                   Margin="0,5"/>
+        <TextBox x:Name="TxtNum1" 
+                 Grid.Column="1" 
+                 Margin="0,5" 
+                 Padding="5"/>
+        
+        <!-- Fila 1: Número 2 -->
+        <TextBlock Text="Número 2:" 
+                   Grid.Row="1" 
+                   VerticalAlignment="Center" 
+                   Margin="0,5"/>
+        <TextBox x:Name="TxtNum2" 
+                 Grid.Row="1" 
+                 Grid.Column="1" 
+                 Margin="0,5" 
+                 Padding="5"/>
+        
+        <!-- Fila 2: Operación -->
+        <TextBlock Text="Operación:" 
+                   Grid.Row="2" 
+                   VerticalAlignment="Center" 
+                   Margin="0,5"/>
+        
+        <!-- ComboBox en WPF = ComboBox -->
+        <ComboBox x:Name="CmbOp" 
+                  Grid.Row="2" 
+                  Grid.Column="1" 
+                  Margin="0,5"
+                  SelectedIndex="0">
+            <ComboBoxItem Content="+"/>
+            <ComboBoxItem Content="-"/>
+            <ComboBoxItem Content="*"/>
+            <ComboBoxItem Content="/"/>
+        </ComboBox>
+        
+        <!-- Fila 3: Botón Calcular -->
+        <Button x:Name="BtnCalcular" 
+                Content="Calcular" 
+                Grid.Row="3" 
+                Grid.ColumnSpan="2" 
+                Height="35" 
+                Margin="0,10" 
+                Background="LightBlue" 
+                Click="BtnCalcular_Click"/>
+        
+        <!-- Fila 4: Resultado -->
+        <TextBlock Text="Resultado:" 
+                   Grid.Row="4" 
+                   VerticalAlignment="Center" 
+                   Margin="0,5"/>
+        
+        <!-- Border: contenedor con borde -->
+        <Border Grid.Row="4" 
+                Grid.Column="1" 
+                Background="LightYellow" 
+                BorderBrush="Gray" 
+                BorderThickness="1" 
+                Margin="0,5" 
+                Padding="5">
+            <TextBlock x:Name="LblRes" 
+                       Text="Resultado:"/>
+        </Border>
+        
+    </Grid>
+</Window>

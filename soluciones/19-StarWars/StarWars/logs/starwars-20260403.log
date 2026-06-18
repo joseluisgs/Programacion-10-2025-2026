@@ -1,0 +1,67 @@
+2026-04-03 19:22:44.120 +02:00 [INF] Iniciando aplicación Star Wars
+2026-04-03 19:22:44.187 +02:00 [INF] Dependencias configuradas
+2026-04-03 19:22:44.200 +02:00 [FTL] Error al iniciar la aplicación
+System.InvalidOperationException: No service for type 'StarWars.Views.Main.MainWindow' has been registered.
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at StarWars.App.OnStartup(StartupEventArgs e) in C:\Users\joseluisgs\Projects\Programacion\UD10\soluciones\19-StarWars\StarWars\App.xaml.cs:line 97
+2026-04-03 19:33:38.079 +02:00 [INF] Iniciando aplicación Star Wars
+2026-04-03 19:33:38.134 +02:00 [INF] Dependencias configuradas
+2026-04-03 19:33:38.590 +02:00 [INF] Ventana principal mostrada
+2026-04-03 19:34:03.690 +02:00 [INF] Iniciando simulación
+2026-04-03 19:34:04.957 +02:00 [INF] Simulación finalizada
+2026-04-03 19:34:09.592 +02:00 [INF] Iniciando simulación
+2026-04-03 19:34:10.704 +02:00 [INF] Simulación finalizada
+2026-04-03 19:34:15.728 +02:00 [INF] Iniciando simulación
+2026-04-03 19:34:16.841 +02:00 [INF] Simulación finalizada
+2026-04-03 19:34:19.254 +02:00 [INF] Iniciando simulación
+2026-04-03 19:34:20.363 +02:00 [INF] Simulación finalizada
+2026-04-03 19:34:29.002 +02:00 [INF] Cerrando aplicación Star Wars
+2026-04-03 19:34:50.780 +02:00 [INF] Iniciando aplicación Star Wars
+2026-04-03 19:34:50.836 +02:00 [INF] Dependencias configuradas
+2026-04-03 19:34:51.348 +02:00 [INF] Ventana principal mostrada
+2026-04-03 19:34:54.040 +02:00 [INF] Iniciando simulación
+2026-04-03 19:34:55.165 +02:00 [INF] Simulación finalizada
+2026-04-03 19:34:57.870 +02:00 [INF] Cerrando aplicación Star Wars
+2026-04-03 19:44:31.705 +02:00 [INF] Iniciando aplicación Star Wars
+2026-04-03 19:44:31.758 +02:00 [INF] Dependencias configuradas
+2026-04-03 19:44:32.265 +02:00 [INF] Ventana principal mostrada
+2026-04-03 19:44:42.945 +02:00 [INF] Cerrando aplicación Star Wars
+2026-04-03 19:45:03.688 +02:00 [INF] Iniciando aplicación Star Wars
+2026-04-03 19:45:03.750 +02:00 [INF] Dependencias configuradas
+2026-04-03 19:45:04.299 +02:00 [INF] Ventana principal mostrada
+2026-04-03 19:45:11.308 +02:00 [INF] Cerrando aplicación Star Wars
+2026-04-03 19:45:20.721 +02:00 [INF] Iniciando aplicación Star Wars
+2026-04-03 19:45:20.779 +02:00 [INF] Dependencias configuradas
+2026-04-03 19:45:21.336 +02:00 [INF] Ventana principal mostrada
+2026-04-03 19:45:39.431 +02:00 [INF] Iniciando simulación
+2026-04-03 19:45:42.985 +02:00 [INF] Simulación finalizada
+2026-04-03 19:46:30.099 +02:00 [INF] Iniciando simulación
+2026-04-03 19:46:33.597 +02:00 [INF] Simulación finalizada
+2026-04-03 19:46:38.071 +02:00 [INF] Iniciando simulación
+2026-04-03 19:46:42.090 +02:00 [INF] Simulación finalizada
+2026-04-03 19:48:15.249 +02:00 [INF] Cerrando aplicación Star Wars
+2026-04-03 19:53:17.198 +02:00 [INF] Iniciando aplicación Star Wars
+2026-04-03 19:53:17.254 +02:00 [INF] Dependencias configuradas
+2026-04-03 19:53:17.730 +02:00 [INF] Ventana principal mostrada
+2026-04-03 19:53:21.724 +02:00 [INF] Iniciando simulación
+2026-04-03 19:53:23.543 +02:00 [INF] Simulación finalizada
+2026-04-03 19:54:50.142 +02:00 [INF] Cerrando aplicación Star Wars
+2026-04-03 19:59:00.856 +02:00 [INF] Iniciando aplicación Star Wars
+2026-04-03 19:59:00.909 +02:00 [INF] Dependencias configuradas
+2026-04-03 19:59:01.345 +02:00 [INF] Ventana principal mostrada
+2026-04-03 19:59:02.840 +02:00 [INF] Iniciando simulación
+2026-04-03 19:59:04.451 +02:00 [INF] Simulación finalizada
+2026-04-03 19:59:25.385 +02:00 [INF] Cerrando aplicación Star Wars
+2026-04-03 20:05:22.710 +02:00 [INF] Iniciando aplicación Star Wars
+2026-04-03 20:05:22.764 +02:00 [INF] Dependencias configuradas
+2026-04-03 20:05:23.228 +02:00 [INF] Ventana principal mostrada
+2026-04-03 20:05:25.547 +02:00 [INF] Iniciando simulación
+2026-04-03 20:05:27.020 +02:00 [INF] Simulación finalizada
+2026-04-03 20:06:01.302 +02:00 [INF] Cerrando aplicación Star Wars
+2026-04-03 20:08:17.421 +02:00 [INF] Iniciando aplicación Star Wars
+2026-04-03 20:08:17.476 +02:00 [INF] Dependencias configuradas
+2026-04-03 20:08:17.959 +02:00 [INF] Ventana principal mostrada
+2026-04-03 20:08:20.065 +02:00 [INF] Iniciando simulación
+2026-04-03 20:08:21.484 +02:00 [INF] Simulación finalizada
+2026-04-03 20:08:23.925 +02:00 [INF] Cerrando aplicación Star Wars

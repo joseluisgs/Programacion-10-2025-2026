@@ -1,0 +1,152 @@
+@* PAGINA DE COPIAS DE SEGURIDAD (BACKUP/RESTORE)
+   Gestiona la creacion, restauracion y eliminacion de copias de seguridad.
+   Los backups se pueden descargar desde la web.
+*@
+@page "/backup"
+@rendermode InteractiveServer
+@inject IPersonasService PersonasService
+@inject IBackupService BackupService
+@inject IDialogService DialogService
+@inject IWebHostEnvironment WebHostEnv
+@inject StateContainer State
+
+<PageTitle>Backup - Gestion Academica</PageTitle>
+
+<div class="page-header d-flex align-items-center gap-3 mb-4">
+    <i class="bi bi-cloud-arrow-up" style="font-size:2rem"></i>
+    <h1 class="mb-0">Copias de Seguridad</h1>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="d-flex gap-2 mb-3">
+            <button class="btn btn-primary" @onclick="CrearBackup" disabled="@cargando"><i class="bi bi-cloud-plus"></i> Crear Backup</button>
+            <button class="btn btn-outline-secondary" @onclick="Refrescar" disabled="@cargando"><i class="bi bi-arrow-clockwise"></i> Refrescar</button>
+        </div>
+
+        @if (cargando)
+        {
+            <div class="loading-overlay"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>
+        }
+        else
+        {
+            <h6 class="text-muted mb-2">Backups disponibles</h6>
+            @if (backups.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover table-data align-middle">
+                        <thead class="table-light"><tr><th>Archivo</th><th style="width:280px">Acciones</th></tr></thead>
+                        <tbody>
+                            @foreach (var b in backups)
+                            {
+                                <tr class="@(selected == b ? "table-primary" : "")" @onclick="() => selected = b">
+                                    <td>@b.Nombre</td>
+                                    <td>
+                                        @if (b.UrlDescarga is not null)
+                                        {
+                                            <a href="@b.UrlDescarga" class="btn btn-info btn-sm btn-icon text-white me-1" download target="_blank"><i class="bi bi-download"></i> Descargar</a>
+                                        }
+                                        <button class="btn btn-success btn-sm btn-icon me-1" @onclick="() => Restaurar(b.Ruta)" @disabled="b.UrlDescarga is null"><i class="bi bi-arrow-return-left"></i> Restaurar</button>
+                                        <button class="btn btn-danger btn-sm btn-icon" @onclick="() => EliminarBackup(b.Ruta)"><i class="bi bi-trash"></i> Eliminar</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else { <div class="empty-state">No hay backups disponibles.</div> }
+        }
+
+        @if (!string.IsNullOrEmpty(mensaje)) { <div class="alert alert-info mt-2 py-1 small">@mensaje</div> }
+    </div>
+</div>
+
+@code {
+    private bool cargando;
+    private List<BackupItem> backups = new();
+    private BackupItem? selected;
+    private string mensaje = "";
+
+    protected override async Task OnInitializedAsync() => await Refrescar();
+
+    private async Task Refrescar()
+    {
+        try
+        {
+            cargando = true;
+            var listaBackups = await BackupService.ListarBackupsAsync();
+            backups = listaBackups
+                .Select(r => new BackupItem
+                {
+                    Nombre = Path.GetFileName(r),
+                    Ruta = r,
+                    UrlDescarga = CopiarAwwwroot(r)
+                })
+                .OrderByDescending(b => b.Nombre)
+                .ToList();
+            mensaje = $"{backups.Count} backup(s) encontrados";
+        }
+        catch (Exception ex) { mensaje = ex.LogYAmigable("refrescar backups"); }
+        finally { cargando = false; }
+    }
+
+    private string? CopiarAwwwroot(string rutaOrigen)
+    {
+        try
+        {
+            var wwwDir = Path.Combine(WebHostEnv.WebRootPath, "backups");
+            if (!Directory.Exists(wwwDir)) Directory.CreateDirectory(wwwDir);
+            var fileName = Path.GetFileName(rutaOrigen);
+            var dest = Path.Combine(wwwDir, fileName);
+            if (!File.Exists(dest)) File.Copy(rutaOrigen, dest, overwrite: false);
+            return $"backups/{fileName}";
+        }
+        catch { return null; }
+    }
+
+    private async Task CrearBackup()
+    {
+        try
+        {
+            cargando = true; mensaje = "Creando backup..."; StateHasChanged();
+            var personas = (await PersonasService.GetAllAsync(1, int.MaxValue, true)).ToList();
+            var result = await BackupService.RealizarBackupAsync(personas);
+            if (result.IsSuccess) { DialogService.ShowSuccess($"Backup creado: {Path.GetFileName(result.Value)}"); await Refrescar(); }
+            else { DialogService.ShowError($"Error: {result.Error}"); mensaje = "Error al crear backup"; }
+        }
+        catch (Exception ex) { mensaje = ex.LogYAmigable("crear backup"); }
+        finally { cargando = false; }
+    }
+
+    private async Task Restaurar(string archivo)
+    {
+        if (!await DialogService.ShowConfirmationAsync($"Restaurar {Path.GetFileName(archivo)}? Los datos actuales serán reemplazados.")) return;
+        try
+        {
+            cargando = true; mensaje = "Restaurando..."; StateHasChanged();
+            var result = await BackupService.RestaurarBackupSistemaAsync(
+                archivo,
+                () => PersonasService.DeleteAllAsync().GetAwaiter().GetResult(),
+                p => PersonasService.SaveAsync(p).GetAwaiter().GetResult());
+            if (result.IsSuccess) { DialogService.ShowSuccess($"Restauradas {result.Value} personas"); await Refrescar(); State.NotifyChange(); }
+            else { DialogService.ShowError($"Error: {result.Error}"); mensaje = "Error al restaurar"; }
+        }
+        catch (Exception ex) { mensaje = ex.LogYAmigable("restaurar backup"); }
+        finally { cargando = false; }
+    }
+
+    private async Task EliminarBackup(string archivo)
+    {
+        if (!await DialogService.ShowConfirmationAsync($"Eliminar backup {Path.GetFileName(archivo)}?")) return;
+        try
+        {
+            File.Delete(archivo);
+            var wwwPath = Path.Combine(WebHostEnv.WebRootPath, "backups", Path.GetFileName(archivo));
+            if (File.Exists(wwwPath)) File.Delete(wwwPath);
+            DialogService.ShowSuccess("Backup eliminado");
+            await Refrescar();
+        }
+        catch (Exception ex) { DialogService.ShowError($"Error: {ex.Message}"); mensaje = "Error al eliminar backup"; }
+    }
+}

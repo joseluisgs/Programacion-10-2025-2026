@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <LangVersion>14</LangVersion>
+        <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\GestionAcademica.Back\GestionAcademica.Back.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Blazor-ApexCharts" Version="6.1.0" />
+        <!-- CommunityToolkit.Mvvm eliminado: no se usa en Blazor (no hay ViewModels MVVM).
+             En WPF se usa para ObservableObject, RelayCommand, etc.
+             En Blazor los componentes usan @code con lógica inline. -->
+        <PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="appsettings.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Resources\images\**\*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+</Project>

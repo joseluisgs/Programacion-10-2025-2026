@@ -1,0 +1,6 @@
+<Solution>
+    <Project Path="GestionAcademica.Front\GestionAcademica.Front.csproj"/>
+    <Project Path="GestionAcademica.Back\GestionAcademica.Back.csproj"/>
+    <Project Path="GestionAcademica.Blazor\GestionAcademica.Blazor.csproj"/>
+    <Project Path="GestionAcademica.Test\GestionAcademica.Test.csproj"/>
+</Solution>

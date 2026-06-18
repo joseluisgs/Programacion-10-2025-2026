@@ -1,0 +1,21 @@
+<!-- ============================================================ -->
+<!-- App.xaml - Configuración de la aplicación WPF -->
+<!-- ============================================================ -->
+<!-- Este archivo define los recursos y configuración de la aplicación. -->
+<!-- -->
+<!-- ELEMENTOS: -->
+<!-- - Application: Elemento raíz de toda aplicación WPF -->
+<!-- - x:Class: 指定 el code-behind (App.xaml.cs) -->
+<!-- - xmlns: Espacios de nombres XAML -->
+<!-- -->
+<!-- NOTA: No usamos StartupUri porque creamos la ventana manualmente -->
+<!-- en App.xaml.cs (OnStartup). Esto nos permite: -->
+<!-- - Configurar la inyección de dependencias primero -->
+<!-- - Controlar qué ventana abrir y cómo -->
+<!-- - Pasarle parámetros a la ventana si fuera necesario -->
+
+<Application x:Class="ListaCompra.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- No usamos StartupUri porque creamos la ventana manualmente en App.xaml.cs -->
+</Application>

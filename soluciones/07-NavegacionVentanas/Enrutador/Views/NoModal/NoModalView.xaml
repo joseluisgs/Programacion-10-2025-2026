@@ -1,0 +1,12 @@
+<Window x:Class="Enrutador.Views.NoModal.NoModalView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Ventana No Modal" Height="200" Width="300">
+    <Grid Margin="20">
+        <StackPanel VerticalAlignment="Center">
+            <TextBlock Text="¡Soy una ventana flotante!" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+            <TextBlock Text="Puedes interactuar con la principal" Foreground="Gray" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+            <Button Content="Cerrar" Height="30" Click="BtnCerrar_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

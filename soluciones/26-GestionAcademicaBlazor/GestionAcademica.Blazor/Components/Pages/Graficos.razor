@@ -1,0 +1,217 @@
+@* PAGINA DE GRAFICOS Y ESTADISTICAS
+   Utiliza la libreria Blazor-ApexCharts (v6.1.0) para renderizar graficos interactivos.
+
+   Graficos disponibles:
+   1. Notas medias por ciclo (barras)
+   2. Distribucion de calificaciones (donut): Suspensos/Aprobados/Notables/Sobresalientes
+   3. Estudiantes y Docentes por ciclo (barras agrupadas)
+   4. Tasa de aprobados por ciclo (barras)
+   5. Estudiantes por edad (barras)
+   6. Experiencia media docentes (barras)
+
+   NOTA:
+   - Name (no SeriesName): nombre de la serie en la leyenda
+   - SeriesType (no Type): tipo de grafico (Bar, Donut, etc.)
+   - YValue debe devolver decimal? (de ahi el cast)
+   - ApexChartOptions NO puede compartirse entre graficos (cada instancia necesita la suya)
+*@
+@page "/graficos"
+@rendermode InteractiveServer
+@implements IDisposable
+@inject IPersonasService PersonasService
+@inject StateContainer State
+
+<PageTitle>Gráficos - Gestión Académica</PageTitle>
+
+<div class="page-header d-flex align-items-center gap-3 mb-4">
+    <i class="bi bi-bar-chart" style="font-size:2rem"></i>
+    <h1 class="mb-0">Gráficos y Estadísticas</h1>
+</div>
+
+@if (isLoading)
+{
+    <div class="loading-overlay">
+        <div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div>
+    </div>
+}
+else
+{
+    <div class="row g-3 mb-4">
+        <div class="col"><div class="stat-card"><div class="stat-value text-primary">@totalEst</div><div class="stat-label">Total Estudiantes</div></div></div>
+        <div class="col"><div class="stat-card"><div class="stat-value text-info">@totalDoc</div><div class="stat-label">Total Docentes</div></div></div>
+        <div class="col"><div class="stat-card"><div class="stat-value text-success">@mediaNotas.ToString("F1")</div><div class="stat-label">Media Notas</div></div></div>
+        <div class="col"><div class="stat-card"><div class="stat-value text-success">@aprobados</div><div class="stat-label">Aprobados</div></div></div>
+        <div class="col"><div class="stat-card"><div class="stat-value text-danger">@suspensos</div><div class="stat-label">Suspensos</div></div></div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="chart-card">
+                <h5><i class="bi bi-bar-chart-fill me-1"></i> Notas medias por ciclo</h5>
+                <ApexChart TItem="CicloGrade" Height="300">
+                    <ApexPointSeries TItem="CicloGrade" Items="notasCiclo" Name="Nota media"
+                                     XValue="x => x.Ciclo" YValue="y => (decimal?)y.Media" SeriesType="SeriesType.Bar"/>
+                </ApexChart>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="chart-card">
+                <h5><i class="bi bi-pie-chart-fill me-1"></i> Distribución de calificaciones</h5>
+                <ApexChart TItem="DistItem" Height="300">
+                    <ApexPointSeries TItem="DistItem" Items="distribucion" Name="Alumnos"
+                                     XValue="x => x.Label" YValue="y => (decimal?)y.Count" SeriesType="SeriesType.Donut"/>
+                </ApexChart>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="chart-card">
+                <h5><i class="bi bi-people-fill me-1"></i> Estudiantes y Docentes por ciclo</h5>
+                <ApexChart TItem="CicloCount" Height="300">
+                    <ApexPointSeries TItem="CicloCount" Items="cicloData" Name="Estudiantes"
+                                     XValue="x => x.Ciclo" YValue="y => (decimal?)y.Estudiantes" SeriesType="SeriesType.Bar"/>
+                    <ApexPointSeries TItem="CicloCount" Items="cicloData" Name="Docentes"
+                                     XValue="x => x.Ciclo" YValue="y => (decimal?)y.Docentes" SeriesType="SeriesType.Bar"/>
+                </ApexChart>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="chart-card">
+                <h5><i class="bi bi-check-circle-fill me-1"></i> Tasa de aprobados por ciclo</h5>
+                <ApexChart TItem="CicloTasa" Height="300">
+                    <ApexPointSeries TItem="CicloTasa" Items="tasaAprob" Name="% Aprobados"
+                                     XValue="x => x.Ciclo" YValue="y => (decimal?)y.Porcentaje" SeriesType="SeriesType.Bar"/>
+                </ApexChart>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="chart-card">
+                <h5><i class="bi bi-person-fill me-1"></i> Estudiantes por edad</h5>
+                <ApexChart TItem="EdadGrupo" Height="300">
+                    <ApexPointSeries TItem="EdadGrupo" Items="edadData" Name="Estudiantes"
+                                     XValue="x => x.Grupo" YValue="y => (decimal?)y.Count" SeriesType="SeriesType.Bar"/>
+                </ApexChart>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="chart-card">
+                <h5><i class="bi bi-mortarboard-fill me-1"></i> Experiencia media docentes</h5>
+                <ApexChart TItem="CicloExp" Height="300" Options="expOptions">
+                    <ApexPointSeries TItem="CicloExp" Items="expData" Name="Años experiencia"
+                                     XValue="x => x.Ciclo" YValue="y => (decimal?)Math.Round(y.Media, 0)" SeriesType="SeriesType.Bar"/>
+                </ApexChart>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn btn-primary mt-3" @onclick="CargarDatos"><i class="bi bi-arrow-clockwise"></i> Refrescar</button>
+    @if (!string.IsNullOrEmpty(mensaje)) { <div class="alert alert-info mt-2 py-1 small">@mensaje</div> }
+}
+
+@code {
+    private bool isLoading = true;
+    private int totalEst, totalDoc, aprobados, suspensos;
+    private double mediaNotas;
+    private string mensaje = "";
+    private List<CicloGrade> notasCiclo = new();
+    private List<DistItem> distribucion = new();
+    private List<CicloCount> cicloData = new();
+    private List<CicloTasa> tasaAprob = new();
+    private List<EdadGrupo> edadData = new();
+    private List<CicloExp> expData = new();
+    private ApexChartOptions<CicloExp> expOptions = new()
+    {
+        Yaxis = new List<YAxis>
+        {
+            new()
+            {
+                DecimalsInFloat = 0,
+                Title = new AxisTitle { Text = "Años" }
+            }
+        }
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        State.OnChange += CargarDatos;
+        await CargarDatosAsync();
+    }
+
+    public void Dispose()
+    {
+        State.OnChange -= CargarDatos;
+    }
+
+    private void CargarDatos() => _ = CargarDatosAsync();
+
+    private async Task CargarDatosAsync()
+    {
+        try
+        {
+            isLoading = true;
+            var est = (await PersonasService.GetEstudiantesOrderByAsync(TipoOrdenamiento.Dni, 1, int.MaxValue, false)).ToList();
+            var doc = (await PersonasService.GetDocentesOrderByAsync(TipoOrdenamiento.Dni, 1, int.MaxValue, false)).ToList();
+
+            totalEst = est.Count; totalDoc = doc.Count;
+            mediaNotas = est.Count > 0 ? est.Average(e => e.Calificacion) : 0;
+            var susp = est.Count(e => e.Calificacion < AppConfig.NotaAprobado);
+            var aprob = est.Count(e => e.Calificacion >= AppConfig.NotaAprobado && e.Calificacion < 7);
+            var notab = est.Count(e => e.Calificacion >= 7 && e.Calificacion < 9);
+            var sobre = est.Count(e => e.Calificacion >= 9);
+            aprobados = aprob + notab + sobre; suspensos = susp;
+
+            notasCiclo = Enum.GetValues<Ciclo>().Select(c => new CicloGrade
+            {
+                Ciclo = c.ToString(),
+                Media = Math.Round(est.Where(e => e.Ciclo == c).Select(e => e.Calificacion).DefaultIfEmpty(0).Average(), 2)
+            }).ToList();
+
+            distribucion = new List<DistItem>
+            {
+                new() { Label = "Suspensos", Count = susp },
+                new() { Label = "Aprobados", Count = aprob },
+                new() { Label = "Notables", Count = notab },
+                new() { Label = "Sobresalientes", Count = sobre }
+            };
+
+            cicloData = Enum.GetValues<Ciclo>().Select(c => new CicloCount
+            {
+                Ciclo = c.ToString(),
+                Estudiantes = est.Count(e => e.Ciclo == c),
+                Docentes = doc.Count(d => d.Ciclo == c)
+            }).ToList();
+
+            tasaAprob = Enum.GetValues<Ciclo>().Select(c =>
+            {
+                var e = est.Where(x => x.Ciclo == c).ToList();
+                var total = e.Count;
+                var aprobCiclo = e.Count(x => x.Calificacion >= AppConfig.NotaAprobado);
+                return new CicloTasa
+                {
+                    Ciclo = c.ToString(),
+                    Porcentaje = total > 0 ? Math.Round((double)aprobCiclo / total * 100, 1) : 0
+                };
+            }).ToList();
+
+            edadData = est.GroupBy(e =>
+            {
+                var edad = DateTime.Today.Year - e.FechaNacimiento.Year;
+                if (e.FechaNacimiento.Date > DateTime.Today.AddYears(-edad)) edad--;
+                return edad switch { < 18 => "< 18", <= 25 => "18 - 25", <= 35 => "26 - 35", _ => "36+" };
+            }).Select(g => new EdadGrupo { Grupo = g.Key, Count = g.Count() }).ToList();
+
+            expData = Enum.GetValues<Ciclo>().Select(c => new CicloExp
+            {
+                Ciclo = c.ToString(),
+                Media = doc.Where(d => d.Ciclo == c).Select(d => d.Experiencia).DefaultIfEmpty(0).Average()
+            }).ToList();
+
+            mensaje = "Datos actualizados";
+        }
+        catch (Exception ex) { mensaje = ex.LogYAmigable("cargar gráficos"); }
+        finally { isLoading = false; }
+    }
+
+}

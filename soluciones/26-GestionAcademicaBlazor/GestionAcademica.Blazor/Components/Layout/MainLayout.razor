@@ -1,0 +1,158 @@
+@* LAYOUT PRINCIPAL (MainLayout.razor)
+   Este componente define la estructura comun a todas las paginas:
+   - Barra superior (toolbar): logo, nombre de la app, reloj en vivo y modo de borrado
+   - Menu lateral (sidebar): navegacion entre secciones usando NavLink
+   - Area de contenido: @Body renderiza el contenido de la pagina activa
+   - Barra de estado (status-bar): mensajes y fecha/hora
+
+   @inherits LayoutComponentBase: indica que este es un layout de Blazor.
+   @Body: lugar donde se inserta el contenido de la pagina actual.
+
+   NavLink vs <a href>:
+   NavLink es el componente de Blazor para navegacion. A diferencia de <a href>,
+   NavLink aplica automaticamente la clase "active" cuando la ruta coincide,
+   permitiendo resaltar visualmente el enlace de la pagina actual.
+*@
+@inherits LayoutComponentBase
+@inject IDialogService DialogService
+@inject NavigationManager Navigation
+<div class="app-container" @onkeydown="HandleKeyDown" tabindex="-1">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark toolbar-nav">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/dashboard">
+                <img src="images/app-icon.png" alt="Logo" width="28" height="28" class="d-inline-block align-text-top me-2"/>
+                Gestión Académica - DAW
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav"></div>
+        </div>
+    </nav>
+
+    <div class="main-container d-flex">
+        <div class="sidebar bg-dark text-white">
+            <div class="sidebar-header text-center py-3 border-bottom border-secondary">
+                <img src="images/app-icon.png" alt="Logo" width="48" height="48" class="mb-1"/>
+                <div class="fw-bold small">Menú</div>
+            </div>
+            <nav class="nav flex-column nav-pills nav-fill px-2 py-2">
+                <NavLink class="nav-link text-white" href="/dashboard">
+                    <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                </NavLink>
+                <NavLink class="nav-link text-white" href="/estudiantes">
+                    <i class="bi bi-people me-2"></i>Estudiantes
+                </NavLink>
+                <NavLink class="nav-link text-white" href="/docentes">
+                    <i class="bi bi-person-workspace me-2"></i>Docentes
+                </NavLink>
+                <NavLink class="nav-link text-white" href="/informes">
+                    <i class="bi bi-file-text me-2"></i>Informes
+                </NavLink>
+                <NavLink class="nav-link text-white" href="/graficos">
+                    <i class="bi bi-bar-chart me-2"></i>Gráficos
+                </NavLink>
+                <NavLink class="nav-link text-white" href="/backup">
+                    <i class="bi bi-cloud-arrow-up me-2"></i>Backups
+                </NavLink>
+                <NavLink class="nav-link text-white" href="/importexport">
+                    <i class="bi bi-arrow-left-right me-2"></i>Import/Export
+                </NavLink>
+            </nav>
+            <div class="sidebar-footer mt-auto border-top border-secondary px-2 py-2">
+                <NavLink class="nav-link text-white" href="/configuracion">
+                    <i class="bi bi-gear me-2"></i>Configuración
+                </NavLink>
+                <NavLink class="nav-link text-white" href="/acercade">
+                    <i class="bi bi-info-circle me-2"></i>Acerca de
+                </NavLink>
+            </div>
+        </div>
+
+        <main class="content-area flex-grow-1 p-4">
+            @Body
+        </main>
+    </div>
+
+    <footer class="status-bar bg-light border-top px-3 py-1 d-flex justify-content-between">
+        <span class="small text-muted">@statusMessage</span>
+        <span class="small text-muted">@currentDateTime · Borrado: @(AppConfig.UseLogicalDelete ? "Lógico" : "Físico")</span>
+    </footer>
+</div>
+
+@code {
+    private string statusMessage = "Listo";
+    private string currentDateTime = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+    private Timer? timer;
+
+    @* OnInitialized: ciclo de vida de Blazor. Se ejecuta cuando el componente se inicializa.
+       Aqui creamos un Timer que actualiza el reloj cada segundo.
+       InvokeAsync es necesario porque el Timer se ejecuta en un hilo diferente al hilo de UI
+       de Blazor. InvokeAsync programa la actualizacion en el hilo correcto del circuito SignalR.
+       StateHasChanged() notifica a Blazor que debe re-renderizar. *@
+    protected override void OnInitialized()
+    {
+        timer = new Timer(_ =>
+        {
+            InvokeAsync(() =>
+            {
+                currentDateTime = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+                StateHasChanged();
+            });
+        }, null, 0, 1000);
+    }
+
+    @* HandleKeyDown: captura las pulsaciones de teclado EN TODA LA PÁGINA
+       gracias al atributo @onkeydown="HandleKeyDown" en el <div class="app-container">.
+       El parámetro KeyboardEventArgs e contiene información sobre la tecla pulsada.
+
+       e.CtrlKey: true si la tecla Ctrl está pulsada (igual que en Windows).
+       e.ShiftKey: true si Mayúsculas/Shift está pulsada.
+       e.Key: la tecla concreta ("e", "i", "b", "r", "g", etc.).
+
+       if (!e.CtrlKey) return;: si NO se pulsó Ctrl, ignoramos la pulsación.
+       Esto evita que teclear letras sueltas navegue a otras páginas.
+
+       El switch expresión con tupla (e.ShiftKey, e.Key.ToLower()) permite
+       combinar dos condiciones en una sola línea:
+       - (false, "e"): Ctrl+E (sin Shift) → navega a importexport
+       - (true, "e") : Ctrl+Shift+E → navega a estudiantes
+
+       _ = ToggleTheme(): para Ctrl+T, llamamos a la función asíncrona ToggleTheme()
+       sin esperarla (fire-and-forget). El guión bajo _ descarta el Task porque
+       no necesitamos esperar el resultado.
+
+       Navigation.NavigateTo(route): navega a la ruta indicada (igual que
+       hacer clic en un NavLink). Equivalente a:
+       <a href="/importexport">...</a> *@
+    private void HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (!e.CtrlKey) return;
+
+        var route = (e.ShiftKey, e.Key.ToLower()) switch
+        {
+            (false, "e") => "/importexport",
+            (false, "i") => "/importexport",
+            (false, "b") => "/backup",
+            (false, "r") => "/backup",
+            (false, "g") => "/informes",
+            (false, ",") => "/configuracion",
+            (false, "s") => "/estudiantes",
+            (true,  "e") => "/estudiantes",
+            (true,  "d") => "/docentes",
+            (true,  "g") => "/graficos",
+            (true,  "a") => "/acercade",
+            _ => null
+        };
+
+        if (route != null)
+            Navigation.NavigateTo(route);
+    }
+
+    @* Dispose: libera recursos (Timer) cuando el componente se destruye.
+       Implementamos IDisposable para evitar fugas de memoria. *@
+    public void Dispose()
+    {
+        timer?.Dispose();
+    }
+}

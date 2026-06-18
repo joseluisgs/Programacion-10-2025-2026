@@ -1,0 +1,250 @@
+@* MODAL DE CREACION/EDICION DE ESTUDIANTE
+   Componente modal (no es una pagina, no tiene @page) que se muestra dentro de Estudiantes.razor.
+
+   VALIDACION EN TIEMPO REAL:
+   - @bind:event="oninput" valida en cada pulsacion de tecla
+   - @bind:after="Metodo" ejecuta validacion inmediata tras actualizar el valor
+   - is-invalid/invalid-feedback de Bootstrap muestran errores visualmente
+
+   SUBIDA DE IMAGENES:
+   - InputFile permite seleccionar archivos desde el navegador
+   - IImageService valida formato/tamano y guarda en wwwroot/images/
+*@
+@inject IPersonasService PersonasService
+@inject IDialogService DialogService
+@inject IImageService ImageService
+
+<div class="modal fade show d-block" tabindex="-1" style="background:rgba(0,0,0,0.5)">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@(EsNuevo ? "Nuevo Estudiante" : "Editar Estudiante")</h5>
+                <button type="button" class="btn-close" @onclick="Cancelar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-3">
+                    <img src="@(string.IsNullOrEmpty(form.Imagen) ? "images/sin-imagen.png" : form.Imagen)"
+                         alt="Foto" class="photo-circle-large"
+                         onerror="this.src='images/sin-imagen.png'"/>
+                    <div class="mt-2">
+                        <InputFile OnChange="@OnImageSelected" accept=".png,.jpg,.jpeg,.bmp" class="form-control form-control-sm d-inline-block" style="width:auto"/>
+                    </div>
+                    @if (!string.IsNullOrEmpty(form.Imagen))
+                    {
+                        <button class="btn btn-outline-danger btn-sm mt-2" @onclick="LimpiarImagen"><i class="bi bi-image"></i> Limpiar imagen</button>
+                    }
+                    <small class="text-muted d-block mt-1">Formatos: PNG, JPG, BMP. Max 5MB</small>
+                    @if (!string.IsNullOrEmpty(errorImagen))
+                    {
+                        <div class="text-danger small mt-1">@errorImagen</div>
+                    }
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label form-label-required">Nombre</label>
+                        <input class="form-control @(errores.ContainsKey("Nombre") ? "is-invalid" : "")"
+                               @bind="form.Nombre" @bind:event="oninput" @bind:after="ValidarNombre"/>
+                        @if (errores.ContainsKey("Nombre"))
+                        {
+                            <div class="invalid-feedback">@errores["Nombre"]</div>
+                        }
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label form-label-required">Apellidos</label>
+                        <input class="form-control @(errores.ContainsKey("Apellidos") ? "is-invalid" : "")"
+                               @bind="form.Apellidos" @bind:event="oninput" @bind:after="ValidarApellidos"/>
+                        @if (errores.ContainsKey("Apellidos"))
+                        {
+                            <div class="invalid-feedback">@errores["Apellidos"]</div>
+                        }
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label form-label-required">DNI</label>
+                        <input class="form-control @(errores.ContainsKey("Dni") ? "is-invalid" : "")"
+                               @bind="form.Dni" @bind:event="oninput" @bind:after="ValidarDni"/>
+                        @if (errores.ContainsKey("Dni"))
+                        {
+                            <div class="invalid-feedback">@errores["Dni"]</div>
+                        }
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label form-label-required">Email</label>
+                        <input type="email" class="form-control @(errores.ContainsKey("Email") ? "is-invalid" : "")"
+                               @bind="form.Email" @bind:event="oninput" @bind:after="ValidarEmail"/>
+                        @if (errores.ContainsKey("Email"))
+                        {
+                            <div class="invalid-feedback">@errores["Email"]</div>
+                        }
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label form-label-required">Fecha de Nacimiento</label>
+                        <input type="date" class="form-control @(errores.ContainsKey("FechaNacimiento") ? "is-invalid" : "")"
+                               @bind="form.FechaNacimiento" @bind:format="yyyy-MM-dd" @bind:after="ValidarFechaNacimiento"/>
+                        @if (errores.ContainsKey("FechaNacimiento"))
+                        {
+                            <div class="invalid-feedback">@errores["FechaNacimiento"]</div>
+                        }
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Ciclo</label>
+                        <select class="form-select" @bind="form.Ciclo">
+                            @foreach (var c in Enum.GetValues<Ciclo>()) { <option value="@c">@c</option> }
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Curso</label>
+                        <select class="form-select" @bind="form.Curso">
+                            @foreach (var c in Enum.GetValues<Curso>()) { <option value="@c">@c</option> }
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label form-label-required">Calificacion</label>
+                        <input type="number" step="0.1" min="0" max="10"
+                               class="form-control @(errores.ContainsKey("Calificacion") ? "is-invalid" : "")"
+                               @bind="form.Calificacion" @bind:event="oninput" @bind:after="ValidarCalificacion"/>
+                        @if (errores.ContainsKey("Calificacion"))
+                        {
+                            <div class="invalid-feedback">@errores["Calificacion"]</div>
+                        }
+                    </div>
+                </div>
+
+                @if (errores.ContainsKey("General"))
+                {
+                    <div class="alert alert-danger mt-3 py-2 small">@errores["General"]</div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary btn-icon" @onclick="Cancelar"><i class="bi bi-x"></i> Cancelar</button>
+                <button class="btn btn-primary btn-icon" @onclick="Guardar" disabled="@guardando">
+                    @if (guardando)
+                    {
+                        <i class="bi bi-hourglass-split"></i> <span>Guardando...</span>
+                    }
+                    else
+                    {
+                        <i class="bi bi-check-lg"></i> <span>Guardar</span>
+                    }
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public Estudiante? Estudiante { get; set; }
+    [Parameter] public bool EsNuevo { get; set; }
+    [Parameter] public EventCallback OnGuardar { get; set; }
+    [Parameter] public EventCallback OnCancelar { get; set; }
+
+    private const long MaxImageSize = 5_242_880;
+    private Estudiante form = new();
+    private Dictionary<string, string> errores = new();
+    private bool guardando;
+    private string errorImagen = "";
+
+    protected override void OnInitialized()
+    {
+        if (Estudiante != null)
+            form = Estudiante with { };
+    }
+
+    private async Task OnImageSelected(InputFileChangeEventArgs e)
+    {
+        errorImagen = "";
+        var file = e.File;
+        if (file is null) return;
+
+        var ext = Path.GetExtension(file.Name)?.ToLowerInvariant();
+        if (ext != ".png" && ext != ".jpg" && ext != ".jpeg" && ext != ".bmp")
+        {
+            errorImagen = "Formato no soportado. Use PNG, JPG o BMP.";
+            return;
+        }
+
+        if (file.Size > MaxImageSize)
+        {
+            errorImagen = "La imagen supera el tamano maximo de 5MB.";
+            return;
+        }
+
+        try
+        {
+            var uploadsDir = Path.Combine(Path.GetTempPath(), "gestion_academica_uploads");
+            if (!Directory.Exists(uploadsDir)) Directory.CreateDirectory(uploadsDir);
+            var tempPath = Path.Combine(uploadsDir, $"{Guid.NewGuid()}{ext}");
+            await using (var stream = file.OpenReadStream(maxAllowedSize: MaxImageSize))
+            await using (var fs = File.Create(tempPath))
+            {
+                await stream.CopyToAsync(fs);
+            }
+
+            var result = await ImageService.SaveImageAsync(tempPath);
+            if (result.IsSuccess)
+                form.Imagen = result.Value;
+            else
+                errorImagen = result.Error?.ToString() ?? "Error al guardar la imagen";
+
+            if (File.Exists(tempPath)) File.Delete(tempPath);
+        }
+        catch (Exception ex)
+        {
+            errorImagen = $"Error al procesar la imagen. {ex.LogYAmigable("procesar imagen")}";
+        }
+    }
+
+    private void LimpiarImagen() { form.Imagen = null; errorImagen = ""; }
+    private void Cancelar() => OnCancelar.InvokeAsync();
+
+    private async Task Guardar()
+    {
+        errores.Clear();
+        ValidarTodo();
+        if (errores.Count > 0) return;
+
+        try
+        {
+            guardando = true;
+            Result<Persona, DomainError> result;
+            if (EsNuevo) result = await PersonasService.SaveAsync(form);
+            else result = await PersonasService.UpdateAsync(Estudiante!.Id, form);
+
+            if (result.IsSuccess)
+            {
+                DialogService.ShowSuccess(EsNuevo ? "Estudiante creado" : "Estudiante actualizado");
+                await OnGuardar.InvokeAsync();
+            }
+            else
+            {
+                errores["General"] = result.Error?.ToString() ?? "Error desconocido";
+            }
+        }
+        catch (Exception ex) { errores["General"] = $"Error al guardar. {ex.Message}"; }
+        finally { guardando = false; }
+    }
+
+    private void ValidarCampo(string campo)
+    {
+        var msg = BlazorValidator.ValidarCampo(campo, form);
+        if (msg != "") errores[campo] = msg;
+        else errores.Remove(campo);
+    }
+
+    private void ValidarNombre() => ValidarCampo("Nombre");
+    private void ValidarApellidos() => ValidarCampo("Apellidos");
+    private void ValidarDni() => ValidarCampo("Dni");
+    private void ValidarEmail() => ValidarCampo("Email");
+    private void ValidarFechaNacimiento() => ValidarCampo("FechaNacimiento");
+    private void ValidarCalificacion() => ValidarCampo("Calificacion");
+
+    private void ValidarTodo()
+    {
+        ValidarNombre();
+        ValidarApellidos();
+        ValidarDni();
+        ValidarEmail();
+        ValidarFechaNacimiento();
+        ValidarCalificacion();
+    }
+}

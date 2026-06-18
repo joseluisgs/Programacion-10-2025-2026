@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Enrutador/Enrutador.csproj" />
+  <Project Path="NavegacionVentanas/NavegacionVentanas.csproj" />
+</Solution>

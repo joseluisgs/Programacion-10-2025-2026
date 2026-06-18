@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <LangVersion>14</LangVersion>
+    <UseWPF>true</UseWPF>
+    <!-- Habilitar consola para ver los mensajes de ciclo de vida -->
+    <StartupObject>IntroWPF.App</StartupObject>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,19 @@
+@* ROUTER DE BLAZOR (Routes.razor)
+   El componente <Router> gestiona la navegacion entre paginas.
+
+   - AppAssembly="GetType().Assembly": examina el ensamblado actual para encontrar
+     todos los componentes con directiva @page y asociarlos a rutas URL.
+   - NotFoundPage="typeof(Pages.NotFound)": en .NET 10, las paginas 404 se manejan
+     a traves de una pagina separada NotFound.razor (con @page "/not-found") en lugar
+     de contenido inline en <NotFound>.
+   - DefaultLayout="typeof(Layout.MainLayout)": todas las paginas se renderizan dentro
+     del layout principal (barra de navegacion, menu lateral, pie de pagina).
+   - <FocusOnNavigate>: cuando se navega a una pagina nueva, enfoca el primer <h1>
+     para mejorar la accesibilidad (lectores de pantalla).
+*@
+<Router AppAssembly="GetType().Assembly" NotFoundPage="typeof(Pages.NotFound)">
+    <Found Context="routeData">
+        <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)"/>
+        <FocusOnNavigate RouteData="routeData" Selector="h1"/>
+    </Found>
+</Router>

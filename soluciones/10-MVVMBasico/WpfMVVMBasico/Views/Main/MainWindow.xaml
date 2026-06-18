@@ -1,0 +1,100 @@
+<!-- ============================================================ -->
+<!-- MainWindow.xaml - Ejemplo de MVVM basico -->
+<!-- ============================================================ -->
+<!-- Ventana que muestra un contador con botones de incremento, -->
+<!-- decremento y reinicio usando el patron MVVM. -->
+<!-- -->
+<!-- CONCEPTOS IMPORTANTES: -->
+<!-- -->
+<!-- 1. DATA BINDING: -->
+<!--    - Text="{Binding Contador}" enlaza la propiedad Contador -->
+<!--    - Command="{Binding IncrementarCommand}" enlaza el comando -->
+<!-- -->
+<!-- 2. NOTIFICACION DE CAMBIOS: -->
+<!--    - El ViewModel implementa INotifyPropertyChanged -->
+<!--    - Cuando Contador cambia, la UI se actualiza automaticamente -->
+<!-- -->
+<!-- 3. CanExecute: -->
+<!--    - El boton Decrementar se habilita/deshabilita automaticamente -->
+<!--    - Se controla mediante CanExecute en el comando -->
+
+<Window x:Class="WpfMVVMBasico.Views.Main.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MVVM Basico - Contador" Height="300" Width="400"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize">
+
+    <!-- Contenedor principal con margenes -->
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- ============================================================ -->
+        <!-- TITULO -->
+        <!-- ============================================================ -->
+        <TextBlock Grid.Row="0" 
+                   Text="Ejemplo de MVVM - Contador" 
+                   FontSize="20" 
+                   FontWeight="Bold" 
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,30"/>
+
+        <!-- ============================================================ -->
+        <!-- CONTADOR (Binding a propiedad Contador) -->
+        <!-- ============================================================ -->
+        <!-- El TextBlock muestra el valor de la propiedad Contador -->
+        <!-- El binding se actualiza automaticamente cuando cambia el valor -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,30">
+            <TextBlock Text="Contador: " 
+                       FontSize="24" 
+                       VerticalAlignment="Center"/>
+            
+            <!-- Binding: Se enlaza a la propiedad Contador del ViewModel -->
+            <!-- El valor se actualiza automaticamente cuando cambia -->
+            <TextBlock Text="{Binding Contador}" 
+                       FontSize="24" 
+                       FontWeight="Bold"
+                       Foreground="Blue"
+                       VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <!-- ============================================================ -->
+        <!-- BOTONES (Binding a comandos) -->
+        <!-- ============================================================ -->
+        <!-- Cada boton esta vinculado a un comando del ViewModel -->
+        <!-- El comando decide que accion ejecutar y si el boton esta habilitado -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            
+            <!-- Boton Incrementar: ejecuta IncrementarCommand -->
+            <!-- Se habilita/deshabilita segun CanExecute del comando -->
+            <Button Content="Incrementar" 
+                    Command="{Binding IncrementarCommand}"
+                    Padding="20,10" 
+                    Margin="5"
+                    Background="#4CAF50" 
+                    Foreground="White"/>
+            
+            <!-- Boton Decrementar: ejecuta DecrementarCommand -->
+            <!-- CanExecute devuelve false si Contador <= 0 -->
+            <!-- El boton se deshabilita automaticamente -->
+            <Button Content="Decrementar" 
+                    Command="{Binding DecrementarCommand}"
+                    Padding="20,10" 
+                    Margin="5"
+                    Background="#f44336" 
+                    Foreground="White"/>
+            
+            <!-- Boton Reiniciar: ejecuta ReiniciarCommand -->
+            <Button Content="Reiniciar" 
+                    Command="{Binding ReiniciarCommand}"
+                    Padding="20,10" 
+                    Margin="5"
+                    Background="#2196F3" 
+                    Foreground="White"/>
+        </StackPanel>
+    </Grid>
+</Window>

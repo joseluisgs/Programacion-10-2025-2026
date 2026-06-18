@@ -1,0 +1,111 @@
+Summary
+  Generated on: 17/06/2026 - 15:53:50
+  Coverage date: 17/06/2026 - 15:53:41
+  Parser: Cobertura
+  Assemblies: 2
+  Classes: 87
+  Files: 102
+  Line coverage: 58%
+  Covered lines: 3315
+  Uncovered lines: 2396
+  Coverable lines: 5711
+  Total lines: 12011
+  Branch coverage: 48.5% (952 of 1962)
+  Covered branches: 952
+  Total branches: 1962
+  Method coverage: 62.3% (430 of 690)
+  Full method coverage: 48.5% (335 of 690)
+  Covered methods: 430
+  Fully covered methods: 335
+  Total methods: 690
+
+GestionAcademica.Back                                                                   77.4%
+  GestionAcademica.Cache.LruCache<T1, T2>                                               91.9%
+  GestionAcademica.Config.AppConfig                                                     85.7%
+  GestionAcademica.Dto.Personas.PersonaDto                                               100%
+  GestionAcademica.Entity.AppDbContext                                                  53.8%
+  GestionAcademica.Entity.PersonaEntity                                                  100%
+  GestionAcademica.Errors.Backup.BackupError                                            45.4%
+  GestionAcademica.Errors.Backup.BackupErrors                                             80%
+  GestionAcademica.Errors.Common.DomainError                                             100%
+  GestionAcademica.Errors.Images.ImageError                                             36.8%
+  GestionAcademica.Errors.Images.ImageErrors                                              50%
+  GestionAcademica.Errors.Personas.PersonaError                                         71.4%
+  GestionAcademica.Errors.Personas.PersonaErrors                                        66.6%
+  GestionAcademica.Errors.Report.ReportError                                            28.5%
+  GestionAcademica.Errors.Report.ReportErrors                                           33.3%
+  GestionAcademica.Errors.Storage.StorageError                                          45.4%
+  GestionAcademica.Errors.Storage.StorageErrors                                           60%
+  GestionAcademica.Extensions.EntityExtensions                                           100%
+  GestionAcademica.Extensions.MaybeExtensions                                            100%
+  GestionAcademica.Factories.Personas.PersonasFactory                                      0%
+  GestionAcademica.Infrastructure.DependenciesProvider                                     0%
+  GestionAcademica.Mappers.Personas.PersonaMapper                                       98.8%
+  GestionAcademica.Messages.PersonaCambiadaMessage                                         0%
+  GestionAcademica.Models.Informes.InformeDocente                                         75%
+  GestionAcademica.Models.Informes.InformeEstudiante                                    71.4%
+  GestionAcademica.Models.Personas.Docente                                                70%
+  GestionAcademica.Models.Personas.Estudiante                                           81.2%
+  GestionAcademica.Models.Personas.Persona                                              96.2%
+  GestionAcademica.Repositories.Personas.Dapper.PersonasDapperRepository                78.6%
+  GestionAcademica.Repositories.Personas.EfCore.PersonasEfRepository                    71.6%
+  GestionAcademica.Repositories.Personas.Json.PersonasJsonRepository                    85.3%
+  GestionAcademica.Repositories.Personas.Memory.PersonasMemoryRepository                91.3%
+  GestionAcademica.Services.Backup.BackupService                                        83.4%
+  GestionAcademica.Services.Dialogs.DialogService                                          0%
+  GestionAcademica.Services.Images.ImageService                                         77.2%
+  GestionAcademica.Services.ImportExport.ImportExportService                            77.7%
+  GestionAcademica.Services.Personas.PersonasService                                    73.8%
+  GestionAcademica.Services.Report.ReportService                                          89%
+  GestionAcademica.Storage.Binary.AcademiaBinStorage                                    97.4%
+  GestionAcademica.Storage.Csv.AcademiaCsvStorage                                       95.5%
+  GestionAcademica.Storage.Json.AcademiaJsonStorage                                     84.4%
+  GestionAcademica.Validators.Personas.ValidadorDocente                                  100%
+  GestionAcademica.Validators.Personas.ValidadorEstudiante                               100%
+  GestionAcademica.Validators.Personas.ValidadorPersona                                 94.4%
+  GestionAcademica.Validators.Personas.ValidadorPersonaExtensions                        100%
+
+GestionAcademica.Front                                                                  32.7%
+  GestionAcademica.App                                                                     0%
+  GestionAcademica.Converters.BoolToSiNoConverter                                          0%
+  GestionAcademica.Converters.BoolToVisibilityConverter                                    0%
+  GestionAcademica.Converters.ImagePathConverter                                           0%
+  GestionAcademica.Converters.InverseBoolConverter                                         0%
+  GestionAcademica.Converters.InverseBoolToVisibilityConverter                             0%
+  GestionAcademica.Converters.InverseNullToVisibilityConverter                             0%
+  GestionAcademica.Converters.InverseStringToVisibilityConverter                           0%
+  GestionAcademica.Converters.NullToBoolConverter                                          0%
+  GestionAcademica.Converters.NullToVisibilityConverter                                    0%
+  GestionAcademica.Converters.StringToBooleanConverter                                     0%
+  GestionAcademica.Converters.StringToVisibilityConverter                                  0%
+  GestionAcademica.Infrastructure.FrontDependenciesProvider.FrontDependenciesProvider      0%
+  GestionAcademica.Infrastructure.WpfDialogService                                         0%
+  GestionAcademica.Mappers.Personas.PersonaMapper                                        100%
+  GestionAcademica.ViewModels.Backup.BackupViewModel                                    23.2%
+  GestionAcademica.ViewModels.Dashboard.DashboardViewModel                              63.6%
+  GestionAcademica.ViewModels.Docentes.DocenteEditViewModel                               34%
+  GestionAcademica.ViewModels.Docentes.DocenteItemViewModel                              100%
+  GestionAcademica.ViewModels.Docentes.DocentesViewModel                                58.5%
+  GestionAcademica.ViewModels.Estudiantes.EstudianteEditViewModel                       34.8%
+  GestionAcademica.ViewModels.Estudiantes.EstudiantesViewModel                          54.4%
+  GestionAcademica.ViewModels.Forms.DocenteFormData                                     98.3%
+  GestionAcademica.ViewModels.Forms.EstudianteFormData                                   100%
+  GestionAcademica.ViewModels.Graficos.GraficosViewModel                                85.1%
+  GestionAcademica.ViewModels.ImportExport.ImportExportViewModel                         6.9%
+  GestionAcademica.ViewModels.Informes.InformesViewModel                                 5.6%
+  GestionAcademica.ViewModels.MainViewModel                                             21.7%
+  GestionAcademica.ViewModels.Personas.PersonaItemViewModel                               80%
+  GestionAcademica.Views.AcercaDe.AcercaDeWindow                                           0%
+  GestionAcademica.Views.Backup.BackupView                                                 0%
+  GestionAcademica.Views.Dashboard.DashboardView                                           0%
+  GestionAcademica.Views.Docentes.DocenteDetailsWindow                                     0%
+  GestionAcademica.Views.Docentes.DocenteEditWindow                                        0%
+  GestionAcademica.Views.Docentes.DocentesView                                             0%
+  GestionAcademica.Views.Estudiantes.EstudianteDetailsWindow                               0%
+  GestionAcademica.Views.Estudiantes.EstudianteEditWindow                                  0%
+  GestionAcademica.Views.Estudiantes.EstudiantesView                                       0%
+  GestionAcademica.Views.Graficos.GraficosView                                             0%
+  GestionAcademica.Views.ImportExport.ImportExportView                                     0%
+  GestionAcademica.Views.Informes.InformesView                                             0%
+  GestionAcademica.Views.Main.MainWindow                                                   0%
+  GestionAcademica.Views.Splash.SplashWindow                                               0%

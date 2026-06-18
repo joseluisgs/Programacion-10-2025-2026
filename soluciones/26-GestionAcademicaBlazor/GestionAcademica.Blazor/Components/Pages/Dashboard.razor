@@ -1,0 +1,181 @@
+@* PAGINA DE DASHBOARD (INICIO)
+   @page "/" y @page "/dashboard": ambas URL llevan a esta pagina.
+   @inject IPersonasService PersonasService: inyeccion de dependencias. Blazor resuelve
+   automaticamente el servicio registrado en Program.cs y lo asigna a la propiedad.
+
+   CONCEPTOS CLAVE:
+   - @page: define la ruta URL que activa este componente
+   - @inject: inyeccion de dependencias en componentes Blazor
+   - @bind: enlace bidireccional de datos (vista <-> codigo)
+   - @onclick: manejo de eventos del usuario
+   - Estado de carga (isLoading): patron tipico con overlay de spinner
+*@
+@page "/"
+@page "/dashboard"
+@rendermode InteractiveServer
+@implements IDisposable
+@inject IPersonasService PersonasService
+@inject StateContainer State
+
+<PageTitle>Dashboard - Gestión Académica</PageTitle>
+
+<div class="page-header d-flex align-items-center gap-3 mb-4">
+    <i class="bi bi-speedometer2" style="font-size:2rem"></i>
+    <h1 class="mb-0">Panel de Control</h1>
+</div>
+
+@if (isLoading)
+{
+    <div class="loading-overlay">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row g-3 mb-4">
+        <div class="col-md-4 col-lg-2">
+            <div class="stat-card">
+                <div class="stat-value text-primary">@totalEstudiantes</div>
+                <div class="stat-label">Total Estudiantes</div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-2">
+            <div class="stat-card">
+                <div class="stat-value text-info">@totalDocentes</div>
+                <div class="stat-label">Total Docentes</div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-2">
+            <div class="stat-card">
+                <div class="stat-value text-success">@mediaNotas.ToString("F1")</div>
+                <div class="stat-label">Media Notas</div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-2">
+            <div class="stat-card">
+                <div class="stat-value text-success">@totalDAW</div>
+                <div class="stat-label">DAW</div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-2">
+            <div class="stat-card">
+                <div class="stat-value text-primary">@totalDAM</div>
+                <div class="stat-label">DAM</div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-2">
+            <div class="stat-card">
+                <div class="stat-value text-info">@totalASIR</div>
+                <div class="stat-label">ASIR</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Resumen Académico</h5>
+            <p class="text-muted mb-3">
+                @totalEstudiantes estudiantes | @aprobados aprobados (@porcentajeAprobados.ToString("F1")%) | @suspensos suspensos (@porcentajeSuspensos.ToString("F1")%)
+            </p>
+            <label class="form-label small text-muted">Porcentaje de Aprobados</label>
+            <div class="d-flex align-items-center gap-3">
+                <div class="progress flex-grow-1 progress-thin">
+                    <div class="progress-bar bg-success" role="progressbar"
+                         style="width: @porcentajeAprobados.ToString("F0")%">
+                    </div>
+                </div>
+                <span class="fw-bold">@porcentajeAprobados.ToString("F1")%</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex gap-2 flex-wrap">
+        <button class="btn btn-primary btn-icon" @onclick="Refrescar"><i class="bi bi-arrow-clockwise"></i> Refrescar</button>
+        <a href="/estudiantes" class="btn btn-info text-white btn-icon"><i class="bi bi-people"></i> Estudiantes</a>
+        <a href="/docentes" class="btn btn-success btn-icon"><i class="bi bi-person-workspace"></i> Docentes</a>
+        <a href="/backup" class="btn btn-secondary btn-icon"><i class="bi bi-cloud-arrow-up"></i> Backups</a>
+        <a href="/graficos" class="btn btn-warning text-white btn-icon"><i class="bi bi-bar-chart"></i> Gráficos</a>
+    </div>
+
+    @if (!string.IsNullOrEmpty(mensaje))
+    {
+        <div class="alert alert-info mt-3 py-2 small">@mensaje</div>
+    }
+}
+
+@code {
+    /*  Dashboard.razor — Página de inicio (panel de control).
+        Muestra estadísticas resumidas de estudiantes y docentes.
+
+        CONCEPTOS EDUCATIVOS:
+        - OnInitialized: ciclo de vida de Blazor. Se ejecuta UNA VEZ al iniciar
+          el componente (no en cada renderizado como OnAfterRender).
+        - State.OnChange: nos suscribimos al evento del StateContainer para
+          que el Dashboard se refresque automáticamente cuando otra página
+          modifica datos (ej. crear un estudiante desde /estudiantes).
+          Es el patrón pub-sub (publicador-suscriptor) aplicado a Blazor.
+        - IDisposable: nos desuscribimos para evitar memory leaks cuando
+          el componente se destruye (navegación a otra página).
+        - InvokeAsync: cuando State.OnChange se dispara desde un hilo
+          diferente (Timer, callback), debemos volver al hilo de UI de Blazor
+          con InvokeAsync(StateHasChanged). Aquí no hace falta porque
+          NotifyChange() se llama desde páginas que YA están en el circuito
+          SignalR, pero si viniera de un Timer o Task externo, sería necesario.
+        - LoadAllRecordsForFilter: cargamos todos los estudiantes y docentes
+          para calcular estadísticas (medias, totales, porcentajes). No usamos
+          paginación aquí porque necesitamos el dataset completo para los cálculos. */
+    private const int LoadAllRecordsForFilter = int.MaxValue;
+
+    private bool isLoading = true;
+    private int totalEstudiantes, totalDocentes, totalDAW, totalDAM, totalASIR;
+    private int aprobados, suspensos;
+    private double mediaNotas, porcentajeAprobados, porcentajeSuspensos;
+    private string mensaje = "Cargando...";
+
+    protected override async Task OnInitializedAsync()
+    {
+        State.OnChange += Refrescar;
+        await LoadStatistics();
+    }
+
+    public void Dispose()
+    {
+        State.OnChange -= Refrescar;
+    }
+
+    private async Task LoadStatistics()
+    {
+        try
+        {
+            isLoading = true;
+            var estudiantes = (await PersonasService.GetEstudiantesOrderByAsync(TipoOrdenamiento.Dni, 1, LoadAllRecordsForFilter, false)).ToList();
+            var docentes = (await PersonasService.GetDocentesOrderByAsync(TipoOrdenamiento.Dni, 1, LoadAllRecordsForFilter, false)).ToList();
+
+            totalEstudiantes = estudiantes.Count;
+            totalDocentes = docentes.Count;
+            mediaNotas = estudiantes.Count > 0 ? estudiantes.Average(e => e.Calificacion) : 0;
+            aprobados = estudiantes.Count(e => e.Calificacion >= AppConfig.NotaAprobado);
+            suspensos = totalEstudiantes - aprobados;
+            porcentajeAprobados = totalEstudiantes > 0 ? (double)aprobados / totalEstudiantes * 100 : 0;
+            porcentajeSuspensos = totalEstudiantes > 0 ? (double)suspensos / totalEstudiantes * 100 : 0;
+
+            totalDAW = estudiantes.Count(e => e.Ciclo == Ciclo.DAW) + docentes.Count(d => d.Ciclo == Ciclo.DAW);
+            totalDAM = estudiantes.Count(e => e.Ciclo == Ciclo.DAM) + docentes.Count(d => d.Ciclo == Ciclo.DAM);
+            totalASIR = estudiantes.Count(e => e.Ciclo == Ciclo.ASIR) + docentes.Count(d => d.Ciclo == Ciclo.ASIR);
+
+            mensaje = "Datos actualizados correctamente";
+        }
+        catch (Exception ex)
+        {
+            mensaje = ex.LogYAmigable("cargar estadísticas");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async void Refrescar() => await LoadStatistics();
+}

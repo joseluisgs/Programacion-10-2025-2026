@@ -1,0 +1,38 @@
+@* MODAL DE DETALLES DE DOCENTE (SOLO LECTURA) *@
+<div class="modal fade show d-block" tabindex="-1" style="background:rgba(0,0,0,0.5)">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detalles del Docente</h5>
+                <button type="button" class="btn-close" @onclick="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-3">
+                    <img src="@(string.IsNullOrEmpty(Docente?.Imagen) ? "images/sin-imagen.png" : Docente.Imagen)"
+                         alt="Foto" class="photo-circle-large"
+                         onerror="this.src='images/sin-imagen.png'"/>
+                </div>
+                <div class="row g-3">
+                    <div class="col-md-6"><label class="fw-bold small text-muted">DNI</label><input class="form-control" value="@Docente?.Dni" readonly/></div>
+                    <div class="col-md-6"><label class="fw-bold small text-muted">Email</label><input class="form-control" value="@Docente?.Email" readonly/></div>
+                    <div class="col-md-6"><label class="fw-bold small text-muted">Nombre</label><input class="form-control" value="@Docente?.Nombre" readonly/></div>
+                    <div class="col-md-6"><label class="fw-bold small text-muted">Apellidos</label><input class="form-control" value="@Docente?.Apellidos" readonly/></div>
+                    <div class="col-md-6"><label class="fw-bold small text-muted">Especialidad</label><input class="form-control" value="@Docente?.Especialidad" readonly/></div>
+                    <div class="col-md-6"><label class="fw-bold small text-muted">Fecha Nacimiento</label><input class="form-control" value="@Docente?.FechaNacimiento.ToString("dd/MM/yyyy")" readonly/></div>
+                    <div class="col-md-6"><label class="fw-bold small text-muted">Experiencia</label><input class="form-control" value="@(Docente?.Experiencia) años" readonly/></div>
+                    <div class="col-md-6"><label class="fw-bold small text-muted">Ciclo</label><input class="form-control" value="@Docente?.Ciclo" readonly/></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary btn-icon" @onclick="Cerrar"><i class="bi bi-x"></i> Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public Docente? Docente { get; set; }
+    [Parameter] public EventCallback OnCerrar { get; set; }
+
+    private void Cerrar() => OnCerrar.InvokeAsync();
+}

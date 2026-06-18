@@ -1,0 +1,174 @@
+2026-06-16 16:02:22.046 [INF] [] Iniciando aplicacion Blazor
+2026-06-16 16:02:22.366 [INF] [] Configurando servicios Blazor (Back + Blazor)...
+2026-06-16 16:02:22.375 [INF] [] Servicios Blazor registrados
+2026-06-16 16:02:22.385 [INF] [] Servicios configurados correctamente
+2026-06-16 16:02:23.692 [INF] [GestionAcademica.Repositories.Personas.EfCore.PersonasEfRepository] Sembrando datos de personas...
+2026-06-16 16:02:24.106 [DBG] [GestionAcademica.Storage.Json.AcademiaJsonStorage] Inicializando la clase AcademiaJsonStorage
+2026-06-16 16:02:24.110 [DBG] [GestionAcademica.Services.Report.ReportService] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\soluciones\26-GestionAcademicaBlazor\GestionAcademica.Blazor\bin\Debug\net10.0\reports
+2026-06-16 16:02:24.115 [DBG] [GestionAcademica.Storage.Json.AcademiaJsonStorage] Inicializando la clase AcademiaJsonStorage
+2026-06-16 16:02:24.190 [INF] [] Aplicacion Blazor lista
+2026-06-16 16:04:02.827 [INF] [] Iniciando aplicacion Blazor
+2026-06-16 16:04:02.919 [INF] [] Configurando servicios Blazor (Back + Blazor)...
+2026-06-16 16:04:02.927 [INF] [] Servicios Blazor registrados
+2026-06-16 16:04:02.937 [INF] [] Servicios configurados correctamente
+2026-06-16 16:04:04.057 [INF] [GestionAcademica.Repositories.Personas.EfCore.PersonasEfRepository] Sembrando datos de personas...
+2026-06-16 16:04:04.437 [DBG] [GestionAcademica.Storage.Json.AcademiaJsonStorage] Inicializando la clase AcademiaJsonStorage
+2026-06-16 16:04:04.440 [DBG] [GestionAcademica.Services.Report.ReportService] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\soluciones\26-GestionAcademicaBlazor\GestionAcademica.Blazor\bin\Debug\net10.0\reports
+2026-06-16 16:04:04.450 [DBG] [GestionAcademica.Storage.Json.AcademiaJsonStorage] Inicializando la clase AcademiaJsonStorage
+2026-06-16 16:04:04.491 [INF] [] Aplicacion Blazor lista
+2026-06-16 16:33:18.896 [INF] [] Iniciando aplicacion Blazor
+2026-06-16 16:33:19.073 [INF] [] Configurando servicios Blazor (Back + Blazor)...
+2026-06-16 16:33:19.083 [INF] [] Servicios Blazor registrados
+2026-06-16 16:33:19.096 [INF] [] Servicios configurados correctamente
+2026-06-16 16:33:20.306 [INF] [GestionAcademica.Repositories.Personas.EfCore.PersonasEfRepository] Sembrando datos de personas...
+2026-06-16 16:33:20.690 [DBG] [GestionAcademica.Storage.Json.AcademiaJsonStorage] Inicializando la clase AcademiaJsonStorage
+2026-06-16 16:33:20.693 [DBG] [GestionAcademica.Services.Report.ReportService] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\soluciones\26-GestionAcademicaBlazor\GestionAcademica.Blazor\bin\Debug\net10.0\reports
+2026-06-16 16:33:20.697 [DBG] [GestionAcademica.Storage.Json.AcademiaJsonStorage] Inicializando la clase AcademiaJsonStorage
+2026-06-16 16:33:20.773 [INF] [] Aplicacion Blazor lista
+2026-06-16 16:53:32.532 [INF] [] Iniciando aplicacion Blazor
+2026-06-16 16:53:32.645 [INF] [] Configurando servicios Blazor (Back + Blazor)...
+2026-06-16 16:53:32.653 [INF] [] Servicios Blazor registrados
+2026-06-16 16:53:32.664 [INF] [] Servicios configurados correctamente
+2026-06-16 16:53:33.718 [INF] [GestionAcademica.Repositories.Personas.EfCore.PersonasEfRepository] Sembrando datos de personas...
+2026-06-16 16:53:34.076 [DBG] [GestionAcademica.Storage.Json.AcademiaJsonStorage] Inicializando la clase AcademiaJsonStorage
+2026-06-16 16:53:34.079 [DBG] [GestionAcademica.Services.Report.ReportService] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\soluciones\26-GestionAcademicaBlazor\GestionAcademica.Blazor\bin\Debug\net10.0\reports
+2026-06-16 16:53:34.082 [DBG] [GestionAcademica.Storage.Json.AcademiaJsonStorage] Inicializando la clase AcademiaJsonStorage
+2026-06-16 16:53:34.152 [INF] [] Aplicacion Blazor lista
+2026-06-16 16:58:33.643 [INF] [] Iniciando aplicacion Blazor
+2026-06-16 16:58:33.800 [INF] [] Configurando servicios Blazor (Back + Blazor)...
+2026-06-16 16:58:33.808 [INF] [] Servicios Blazor registrados
+2026-06-16 16:58:33.819 [INF] [] Servicios configurados correctamente
+2026-06-16 16:58:35.028 [INF] [GestionAcademica.Repositories.Personas.EfCore.PersonasEfRepository] Sembrando datos de personas...
+2026-06-16 16:58:35.391 [DBG] [GestionAcademica.Storage.Json.AcademiaJsonStorage] Inicializando la clase AcademiaJsonStorage
+2026-06-16 16:58:35.394 [DBG] [GestionAcademica.Services.Report.ReportService] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\soluciones\26-GestionAcademicaBlazor\GestionAcademica.Blazor\bin\Debug\net10.0\reports
+2026-06-16 16:58:35.397 [DBG] [GestionAcademica.Storage.Json.AcademiaJsonStorage] Inicializando la clase AcademiaJsonStorage
+2026-06-16 16:58:35.448 [INF] [] Aplicacion Blazor lista
+2026-06-16 17:03:29.313 [INF] [] Iniciando aplicacion Blazor
+2026-06-16 17:03:29.411 [INF] [] Configurando servicios Blazor (Back + Blazor)...
+2026-06-16 17:03:29.420 [INF] [] Servicios Blazor registrados
+2026-06-16 17:03:29.429 [INF] [] Servicios configurados correctamente
+2026-06-16 17:03:30.586 [INF] [GestionAcademica.Repositories.Personas.EfCore.PersonasEfRepository] Sembrando datos de personas...
+2026-06-16 17:03:30.951 [DBG] [GestionAcademica.Storage.Json.AcademiaJsonStorage] Inicializando la clase AcademiaJsonStorage
+2026-06-16 17:03:30.954 [DBG] [GestionAcademica.Services.Report.ReportService] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\soluciones\26-GestionAcademicaBlazor\GestionAcademica.Blazor\bin\Debug\net10.0\reports
+2026-06-16 17:03:30.957 [DBG] [GestionAcademica.Storage.Json.AcademiaJsonStorage] Inicializando la clase AcademiaJsonStorage
+2026-06-16 17:03:31.025 [INF] [] Aplicacion Blazor lista
+2026-06-16 17:06:09.387 [INF] [] Iniciando aplicacion Blazor
+2026-06-16 17:06:09.496 [INF] [] Configurando servicios Blazor (Back + Blazor)...
+2026-06-16 17:06:09.504 [INF] [] Servicios Blazor registrados
+2026-06-16 17:06:09.512 [INF] [] Servicios configurados correctamente
+2026-06-16 17:06:10.583 [INF] [GestionAcademica.Repositories.Personas.EfCore.PersonasEfRepository] Sembrando datos de personas...
+2026-06-16 17:06:10.938 [DBG] [GestionAcademica.Storage.Json.AcademiaJsonStorage] Inicializando la clase AcademiaJsonStorage
+2026-06-16 17:06:10.941 [DBG] [GestionAcademica.Services.Report.ReportService] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\soluciones\26-GestionAcademicaBlazor\GestionAcademica.Blazor\bin\Debug\net10.0\reports
+2026-06-16 17:06:10.945 [DBG] [GestionAcademica.Storage.Json.AcademiaJsonStorage] Inicializando la clase AcademiaJsonStorage
+2026-06-16 17:06:11.007 [INF] [] Aplicacion Blazor lista
+2026-06-16 17:06:26.768 [INF] [GestionAcademica.Blazor.Services.BlazorDialogService] Confirmar: ¿Eliminar a Carlos Jiménez?
+2026-06-16 17:06:26.774 [DBG] [GestionAcademica.Cache.LruCache`2[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-REMOVE] Intentando eliminar clave: 10
+2026-06-16 17:06:26.781 [DBG] [GestionAcademica.Cache.LruCache`2[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-REMOVE] Clave 10 no encontrada
+2026-06-16 17:06:26.784 [DBG] [GestionAcademica.Cache.LruCache`2[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-REMOVE] Intentando eliminar clave: 00000000T
+2026-06-16 17:06:26.786 [DBG] [GestionAcademica.Cache.LruCache`2[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-REMOVE] Clave 00000000T no encontrada
+2026-06-16 17:06:33.254 [INF] [GestionAcademica.Blazor.Services.BlazorDialogService] Confirmar: ¿Restaurar a Carlos Jiménez?
+2026-06-16 17:06:33.257 [INF] [GestionAcademica.Services.Personas.PersonasService] Restaurando persona con ID 10
+2026-06-16 17:06:33.268 [INF] [GestionAcademica.Repositories.Personas.EfCore.PersonasEfRepository] Persona con ID 10 restaurada correctamente
+2026-06-16 17:07:27.357 [INF] [GestionAcademica.Services.Report.ReportService] Generando informe HTML de estudiantes
+2026-06-16 17:07:27.366 [INF] [GestionAcademica.Services.Report.ReportService] Informe HTML de estudiantes generado correctamente
+2026-06-16 17:07:27.381 [INF] [GestionAcademica.Services.Report.ReportService] Guardando informe PDF en directorio C:\Users\joseluisgs\Projects\soluciones\26-GestionAcademicaBlazor\GestionAcademica.Blazor\bin\Debug\net10.0\reports
+2026-06-16 17:07:30.076 [INF] [GestionAcademica.Services.Report.ReportService] Informe PDF guardado correctamente en C:\Users\joseluisgs\Projects\soluciones\26-GestionAcademicaBlazor\GestionAcademica.Blazor\bin\Debug\net10.0\reports\Estudiantes_20260616_170727
+2026-06-16 17:07:30.079 [INF] [GestionAcademica.Blazor.Services.BlazorDialogService] Éxito: Informe Estudiantes generado: Estudiantes_20260616_170727.pdf
+2026-06-16 17:07:30.082 [INF] [GestionAcademica.Services.Report.ReportService] Generando informe HTML de estudiantes
+2026-06-16 17:07:30.085 [INF] [GestionAcademica.Services.Report.ReportService] Informe HTML de estudiantes generado correctamente
+2026-06-16 17:07:30.087 [INF] [GestionAcademica.Services.Report.ReportService] Guardando informe PDF en directorio C:\Users\joseluisgs\Projects\soluciones\26-GestionAcademicaBlazor\GestionAcademica.Blazor\bin\Debug\net10.0\reports
+2026-06-16 17:07:31.230 [INF] [GestionAcademica.Services.Report.ReportService] Informe PDF guardado correctamente en C:\Users\joseluisgs\Projects\soluciones\26-GestionAcademicaBlazor\GestionAcademica.Blazor\bin\Debug\net10.0\reports\Estudiantes_20260616_170730
+2026-06-16 17:07:31.232 [INF] [GestionAcademica.Blazor.Services.BlazorDialogService] Éxito: Informe Estudiantes generado: Estudiantes_20260616_170730.pdf
+2026-06-16 17:07:31.235 [INF] [GestionAcademica.Services.Report.ReportService] Generando informe HTML de estudiantes
+2026-06-16 17:07:31.239 [INF] [GestionAcademica.Services.Report.ReportService] Informe HTML de estudiantes generado correctamente
+2026-06-16 17:07:31.241 [INF] [GestionAcademica.Services.Report.ReportService] Guardando informe en directorio C:\Users\joseluisgs\Projects\soluciones\26-GestionAcademicaBlazor\GestionAcademica.Blazor\bin\Debug\net10.0\reports
+2026-06-16 17:07:31.244 [INF] [GestionAcademica.Services.Report.ReportService] Informe guardado correctamente en C:\Users\joseluisgs\Projects\soluciones\26-GestionAcademicaBlazor\GestionAcademica.Blazor\bin\Debug\net10.0\reports\Estudiantes_20260616_170731.html
+2026-06-16 17:07:31.246 [INF] [GestionAcademica.Blazor.Services.BlazorDialogService] Éxito: Informe Estudiantes generado: Estudiantes_20260616_170731.html
+2026-06-16 17:07:31.251 [INF] [GestionAcademica.Services.Report.ReportService] Generando informe HTML de estudiantes
+2026-06-16 17:07:31.254 [INF] [GestionAcademica.Services.Report.ReportService] Informe HTML de estudiantes generado correctamente
+2026-06-16 17:07:31.256 [INF] [GestionAcademica.Services.Report.ReportService] Guardando informe PDF en directorio C:\Users\joseluisgs\Projects\soluciones\26-GestionAcademicaBlazor\GestionAcademica.Blazor\bin\Debug\net10.0\reports
+2026-06-16 17:07:32.356 [INF] [GestionAcademica.Services.Report.ReportService] Informe PDF guardado correctamente en C:\Users\joseluisgs\Projects\soluciones\26-GestionAcademicaBlazor\GestionAcademica.Blazor\bin\Debug\net10.0\reports\Estudiantes_20260616_170731
+2026-06-16 17:07:32.358 [INF] [GestionAcademica.Blazor.Services.BlazorDialogService] Éxito: Informe Estudiantes generado: Estudiantes_20260616_170731.pdf
+2026-06-16 17:07:32.360 [INF] [GestionAcademica.Services.Report.ReportService] Generando informe HTML de estudiantes
+2026-06-16 17:07:32.363 [INF] [GestionAcademica.Services.Report.ReportService] Informe HTML de estudiantes generado correctamente
+2026-06-16 17:07:32.365 [INF] [GestionAcademica.Services.Report.ReportService] Guardando informe en directorio C:\Users\joseluisgs\Projects\soluciones\26-GestionAcademicaBlazor\GestionAcademica.Blazor\bin\Debug\net10.0\reports
+2026-06-16 17:07:32.368 [INF] [GestionAcademica.Services.Report.ReportService] Informe guardado correctamente en C:\Users\joseluisgs\Projects\soluciones\26-GestionAcademicaBlazor\GestionAcademica.Blazor\bin\Debug\net10.0\reports\Estudiantes_20260616_170732.html
+2026-06-16 17:07:32.372 [INF] [GestionAcademica.Blazor.Services.BlazorDialogService] Éxito: Informe Estudiantes generado: Estudiantes_20260616_170732.html
+2026-06-16 17:07:32.375 [INF] [GestionAcademica.Services.Report.ReportService] Generando informe HTML de estudiantes
+2026-06-16 17:07:32.378 [INF] [GestionAcademica.Services.Report.ReportService] Informe HTML de estudiantes generado correctamente
+2026-06-16 17:07:32.380 [INF] [GestionAcademica.Services.Report.ReportService] Guardando informe PDF en directorio C:\Users\joseluisgs\Projects\soluciones\26-GestionAcademicaBlazor\GestionAcademica.Blazor\bin\Debug\net10.0\reports
+2026-06-16 17:07:33.311 [INF] [GestionAcademica.Services.Report.ReportService] Informe PDF guardado correctamente en C:\Users\joseluisgs\Projects\soluciones\26-GestionAcademicaBlazor\GestionAcademica.Blazor\bin\Debug\net10.0\reports\Estudiantes_20260616_170732
+2026-06-16 17:07:33.313 [INF] [GestionAcademica.Blazor.Services.BlazorDialogService] Éxito: Informe Estudiantes generado: Estudiantes_20260616_170732.pdf
+2026-06-16 17:07:33.316 [INF] [GestionAcademica.Services.Report.ReportService] Generando informe HTML de estudiantes
+2026-06-16 17:07:33.319 [INF] [GestionAcademica.Services.Report.ReportService] Informe HTML de estudiantes generado correctamente
+2026-06-16 17:07:33.320 [INF] [GestionAcademica.Services.Report.ReportService] Guardando informe en directorio C:\Users\joseluisgs\Projects\soluciones\26-GestionAcademicaBlazor\GestionAcademica.Blazor\bin\Debug\net10.0\reports
+2026-06-16 17:07:33.324 [INF] [GestionAcademica.Services.Report.ReportService] Informe guardado correctamente en C:\Users\joseluisgs\Projects\soluciones\26-GestionAcademicaBlazor\GestionAcademica.Blazor\bin\Debug\net10.0\reports\Estudiantes_20260616_170733.html
+2026-06-16 17:07:33.327 [INF] [GestionAcademica.Blazor.Services.BlazorDialogService] Éxito: Informe Estudiantes generado: Estudiantes_20260616_170733.html
+2026-06-16 17:31:52.132 [INF] [] Iniciando aplicacion Blazor
+2026-06-16 17:31:52.246 [INF] [] Configurando servicios Blazor (Back + Blazor)...
+2026-06-16 17:31:52.256 [INF] [] Servicios Blazor registrados
+2026-06-16 17:31:52.266 [INF] [] Servicios configurados correctamente
+2026-06-16 17:31:53.299 [INF] [GestionAcademica.Repositories.Personas.EfCore.PersonasEfRepository] Sembrando datos de personas...
+2026-06-16 17:31:53.645 [DBG] [GestionAcademica.Storage.Json.AcademiaJsonStorage] Inicializando la clase AcademiaJsonStorage
+2026-06-16 17:31:53.647 [DBG] [GestionAcademica.Services.Report.ReportService] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\soluciones\26-GestionAcademicaBlazor\GestionAcademica.Blazor\bin\Debug\net10.0\reports
+2026-06-16 17:31:53.650 [DBG] [GestionAcademica.Storage.Json.AcademiaJsonStorage] Inicializando la clase AcademiaJsonStorage
+2026-06-16 17:31:53.716 [INF] [] Aplicacion Blazor lista
+2026-06-16 17:32:14.799 [INF] [GestionAcademica.Services.Report.ReportService] Generando informe HTML de estudiantes
+2026-06-16 17:32:14.808 [INF] [GestionAcademica.Services.Report.ReportService] Informe HTML de estudiantes generado correctamente
+2026-06-16 17:32:16.692 [INF] [GestionAcademica.Services.Report.ReportService] Generando informe HTML de estudiantes
+2026-06-16 17:32:16.695 [INF] [GestionAcademica.Services.Report.ReportService] Informe HTML de estudiantes generado correctamente
+2026-06-16 17:32:16.891 [INF] [GestionAcademica.Services.Report.ReportService] Generando informe HTML de docentes
+2026-06-16 17:32:16.896 [INF] [GestionAcademica.Services.Report.ReportService] Informe HTML de docentes generado correctamente
+2026-06-16 17:32:22.853 [INF] [GestionAcademica.Services.Report.ReportService] Generando informe HTML de docentes
+2026-06-16 17:32:22.856 [INF] [GestionAcademica.Services.Report.ReportService] Informe HTML de docentes generado correctamente
+2026-06-16 17:32:24.295 [INF] [GestionAcademica.Services.Report.ReportService] Generando listado HTML de personas
+2026-06-16 17:32:24.298 [INF] [GestionAcademica.Services.Report.ReportService] Listado HTML de personas generado correctamente
+2026-06-16 17:32:31.385 [DBG] [GestionAcademica.Cache.LruCache`2[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-REMOVE] Intentando eliminar clave: 10
+2026-06-16 17:32:31.390 [DBG] [GestionAcademica.Cache.LruCache`2[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-REMOVE] Clave 10 no encontrada
+2026-06-16 17:32:31.394 [DBG] [GestionAcademica.Cache.LruCache`2[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-REMOVE] Intentando eliminar clave: 00000000T
+2026-06-16 17:32:31.396 [DBG] [GestionAcademica.Cache.LruCache`2[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-REMOVE] Clave 00000000T no encontrada
+2026-06-16 17:32:54.557 [DBG] [GestionAcademica.Cache.LruCache`2[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-REMOVE] Intentando eliminar clave: 10
+2026-06-16 17:32:54.560 [DBG] [GestionAcademica.Cache.LruCache`2[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-REMOVE] Clave 10 no encontrada
+2026-06-16 17:32:54.563 [DBG] [GestionAcademica.Cache.LruCache`2[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-REMOVE] Intentando eliminar clave: 00000000T
+2026-06-16 17:32:54.565 [DBG] [GestionAcademica.Cache.LruCache`2[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-REMOVE] Clave 00000000T no encontrada
+2026-06-16 17:33:00.969 [DBG] [GestionAcademica.Cache.LruCache`2[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-GET] Buscando clave: 1
+2026-06-16 17:33:00.971 [DBG] [GestionAcademica.Cache.LruCache`2[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-GET] Clave 1 NO encontrada en cache
+2026-06-16 17:33:00.975 [DBG] [GestionAcademica.Cache.LruCache`2[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-ADD] Intentando añadir clave: 1
+2026-06-16 17:33:00.978 [DBG] [GestionAcademica.Cache.LruCache`2[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-ADD] Clave 1 es nueva. Capacidad actual: 0/5
+2026-06-16 17:33:00.986 [DBG] [GestionAcademica.Cache.LruCache`2[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-ADD] Elemento añadido. Nueva lista de uso: 1
+2026-06-16 17:50:29.815 [INF] [] Iniciando aplicacion Blazor
+2026-06-16 17:50:29.919 [INF] [] Configurando servicios Blazor (Back + Blazor)...
+2026-06-16 17:50:29.926 [INF] [] Servicios Blazor registrados
+2026-06-16 17:50:29.935 [INF] [] Servicios configurados correctamente
+2026-06-16 17:50:31.028 [INF] [GestionAcademica.Repositories.Personas.EfCore.PersonasEfRepository] Sembrando datos de personas...
+2026-06-16 17:50:31.503 [DBG] [GestionAcademica.Storage.Json.AcademiaJsonStorage] Inicializando la clase AcademiaJsonStorage
+2026-06-16 17:50:31.506 [DBG] [GestionAcademica.Services.Report.ReportService] Inicializando la clase ReportService con directorio C:\Users\joseluisgs\Projects\soluciones\26-GestionAcademicaBlazor\GestionAcademica.Blazor\bin\Debug\net10.0\reports
+2026-06-16 17:50:31.510 [DBG] [GestionAcademica.Storage.Json.AcademiaJsonStorage] Inicializando la clase AcademiaJsonStorage
+2026-06-16 17:50:31.579 [INF] [] Aplicacion Blazor lista
+2026-06-16 17:50:40.949 [INF] [GestionAcademica.Services.Report.ReportService] Generando informe HTML de estudiantes
+2026-06-16 17:50:40.958 [INF] [GestionAcademica.Services.Report.ReportService] Informe HTML de estudiantes generado correctamente
+2026-06-16 17:50:47.894 [INF] [GestionAcademica.Services.Report.ReportService] Generando informe HTML de estudiantes
+2026-06-16 17:50:47.897 [INF] [GestionAcademica.Services.Report.ReportService] Informe HTML de estudiantes generado correctamente
+2026-06-16 17:51:06.670 [DBG] [GestionAcademica.Cache.LruCache`2[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-REMOVE] Intentando eliminar clave: 10
+2026-06-16 17:51:06.678 [DBG] [GestionAcademica.Cache.LruCache`2[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-REMOVE] Clave 10 no encontrada
+2026-06-16 17:51:06.681 [DBG] [GestionAcademica.Cache.LruCache`2[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-REMOVE] Intentando eliminar clave: 00000000T
+2026-06-16 17:51:06.683 [DBG] [GestionAcademica.Cache.LruCache`2[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-REMOVE] Clave 00000000T no encontrada
+2026-06-16 17:51:21.008 [DBG] [GestionAcademica.Cache.LruCache`2[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-GET] Buscando clave: 11
+2026-06-16 17:51:21.010 [DBG] [GestionAcademica.Cache.LruCache`2[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-GET] Clave 11 NO encontrada en cache
+2026-06-16 17:51:21.014 [DBG] [GestionAcademica.Cache.LruCache`2[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-ADD] Intentando añadir clave: 11
+2026-06-16 17:51:21.016 [DBG] [GestionAcademica.Cache.LruCache`2[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-ADD] Clave 11 es nueva. Capacidad actual: 0/5
+2026-06-16 17:51:21.024 [DBG] [GestionAcademica.Cache.LruCache`2[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-ADD] Elemento añadido. Nueva lista de uso: 11
+2026-06-16 17:51:36.051 [DBG] [GestionAcademica.Cache.LruCache`2[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-GET] Buscando clave: 11
+2026-06-16 17:51:36.055 [DBG] [GestionAcademica.Cache.LruCache`2[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-GET] Clave 11 encontrada con valor: [Docente] Jose Luis González (12345678Z) - Exp: 15 anos. Rejuveneciendo...
+2026-06-16 17:51:36.061 [DBG] [GestionAcademica.Cache.LruCache`2[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-GET] Lista tras rejuvenecimiento: 11
+2026-06-16 17:51:44.280 [ERR] [GestionAcademica.Blazor.Services.BlazorImageService] Error guardando imagen
+System.IO.IOException: The process cannot access the file 'C:\Users\joseluisgs\AppData\Local\Temp\gestion_academica_uploads\3e09c2d9-f507-4220-8de7-fc3449218b4c.png' because it is being used by another process.
+   at System.IO.FileSystem.CopyFile(String sourceFullPath, String destFullPath, Boolean overwrite)
+   at GestionAcademica.Blazor.Services.BlazorImageService.SaveImage(String sourcePath) in C:\Users\joseluisgs\Projects\soluciones\26-GestionAcademicaBlazor\GestionAcademica.Blazor\Services\BlazorImageService.cs:line 42
+2026-06-16 17:51:49.954 [DBG] [GestionAcademica.Cache.LruCache`2[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-REMOVE] Intentando eliminar clave: 11
+2026-06-16 17:51:49.956 [DBG] [GestionAcademica.Cache.LruCache`2[[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-REMOVE] Clave 11 eliminada correctamente
+2026-06-16 17:51:49.958 [DBG] [GestionAcademica.Cache.LruCache`2[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-REMOVE] Intentando eliminar clave: 12345678Z
+2026-06-16 17:51:49.960 [DBG] [GestionAcademica.Cache.LruCache`2[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[GestionAcademica.Models.Personas.Persona, GestionAcademica.Back, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]] [LRU-REMOVE] Clave 12345678Z no encontrada
+2026-06-16 17:51:49.964 [DBG] [GestionAcademica.Services.Personas.PersonasService] Validando persona tipo: Docente
+2026-06-16 17:51:50.012 [DBG] [GestionAcademica.Services.Personas.PersonasService] Ejecutando validador de Docente
+2026-06-16 17:51:50.035 [INF] [GestionAcademica.Blazor.Services.BlazorDialogService] Éxito: Docente actualizado

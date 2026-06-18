@@ -1,0 +1,133 @@
+<Window x:Class="LayoutsComponentes.Views.Ejercicio2_StackDock.StackDockWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="StackPanel y DockPanel" Height="450" Width="550"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="CanResize">
+
+    <!-- 
+        ============================================================
+        DockPanel: Acopla los hijos a los bordes
+        LastChildFill=True hace que el último hijo ocupe el centro
+        ============================================================
+    -->
+    <DockPanel LastChildFill="True" Margin="5">
+        
+        <!-- 1. Barra de menú en la parte superior (Top) -->
+        <!-- DockPanel.Dock="Top" indica que se acopla arriba -->
+        <Menu DockPanel.Dock="Top" Background="LightGray">
+            
+            <!-- Menú Archivo -->
+            <MenuItem Header="📁 _Archivo">
+                <!-- _A crea tecla de acceso (Alt+A) -->
+                <MenuItem Header="🆕 _Nuevo" Click="MenuNuevo_Click" 
+                          InputGestureText="Ctrl+N"/>
+                <MenuItem Header="📂 _Abrir" Click="MenuAbrir_Click"
+                          InputGestureText="Ctrl+O"/>
+                <MenuItem Header="💾 _Guardar" Click="MenuGuardar_Click"
+                          InputGestureText="Ctrl+S"/>
+                <MenuItem Header="📋 Guardar _como..." Click="MenuGuardarComo_Click"
+                          InputGestureText="Ctrl+Shift+S"/>
+                <Separator/>
+                <MenuItem Header="ℹ️ Acerca de" Click="MenuAcercaDe_Click"/>
+                <MenuItem Header="❌ _Salir" Click="MenuSalir_Click"
+                          InputGestureText="Alt+F4"/>
+            </MenuItem>
+            
+            <!-- Menú Editar -->
+            <MenuItem Header="✏️ _Editar">
+                <MenuItem Header="✂️ _Cortar" Click="MenuCortar_Click"
+                          InputGestureText="Ctrl+X"/>
+                <MenuItem Header="📋 _Copiar" Click="MenuCopiar_Click"
+                          InputGestureText="Ctrl+C"/>
+                <MenuItem Header="📄 _Pegar" Click="MenuPegar_Click"
+                          InputGestureText="Ctrl+V"/>
+                <Separator/>
+                <MenuItem Header="🗑️ _Deshacer" Click="MenuDeshacer_Click"
+                          InputGestureText="Ctrl+Z"/>
+                <MenuItem Header="🔄 _Rehacer" Click="MenuRehacer_Click"
+                          InputGestureText="Ctrl+Y"/>
+            </MenuItem>
+            
+            <!-- Menú Ver con Submenú -->
+            <MenuItem Header="👁️ _Ver">
+                <MenuItem Header="🔍 _Aumentar zoom" Click="MenuAumentar_Click"/>
+                <MenuItem Header="🔎 _Disminuir zoom" Click="MenuDisminuir_Click"/>
+                <MenuItem Header="↔️ Zoom predeterminado" Click="MenuZoomPredeterminado_Click"/>
+                <Separator/>
+                <!-- Checkable items -->
+                <MenuItem Header="📊 Barra de herramientas" 
+                          IsCheckable="True" IsChecked="True"
+                          Click="MenuBarraHerramientas_Click"/>
+                <MenuItem Header="📍 Barra de estado" 
+                          IsCheckable="True" IsChecked="True"
+                          Click="MenuBarraEstado_Click"/>
+            </MenuItem>
+            
+            <!-- Menú Ayuda -->
+            <MenuItem Header="❓ Ayuda">
+                <MenuItem Header="📖 Manual" Click="MenuManual_Click"/>
+                <MenuItem Header="🐛 Reportar error" Click="MenuReportarError_Click"/>
+                <Separator/>
+                <MenuItem Header="ℹ️ Acerca de" Click="MenuAcercaDe_Click"/>
+            </MenuItem>
+        </Menu>
+
+        <!-- 2. Barra de estado en la parte inferior (Bottom) -->
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock x:Name="txtEstado" Text="Listo" Foreground="Gray"/>
+            </StatusBarItem>
+        </StatusBar>
+
+        <!-- 3. Panel lateral izquierdo (Left) -->
+        <!-- DockPanel.Dock="Left" indica que se acopla a la izquierda -->
+        <Border DockPanel.Dock="Left" Width="150" Background="LightYellow" 
+                Padding="10" BorderBrush="Gray" BorderThickness="0,0,1,0">
+            <StackPanel>
+                <TextBlock Text="📁 Menú" FontWeight="Bold" Margin="0,0,0,10"/>
+                <Button Content="🏠 Inicio" Margin="0,2" HorizontalAlignment="Stretch"/>
+                <Button Content="👤 Perfil" Margin="0,2" HorizontalAlignment="Stretch"/>
+                <Button Content="⚙️ Ajustes" Margin="0,2" HorizontalAlignment="Stretch"/>
+                <Separator Margin="0,10"/>
+                <Button Content="❓ Ayuda" Margin="0,2" HorizontalAlignment="Stretch"/>
+            </StackPanel>
+        </Border>
+
+        <!-- 4. Área central: StackPanel con orientación horizontal -->
+        <!-- Este es el LastChildFill, ocupa el espacio restante -->
+        <Grid Margin="15">
+            
+            <!-- StackPanel: apila elementos verticalmente (por defecto) -->
+            <!-- Orientation="Vertical" es el valor por defecto -->
+            <StackPanel>
+                <TextBlock Text="📐 StackPanel" FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
+                
+                <!-- StackPanel horizontal para botones -->
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                    <Button Content="Botón 1" Width="80" Margin="0,0,10,0"/>
+                    <Button Content="Botón 2" Width="80" Margin="0,0,10,0"/>
+                    <Button Content="Botón 3" Width="80"/>
+                </StackPanel>
+                
+                <!-- StackPanel vertical -->
+                <StackPanel>
+                    <TextBlock Text="Campos del formulario:" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                    <Label Content="_Nombre:" Target="{Binding ElementName=txtNombre}"/>
+                    <TextBox x:Name="txtNombre" Margin="0,0,0,10" Padding="5"/>
+                    
+                    <Label Content="_Email:" Target="{Binding ElementName=txtEmail}"/>
+                    <TextBox x:Name="txtEmail" Margin="0,0,0,10" Padding="5"/>
+                    
+                    <!-- StackPanel horizontal para botones de acción -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+                        <Button Content="Aceptar" Width="100" Margin="0,0,10,0" Background="LightGreen"/>
+                        <Button Content="Cancelar" Width="100" Background="LightCoral"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+            
+        </Grid>
+        
+    </DockPanel>
+</Window>

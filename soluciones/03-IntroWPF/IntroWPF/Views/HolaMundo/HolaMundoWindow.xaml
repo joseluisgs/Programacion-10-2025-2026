@@ -1,0 +1,28 @@
+<Window x:Class="IntroWPF.Views.HolaMundo.HolaMundoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Hola Mundo" Height="200" Width="400"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+    
+    <!-- Grid para centrar el contenido -->
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            
+            <!-- Etiqueta (Label en WPF = TextBlock) -->
+            <TextBlock Text="¡Hola Mundo!" 
+                       FontSize="28" 
+                       FontWeight="Bold" 
+                       Foreground="DarkBlue" 
+                       HorizontalAlignment="Center" 
+                       Margin="0,0,0,20"/>
+            
+            <!-- Botón para cerrar -->
+            <Button Content="Cerrar" 
+                    Width="100" 
+                    Height="35" 
+                    Click="BtnCerrar_Click"/>
+            
+        </StackPanel>
+    </Grid>
+</Window>

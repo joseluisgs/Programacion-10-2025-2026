@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net10.0-windows</TargetFramework>
+        <UseWPF>true</UseWPF>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <LangVersion>14</LangVersion>
+        <ApplicationIcon>Resources\app-icon.ico</ApplicationIcon>
+        <NoWarn>NU1701</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\GestionAcademica.Back\GestionAcademica.Back.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MahApps.Metro.IconPacks" Version="6.2.1"/>
+        <PackageReference Include="Select.HtmlToPdf.NetCore" Version="25.2.0"/>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.1"/>
+        <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="appsettings.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="data\**\*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <Resource Include="Resources\icons\**\*"/>
+        <Resource Include="Resources\app-icon.ico"/>
+        <None Update="Resources\images\**\*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,51 @@
+@* MODAL DE DETALLES DE ESTUDIANTE (SOLO LECTURA)
+   Componente modal que muestra toda la informacion de un estudiante en modo solo lectura.
+   Recibe el estudiante como parametro y muestra campos calculados como:
+   - EsMayorEdad: propiedad calculada a partir de FechaNacimiento
+   - CalificacionCualitativa: texto descriptivo de la nota (Suspenso, Aprobado, Notable, Sobresaliente)
+*@
+<div class="modal fade show d-block" tabindex="-1" style="background:rgba(0,0,0,0.5)">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detalles del Estudiante</h5>
+                <button type="button" class="btn-close" @onclick="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-3">
+                    <img src="@(string.IsNullOrEmpty(Estudiante?.Imagen) ? "images/sin-imagen.png" : Estudiante.Imagen)"
+                         alt="Foto" class="photo-circle-large"
+                         onerror="this.src='images/sin-imagen.png'"/>
+                </div>
+                <div class="row g-3">
+                    <div class="col-md-6"><label class="fw-bold small text-muted">DNI</label><input class="form-control" value="@Estudiante?.Dni" readonly/></div>
+                    <div class="col-md-6"><label class="fw-bold small text-muted">Email</label><input class="form-control" value="@Estudiante?.Email" readonly/></div>
+                    <div class="col-md-6"><label class="fw-bold small text-muted">Nombre</label><input class="form-control" value="@Estudiante?.Nombre" readonly/></div>
+                    <div class="col-md-6"><label class="fw-bold small text-muted">Apellidos</label><input class="form-control" value="@Estudiante?.Apellidos" readonly/></div>
+                    <div class="col-md-6"><label class="fw-bold small text-muted">Fecha Nacimiento</label><input class="form-control" value="@Estudiante?.FechaNacimiento.ToString("dd/MM/yyyy")" readonly/></div>
+                    <div class="col-md-6"><label class="fw-bold small text-muted">Ciclo</label><input class="form-control" value="@Estudiante?.Ciclo" readonly/></div>
+                    <div class="col-md-6"><label class="fw-bold small text-muted">Curso</label><input class="form-control" value="@Estudiante?.Curso" readonly/></div>
+                    <div class="col-md-6"><label class="fw-bold small text-muted">Calificación</label><input class="form-control" value="@Estudiante?.Calificacion.ToString("F1")" readonly/></div>
+                    <div class="col-md-6"><label class="fw-bold small text-muted">Mayor de edad</label><input class="form-control" value="@(EsMayorEdad ? "Sí" : "No")" readonly/></div>
+                    <div class="col-md-6"><label class="fw-bold small text-muted">Resultado</label><input class="form-control" value="@CalificacionCualitativa" readonly/></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary btn-icon" @onclick="Cerrar"><i class="bi bi-x"></i> Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public Estudiante? Estudiante { get; set; }
+    [Parameter] public EventCallback OnCerrar { get; set; }
+
+    // Propiedades calculadas: se evaluan cada vez que Blazor renderiza el componente.
+    // El operador ?. (null-conditional) evita NullReferenceException si Estudiante es null.
+    private bool EsMayorEdad => Estudiante?.IsMayorEdad ?? false;
+
+    private string CalificacionCualitativa => Estudiante?.CalificacionCualitativa ?? "";
+
+    private void Cerrar() => OnCerrar.InvokeAsync();
+}

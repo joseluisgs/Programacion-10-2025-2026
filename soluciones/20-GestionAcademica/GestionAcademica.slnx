@@ -1,0 +1,4 @@
+<Solution>
+    <Project Path="GestionAcademica/GestionAcademica.csproj"/>
+    <Project Path="GestionAcademica.Test/GestionAcademica.Test.csproj"/>
+</Solution>
